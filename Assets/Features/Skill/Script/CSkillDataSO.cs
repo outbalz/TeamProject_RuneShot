@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "SO/SkillDataSO", fileName = "SkillDataSO_")]
 public class CSkillDataSO : CGameDataSO
 {
     #region 인스팩터
     [SerializeField] protected List<CAddModifier> _modifiers;
     #endregion
 
-    protected virtual void OnSkiilGet()
+    public virtual void OnSkiilGet()
     {
         CModifierHandler modifierHandler = CModifierHandler.Instance;
 
@@ -18,7 +19,7 @@ public class CSkillDataSO : CGameDataSO
         }
     }
 
-    protected virtual void OnSkiilLost()
+    public virtual void OnSkiilLost()
     {
         CModifierHandler modifierHandler = CModifierHandler.Instance;
 
