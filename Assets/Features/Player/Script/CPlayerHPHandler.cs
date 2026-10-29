@@ -29,7 +29,7 @@ public class CPlayerHPHandler : CHPHandler
         _movement = GetComponent<CPlayerMovement>();
         _roll = GetComponent<CPlayerRoll>();
 
-        if (_stateController == null || _movement == null || _roll == null)
+        if (_stateController == null || _movement == null || _roll == null || _status == null)
         {
             Debug.LogError("플레이어 HP 관련 컴포넌트가 비어있음");
             enabled = false;
@@ -90,6 +90,12 @@ public class CPlayerHPHandler : CHPHandler
         yield return new WaitForSeconds(remainTime);
 
         _isHitInvincible = false;
+    }
+
+    public override UniTask OnHeal(float amount)
+    {
+        Heal(amount);
+        return UniTask.CompletedTask;
     }
 
     // 체력 회복

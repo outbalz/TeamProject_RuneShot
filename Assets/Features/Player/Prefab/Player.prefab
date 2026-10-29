@@ -52,6 +52,8 @@ GameObject:
   - component: {fileID: 6194405959580171548}
   - component: {fileID: 8496779164990562459}
   - component: {fileID: 2426145308757645254}
+  - component: {fileID: 7861532054912300001}
+  - component: {fileID: 7861532054912300002}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -214,7 +216,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveActionName: Move
-  _moveSpeed: 5
 --- !u!114 &6263313862092997063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e5cf1e16c0aa54f9219b7da6c25186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHp: 3
+  _status: {fileID: 7861532054912300002}
+  _playerStatus: {fileID: 7861532054912300001}
   _hitDuration: 0.15
   _hitInvincibleDuration: 1
 --- !u!114 &2344442353313218282
@@ -272,6 +274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactionController: {fileID: 2426145308757645254}
   _hpHandler: {fileID: 1717773717688115804}
+  _statusHandler: {fileID: 7861532054912300001}
   _modifierHandler: {fileID: 8496779164990562459}
 --- !u!95 &70578492069737218
 Animator:
@@ -501,3 +504,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
+--- !u!114 &7861532054912300001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912541226460858926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4c18f906123534696f455ff5fb9ddf, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _dataSO: {fileID: 11400000, guid: 34865b6dc6a04fa8b412ba3e6a9797fb, type: 2}
+--- !u!114 &7861532054912300002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912541226460858926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8473ef7b373f4db8b7d0e01cedd96640, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _dataSO: {fileID: 11400000, guid: 34865b6dc6a04fa8b412ba3e6a9797fb, type: 2}
+  _playerStatus: {fileID: 7861532054912300001}
