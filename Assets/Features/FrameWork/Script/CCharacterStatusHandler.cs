@@ -20,7 +20,7 @@ public class CCharacterStatusHandler<T> : MonoBehaviour where T : CCharacterStat
     public virtual float ReloadSpeed => _dataSO.ReloadSpeed;
     #endregion
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (_dataSO == null)
         {

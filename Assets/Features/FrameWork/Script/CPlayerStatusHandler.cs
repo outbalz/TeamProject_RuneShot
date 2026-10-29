@@ -1,20 +1,10 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks.Triggers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CPlayerStatusHandler : CCharacterStatusHandler<CCharacterStatusDataSO>
+public class CPlayerStatusHandler : CCharacterStatusHandler<CPlayerStausDataSO>
 {
-    #region 인스팩터
-    [SerializeField] private float _hunger;
-    [SerializeField] private float _maxHunger;
-
-    //==========vv멀티플라이어, 곱해서사용vv========
-    [SerializeField] private float _hungerRate = 1;
-    [SerializeField] private float _detectionDistance = 1;  //피탐지 거리
-    //===========^^멀티플라이어^^================
-    #endregion
-
-
     #region 프로퍼티
     public override float MaxHP 
     { 
@@ -60,36 +50,28 @@ public class CPlayerStatusHandler : CCharacterStatusHandler<CCharacterStatusData
         get { return GetStatusValue(_dataSO.ReloadSpeed, "ReloadSpeed"); }
     }
 
-    public float Hunger
-    {
-        get { return GetStatusValue(_hunger, "Hunger"); }
-        set { _hunger = value; }
-    }
-
     public float MaxHunger
     {
-        get { return GetStatusValue(_maxHunger, "MaxHunger"); }
-        set { _maxHunger = value; }
+        get { return GetStatusValue(_dataSO.MaxHunger, "MaxHunger"); }
     }
 
     public float HungerRate
     {
-        get { return GetStatusValue(_hungerRate, "HungerRate"); }
-        set { _hungerRate = value; }
+        get { return GetStatusValue(_dataSO.HungerRate, "HungerRate"); }
     }
 
     public float DetectionDistance
     {
-        get { return GetStatusValue(_detectionDistance, "DetectionDistance"); }
-        set { _detectionDistance = value; }
+        get { return GetStatusValue(_dataSO.DetectionDistance, "DetectionDistance"); }
     }
     #endregion
 
 
     private float GetStatusValue(float baseVal, string modifierName)
     {
-        CModifierHandler.Instance.GetModifiedValue(modifierName, baseVal);
+        float result = baseVal;
+        result = CModifierHandler.Instance.GetModifiedValue(modifierName, baseVal);
 
-        return baseVal;
+        return result;
     }
 }
