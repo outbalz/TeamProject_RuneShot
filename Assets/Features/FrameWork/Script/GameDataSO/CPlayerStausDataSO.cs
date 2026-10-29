@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "SO/CharacterStatusDataSO/PlayerStausData", fileName = "PlayerStausDataSO_")]
 public class CPlayerStausDataSO : CCharacterStatusDataSO
 {
     #region 인스팩터
