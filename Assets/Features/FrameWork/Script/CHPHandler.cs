@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class CHPHandler : MonoBehaviour
 {
     #region 인스팩터
-    [SerializeField] protected float _maxHp;
+    [SerializeField] protected CCharacterStatusHandler<CCharacterStatusDataSO> _status;
     #endregion
 
     #region 내부변수
@@ -15,13 +15,14 @@ public abstract class CHPHandler : MonoBehaviour
     #endregion
 
     #region 프로퍼티
-    public float HP { get { return _hp; } set { _hp = Mathf.Clamp(value, 0, _maxHp); } }
-    public float MaxHP { get { return _maxHp; } set { _maxHp = value; } }
+    public float HP { get { return _hp; } set { _hp = Mathf.Clamp(value, 0, _status.MaxHP); } }
+    public float MaxHP => _status.MaxHP;
     public event Action OnHitEvent;
     public event Action OnDeath;
     #endregion
 
     public abstract UniTask OnHit(float damage);
+    public abstract UniTask OnHeal(float amount);
 
     public void OnDeathInvoke()
     {
