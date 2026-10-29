@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CModifierHandler : MonoBehaviour
+public class CModifierHandler : CSingleton<CModifierHandler>
 {
 	#region 내부변수
 	private Dictionary<string, List<CModifier>> _modifierMap = new Dictionary<string, List<CModifier>>();
