@@ -4,94 +4,30 @@ using UnityEngine;
 
 public class CEnemyMeleeAttack : CEnemy
 {
-
-
-        
-    EMonsterState _monsterState = EMonsterState.Idle;
-
-    float _attackRange = 2f;
-
-    Rigidbody2D _rb2D;
-
-    float _speed = 2f;
-
-    enum EMonsterState
+       
+    private IEnemyControllInterface _currentControll;
+    private IEnemyControllInterface _preControll; 
+     
+    public void Action()
     {
-        Idle,
-        Move,
-        Attack,
+        _currentControll.ActionEnter(PlayerTr);
     }
-    protected override void Awake()
+
+    public void SetControll(IEnemyControllInterface controll)
     {
-        base.Awake();
-        
-        _rb2D = GetComponent<Rigidbody2D>();
-    }
-    private void Update()
-    {
-        
-        if (PlayerTr != null && (PlayerTr.transform.position - transform.position).magnitude <= _attackRange)
+        if(_currentControll == controll)
         {
-            _monsterState = EMonsterState.Attack;
+            return;
         }
-        else if(PlayerTr != null)
-        {
-            _monsterState = EMonsterState.Move;
-        }
-        else
-        {
-            _monsterState = EMonsterState.Idle;
+
+        _preControll = _currentControll;
+        _currentControll = controll;
+
+        if(_preControll  != null)
+        { 
+            _preControll.ActionExit();
         }
          
-        
     }
-    private void FixedUpdate()
-    {
-        Action();
-    }
-
-    void Action()
-    {
-        switch (_monsterState)
-        {
-            case EMonsterState.Idle:
-                Idle();
-                break;
-            case EMonsterState.Move:
-                Move();
-                break;
-            case EMonsterState.Attack:
-                Attack();
-                break;
-            default:
-                break;
-        }
-    }
-    void Idle()
-    {
-        Debug.Log("Idle");
-    }
-    void Attack()
-    {
-        Debug.Log("Attack");
-       
-        
-    }
-
-    private void Move()
-    {
-        Debug.Log("Move");
-
-
-        Vector3 dir = Vector3.Normalize(PlayerTr.position - transform.position);
-
-        _rb2D.velocity = dir* _speed * Time.fixedDeltaTime;
-        
-        
-    }
-
-    private void Rotation()
-    {
-        
-    }
+     
 }

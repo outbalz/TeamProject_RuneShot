@@ -14,7 +14,7 @@ public class CEnemyDetect : MonoBehaviour
 
     private RaycastHit2D _hit2D;
 
-    private bool _isDetected;
+    //private bool _isDetected;
 
     CEnemy _parentEnemy;
     private void Awake()
@@ -38,7 +38,7 @@ public class CEnemyDetect : MonoBehaviour
 
             if (_hit2D.collider.tag == _playerTag)
             {
-                _isDetected = true;
+                //_isDetected = true;
                 _parentEnemy.PlayerTr = _hit2D.collider.transform;
                 Debug.Log("감지됨");
             }
@@ -49,7 +49,7 @@ public class CEnemyDetect : MonoBehaviour
     {
         if (collision.tag == _playerTag)
         {
-            _isDetected = false;
+            //_isDetected = false;
             _parentEnemy.PlayerTr = null;
             Debug.Log("감지 거리에서 나감");
         }
