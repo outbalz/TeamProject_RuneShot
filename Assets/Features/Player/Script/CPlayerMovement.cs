@@ -4,7 +4,6 @@ public class CPlayerMovement : MonoBehaviour
 {
     #region 인스펙터    
     [SerializeField] private string _moveActionName = "Move";
-    [SerializeField] private float _moveSpeed = 5.0f;
     #endregion
 
     #region 내부 변수
@@ -12,6 +11,7 @@ public class CPlayerMovement : MonoBehaviour
     private Vector2 _moveDirection;
     private CInputVectorActionData _moveInput;
     private CPlayerStateController _stateController;
+    private CPlayerStatusHandler _statusHandler;
     #endregion
 
     #region 프로퍼티
@@ -22,6 +22,7 @@ public class CPlayerMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _stateController = GetComponent<CPlayerStateController>();
+        _statusHandler = GetComponent<CPlayerStatusHandler>();
 
         if (_rigidbody == null)
         {
@@ -40,6 +41,13 @@ public class CPlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        if (_statusHandler == null || !_statusHandler.enabled)
+        {
+            Debug.LogError("PlayerStatusHandler 또는 스탯 데이터 SO가 비어있음");
+            enabled = false;
+            return;
+        }
+
         CInputDispatcher dispatcher = CInputDispatcher.Instance;
 
         if (dispatcher == null)
@@ -111,7 +119,7 @@ public class CPlayerMovement : MonoBehaviour
             return;
         }
 
-        Vector2 nextPosition = _rigidbody.position + _moveDirection * _moveSpeed * Time.fixedDeltaTime;
+        Vector2 nextPosition = _rigidbody.position + _moveDirection * _statusHandler.MovementSpeed * Time.fixedDeltaTime;
 
         _rigidbody.MovePosition(nextPosition);
     }

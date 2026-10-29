@@ -29,7 +29,7 @@ public class CPlayerHPHandler : CHPHandler
         _movement = GetComponent<CPlayerMovement>();
         _roll = GetComponent<CPlayerRoll>();
 
-        if (_stateController == null || _movement == null || _roll == null)
+        if (_stateController == null || _movement == null || _roll == null || _status == null)
         {
             Debug.LogError("플레이어 HP 관련 컴포넌트가 비어있음");
             enabled = false;
@@ -92,6 +92,12 @@ public class CPlayerHPHandler : CHPHandler
         _isHitInvincible = false;
     }
 
+    public override UniTask OnHeal(float amount)
+    {
+        Heal(amount);
+        return UniTask.CompletedTask;
+    }
+
     // 체력 회복
     public void Heal(float amount)
     {
@@ -101,21 +107,5 @@ public class CPlayerHPHandler : CHPHandler
         }
 
         HP = Mathf.Min(MaxHP, HP + amount);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TestHit();
-        }
-    }
-
-    // 플레이어 피격 테스트
-    private void TestHit()
-    {
-        OnHit(0.5f).Forget();
-
-        Debug.Log("현재 HP : " + HP);
     }
 }
