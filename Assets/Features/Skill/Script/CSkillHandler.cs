@@ -7,7 +7,7 @@ using UnityEngine;
 public class CSkillHandler : CSingleton<CSkillHandler>
 {
 	#region 내부변수
-	private List<CSkillDataSO> _skills;
+	private List<CSkillDataSO> _skills = new List<CSkillDataSO>();
 	#endregion
 
 	public void ApllySkill(CSkillDataSO skill)
@@ -22,7 +22,7 @@ public class CSkillHandler : CSingleton<CSkillHandler>
 		skill.OnSkiilLost();
 	}
 
-	//Test:======================================
+	/*//Test:======================================
 	[SerializeField] private CSkillDataSO _skill;
 
 	[ContextMenu("ApplySkillTest")]
@@ -31,12 +31,16 @@ public class CSkillHandler : CSingleton<CSkillHandler>
 		ApllySkill(_skill);
 	}
 
-	[ContextMenu("PrintTestData")]
+    [ContextMenu("RemoveSkillTest")]
+    private void RemoveSkiilTest()
+    {
+        RemoveSkill(_skill);
+    }
+    [ContextMenu("PrintTestData")]
 	private void PrintTestData()
 	{
-		Debug.LogWarning($"{CModifierHandler.Instance.GetModifiedValue("WeaponDamage", 1)}");
+		Debug.Log($"{CModifierHandler.Instance.GetModifiedValue("WeaponDamage", 1)}");
 	}
-	//Test:======================================
-
+	//Test:======================================*/
 
 }
