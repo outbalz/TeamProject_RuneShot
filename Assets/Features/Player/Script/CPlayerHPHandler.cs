@@ -102,20 +102,4 @@ public class CPlayerHPHandler : CHPHandler
 
         HP = Mathf.Min(MaxHP, HP + amount);
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TestHit();
-        }
-    }
-
-    // 플레이어 피격 테스트
-    private void TestHit()
-    {
-        OnHit(0.5f).Forget();
-
-        Debug.Log("현재 HP : " + HP);
-    }
 }
