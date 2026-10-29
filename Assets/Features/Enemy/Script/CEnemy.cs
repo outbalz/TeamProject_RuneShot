@@ -6,10 +6,10 @@ public class CEnemy : MonoBehaviour
 {
 
     [SerializeField]
-    CEnemyDetect _detectObject;
+    private CEnemyDetect _detectObject;
 
      
-    private Transform _playerTr = null; 
+    private Transform _playerTr; 
     public Transform PlayerTr { get { return _playerTr; } set { _playerTr = value; } }
 
     protected virtual void Awake()
@@ -18,5 +18,8 @@ public class CEnemy : MonoBehaviour
         Instantiate(_detectObject, transform);
     }
 
-     
+    protected void Die()
+    {
+
+    }
 }
