@@ -2,74 +2,62 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CPlayerStatusHandler : CCharacterStatusHandler
+public class CPlayerStatusHandler : CCharacterStatusHandler<CCharacterStatusDataSO>
 {
-    #region 내부변수
-    private float _hunger;
-    private float _maxHunger;
-    private float _hungerRate = 1;
+    #region 인스팩터
+    [SerializeField] private float _hunger;
+    [SerializeField] private float _maxHunger;
+
+    //==========vv멀티플라이어, 곱해서사용vv========
+    [SerializeField] private float _hungerRate = 1;
+    [SerializeField] private float _detectionDistance = 1;  //피탐지 거리
+    //===========^^멀티플라이어^^================
     #endregion
 
 
     #region 프로퍼티
-    public override float HP 
-    { 
-        get { return GetStatusValue(_hp, "HP"); }
-        set { _hp = value; } 
-    }
-
     public override float MaxHP 
     { 
-        get { return GetStatusValue(_maxHp, "MaxHP"); } 
-        set { _maxHp = value; } 
+        get { return GetStatusValue(_dataSO.MaxHP, "MaxHP"); } 
     }
 
     public override float HealRate 
     { 
-        get { return GetStatusValue(_healRate, "HealRate"); } 
-        set { _healRate = value; } 
+        get { return GetStatusValue(_dataSO.HealRate, "HealRate"); } 
     }
 
     public override float MovementSpeed 
     { 
-        get { return GetStatusValue(_movementSpeed, "MovementSpeed"); } 
-        set { _movementSpeed = value; } 
+        get { return GetStatusValue(_dataSO.MovementSpeed, "MovementSpeed"); } 
     }
 
     public override float WeaponSpread 
     { 
-        get { return GetStatusValue(_weaponSpread, "WeaponSpread"); } 
-        set { _weaponSpread = value; } 
-    }
+        get { return GetStatusValue(_dataSO.WeaponSpread, "WeaponSpread"); }     }
 
     public override float WeaponSpreadHeapfire
     {
-        get { return GetStatusValue(_weaponSpreadHeapfire, "WeaponSpreadHeapfire"); }
-        set { _weaponSpreadHeapfire = value; }
+        get { return GetStatusValue(_dataSO.WeaponSpreadHeapfire, "WeaponSpreadHeapfire"); }
     }
 
     public override float WeaponSpreadAimed
     {
-        get { return GetStatusValue(_weaponSpreadAimed, "WeaponSpreadAimed"); }
-        set { _weaponSpreadAimed = value; }
+        get { return GetStatusValue(_dataSO.WeaponSpreadAimed, "WeaponSpreadAimed"); }
     }
 
     public override float WeaponFireInterval
     {
-        get { return GetStatusValue(_weaponFireInterval, "WeaponFireInterval"); }
-        set { _weaponFireInterval = value; }
+        get { return GetStatusValue(_dataSO.WeaponFireInterval, "WeaponFireInterval"); }
     }
 
     public override float WeaponDamage 
     {
-        get { return GetStatusValue(_weaponDamage, "WeaponDamage"); }
-        set { _weaponDamage = value; }
+        get { return GetStatusValue(_dataSO.WeaponDamage, "WeaponDamage"); }
     }
 
     public override float ReloadSpeed
     {
-        get { return GetStatusValue(_reloadSpeed, "ReloadSpeed"); }
-        set { _reloadSpeed = value; }
+        get { return GetStatusValue(_dataSO.ReloadSpeed, "ReloadSpeed"); }
     }
 
     public float Hunger
@@ -89,7 +77,14 @@ public class CPlayerStatusHandler : CCharacterStatusHandler
         get { return GetStatusValue(_hungerRate, "HungerRate"); }
         set { _hungerRate = value; }
     }
+
+    public float DetectionDistance
+    {
+        get { return GetStatusValue(_detectionDistance, "DetectionDistance"); }
+        set { _detectionDistance = value; }
+    }
     #endregion
+
 
     private float GetStatusValue(float baseVal, string modifierName)
     {
