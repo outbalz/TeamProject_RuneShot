@@ -43,9 +43,11 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
         _time = 0;
     }
     private void Rotation(Transform PlayerTr)
-    {
-        Quaternion rot = Quaternion.Euler(0, -90f, 0);
+    { 
+        Quaternion rot = Quaternion.Euler(90f,0 , 0);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(PlayerTr.position - transform.position) * rot, 0.2f);
+
+        transform.eulerAngles = new Vector3(0,0, transform.eulerAngles.z);
     }
 }
