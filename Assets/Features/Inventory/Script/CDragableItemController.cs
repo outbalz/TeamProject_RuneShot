@@ -72,10 +72,27 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
         }
 
         int amount = CInventoryManager.GetItemAmount(_slot.SlotIndex);
+        int leftAmount;
 
-        if(CInventoryManager.AddToInventory(_itemData, slot.SlotIndex, amount, out int leftAamount))
+        CItemSlotData originSlotData = CInventoryManager.GetSlotData(_slot.SlotIndex);
+        CItemSlotData targetSlotData = CInventoryManager.GetSlotData(slot.SlotIndex);
+
+        if (targetSlotData != null)
         {
-            CInventoryManager.RemoveFromInventory(_slot.SlotIndex, amount - leftAamount);
+            if (targetSlotData.Item != _itemData)
+            {
+                CInventoryManager.RemoveFromInventory(_slot.SlotIndex);
+                CInventoryManager.RemoveFromInventory(slot.SlotIndex);
+
+                CInventoryManager.AddToInventory(originSlotData.Item, slot.SlotIndex, originSlotData.Amount, out leftAmount);
+                CInventoryManager.AddToInventory(targetSlotData.Item, _slot.SlotIndex, targetSlotData.Amount, out leftAmount);
+                return;
+            }
+        }
+
+        if (CInventoryManager.AddToInventory(_itemData, slot.SlotIndex, amount, out leftAmount))
+        {
+            CInventoryManager.RemoveFromInventory(_slot.SlotIndex, amount - leftAmount);
         }
     }
 
