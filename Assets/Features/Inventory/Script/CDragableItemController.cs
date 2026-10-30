@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    #region inspector
+    #region 인스팩터
     [SerializeField] private Image _itemImage;
     [SerializeField] private CItemSlotController _slot;
     [SerializeField] private Text _amountText;
     #endregion
 
-    #region private var
+    #region 내부변수
     private CItemDataSO _itemData;
     #endregion
 
@@ -71,9 +71,11 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
             return;
         }
 
-        if(CInventoryManager.AddToInventory(_itemData, slot.SlotIndex, CInventoryManager.GetItemAmount(_slot.SlotIndex)))
+        int amount = CInventoryManager.GetItemAmount(_slot.SlotIndex);
+
+        if(CInventoryManager.AddToInventory(_itemData, slot.SlotIndex, amount, out int leftAamount))
         {
-            CInventoryManager.RemoveFromInventory(_slot.SlotIndex);
+            CInventoryManager.RemoveFromInventory(_slot.SlotIndex, amount - leftAamount);
         }
     }
 

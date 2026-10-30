@@ -15,14 +15,27 @@ public class CItemSlotData
 	public int Amount => _amount;
 	#endregion
 
-	public bool AddToSlot(CItemDataSO item, int amount)
+	public bool AddToSlot(CItemDataSO item, int amount, out int leftAmount)
 	{
 		if (item != _itemData)
 		{
+			leftAmount = amount;
 			return false;
 		}
 
 		_amount += amount;
+
+		if (_amount > item.MaxStack)
+		{
+			leftAmount = _amount - item.MaxStack;
+			_amount = item.MaxStack;
+		}
+
+		else
+		{
+			leftAmount = 0;
+		}
+
 		return true;
 	}
 
@@ -46,6 +59,11 @@ public class CItemSlotData
 	{
 		_itemData = item;
 		_amount = amount;
+
+		if(amount > item.MaxStack)
+		{
+            _amount = item.MaxStack;
+		}
 	}
 }
 
@@ -112,8 +130,12 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 		{
 			if (inst._inventory[i] == null || inst._inventory[i].Item == item)
 			{
-				AddToInventory(item, i, amount);
-				return true;
+				AddToInventory(item, i, amount, out amount);
+
+				if(amount <= 0)
+				{
+					return true;
+				}
 			}
 		}
 
@@ -121,11 +143,12 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 		return false;
     }
 
-    public static bool AddToInventory(CItemDataSO item, int index, int amount)
+    public static bool AddToInventory(CItemDataSO item, int index, int amount, out int leftAmount)
 	{
 		if (Instance == null)
 		{
 			Debug.LogWarning("아이탬 메니저 인스턴스 누락");
+			leftAmount = amount;
 			return false;
 		}
 
@@ -133,23 +156,38 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 
 		if(inst._inventory[index] == null)
 		{
+
 			inst._inventory[index] = new CItemSlotData(item, amount);
 			inst._inventorySlots[index].UpdateSlot(item);
+
+			if (amount <= item.MaxStack)
+			{
+				leftAmount = 0;
+			}
+
+			else
+			{
+				leftAmount = amount - item.MaxStack;
+			}
+
 			return true;
 		}
 
 		if(inst._inventory[index].Item != item && inst._inventory[index].Item != null)
 		{
 			Debug.Log("이미 이 아이템 슬롯을 점유하고 있음");
+			leftAmount = amount;
 			return false;
 		}
 
-		if(inst._inventory[index].AddToSlot(item, amount))
+		if(inst._inventory[index].AddToSlot(item, amount, out leftAmount))
 		{
 			inst._inventorySlots[index].UpdateSlot(item);
+			
 			return true;
 		}
-		
+
+		leftAmount = amount;
 		return false;
     }
 
