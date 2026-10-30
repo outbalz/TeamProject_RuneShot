@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic; 
 using UnityEngine;
 
-public class CEnemyMeleeAttack : CEnemy
+public class CEnemyFSM : CEnemy
 {
        
     private IEnemyControllInterface _currentControll;

@@ -7,37 +7,50 @@ public class CEnemyController : MonoBehaviour
      
     [SerializeField] private float _attackRange = 2f;
 
-    private CEnemyMeleeAttack _enemy;
+    [SerializeField] private CEnemyFSM _enemyFSM;
 
-    private CEnemyAttack _attack;
-    private CEnemyMove _move;
-    private CEnemyIdle _idle;
+    [SerializeField] private CEnemyAttack _attack;
+    [SerializeField] private CEnemyMove _move;
+    [SerializeField] private CEnemyIdle _idle;
 
     
     private void Awake()
     { 
-        _enemy = GetComponent<CEnemyMeleeAttack>();
-
-        _attack = GetComponent<CEnemyAttack>();
-        _move = GetComponent<CEnemyMove>();
-        _idle = GetComponent<CEnemyIdle>();
+        if(_enemyFSM == null)
+        {
+            _enemyFSM = GetComponent<CEnemyFSM>();
+        }
+        
+        if( _attack == null)
+        {
+            _attack = GetComponent<CEnemyAttack>();
+        }
+        if(_move == null)
+        {
+            _move = GetComponent<CEnemyMove>();
+        }
+        if(_idle == null)
+        {
+            _idle = GetComponent<CEnemyIdle>();
+        }
+          
     }
     private void Update()
     {
          
-       if (_enemy.PlayerTr != null && (_enemy.PlayerTr.transform.position - transform.position).magnitude <= _attackRange)
-       { 
-            _enemy.SetControll(_attack);  
-       }
-       else if (_enemy.PlayerTr != null)
+       if (_enemyFSM.PlayerTr != null && (_enemyFSM.PlayerTr.transform.position - transform.position).magnitude <= _attackRange)
        {
-            _enemy.SetControll(_move);
+            _enemyFSM.SetControll(_attack);  
+       }
+       else if (_enemyFSM.PlayerTr != null)
+       {
+            _enemyFSM.SetControll(_move);
        }
        else
        {
-            _enemy.SetControll(_idle);
+            _enemyFSM.SetControll(_idle);
        }
 
-        _enemy.Action();
+        _enemyFSM.Action();
     }
 }

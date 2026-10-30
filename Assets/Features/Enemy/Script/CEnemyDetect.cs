@@ -9,7 +9,7 @@ public class CEnemyDetect : MonoBehaviour
     private string _playerLayer = "Player";
     private string _wallLayer = "Wall";
 
-    private LayerMask _MonsterRangelayer;
+    [SerializeField] private LayerMask _MonsterRangelayer;
     private CircleCollider2D _MonsterRangelayerCollider;
 
     private RaycastHit2D _hit2D;

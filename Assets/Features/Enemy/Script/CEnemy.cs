@@ -24,7 +24,7 @@ public class CEnemy : MonoBehaviour
         Instantiate(_detectObject, transform.position + transform.up * _enemydata.DetectionDistance, transform.rotation,transform); 
     }
 
-    protected void Die()
+    public void Die()
     {
         isAlive = false;
     }
