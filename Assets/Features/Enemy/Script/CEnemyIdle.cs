@@ -21,6 +21,8 @@ public class CEnemyIdle : MonoBehaviour, IEnemyControllInterface
     }
     public void ActionEnter(Transform PlayerTr)
     {
+        Debug.Log("Enter Idle");
+
         _navMove.stoppingDistance = 0f;
 
         if (_coroutine != null)
@@ -33,11 +35,13 @@ public class CEnemyIdle : MonoBehaviour, IEnemyControllInterface
     }
     public void ActionUpdate(Transform PlayerTr)
     {
-        Debug.Log("Idle"); 
+        
     }
 
     public void ActionExit()
     {
+        Debug.Log("Exit Idle");
+
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);

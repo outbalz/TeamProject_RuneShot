@@ -24,13 +24,13 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
     }
     
     public void ActionEnter(Transform PlayerTr)
-    {  
+    {
+        Debug.Log("Enter Move");
+
         _navMove.stoppingDistance = _attackRange;
     }
     public void ActionUpdate(Transform PlayerTr)
-    {
-        Debug.Log("Move");
-
+    {  
         if (PlayerTr == null)
         {
             return;
@@ -40,8 +40,8 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
     }
   
     public void ActionExit()
-    { 
-      
+    {
+        Debug.Log("Exit Move");
     }
      
   
