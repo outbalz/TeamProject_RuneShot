@@ -19,10 +19,9 @@ public class CEnemy : MonoBehaviour
     protected bool isAlive = true;
     
     protected virtual void Awake()
-    {
+    { 
         Debug.Log("디텍트 오브젝트 생성");
-        Instantiate(_detectObject, transform);
-         
+        Instantiate(_detectObject, transform.position + transform.up * _enemydata.DetectionDistance, transform.rotation,transform); 
     }
 
     protected void Die()
