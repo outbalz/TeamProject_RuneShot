@@ -5,7 +5,7 @@ using UnityEngine;
 public class CEnemyController : MonoBehaviour
 {
      
-    [SerializeField] float _attackRange = 2f;
+    [SerializeField] private float _attackRange = 2f;
 
     private CEnemyMeleeAttack _enemy;
 
