@@ -10,25 +10,26 @@ public class CEnemyDetect : MonoBehaviour
     private string _wallLayer = "Wall";
 
     private LayerMask _MonsterRangelayer;
-    private Collider2D _MonsterRangelayerCollider;
+    private CircleCollider2D _MonsterRangelayerCollider;
 
     private RaycastHit2D _hit2D;
 
     //private bool _isDetected;
 
-    CEnemy _parentEnemy;
+    private CEnemy _parentEnemy;
     private void Awake()
     {
-        _MonsterRangelayerCollider = GetComponent<Collider2D>();
+        _MonsterRangelayerCollider = GetComponent<CircleCollider2D>();
         _MonsterRangelayer = 1 << LayerMask.NameToLayer(_playerLayer) | 1 << LayerMask.NameToLayer(_wallLayer);
 
         _parentEnemy = transform.parent.GetComponent<CEnemy>();
+        _MonsterRangelayerCollider.radius = _parentEnemy.Enemydata.DetectionDistance;
     }
      
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("감지됨");
+         
         if (collision.tag == _playerTag)
         {
             //Enemy에 감지된 정보를 보낸다

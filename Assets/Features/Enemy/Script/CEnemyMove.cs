@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
 {
-    [SerializeField] float _speed = 4f;
-    private Rigidbody2D _rb2D;
 
+    float _speed;
+    private Rigidbody2D _rb2D;
+    private CEnemy _enemy;
     private void Awake()
     {
         _rb2D = GetComponent<Rigidbody2D>();
+        _enemy = GetComponent<CEnemy>();
+        _speed = _enemy.Enemydata.MovementSpeed;
     }
+    
     public void ActionEnter(Transform PlayerTr)
     {
         ActionUpdate(PlayerTr);

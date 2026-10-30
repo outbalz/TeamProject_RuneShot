@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 {
-    [SerializeField]
-    private float _attackInterval = 3f; 
 
-    private float _time; 
+    private float _attackInterval; 
+    private float _time;
+
+    private CEnemy _enemy;
+    private void Awake()
+    {
+        _enemy = GetComponent<CEnemy>();
+        _attackInterval = _enemy.Enemydata.WeaponFireInterval;
+    }
     public void ActionEnter(Transform PlayerTr)
     {
         ActionUpdate(PlayerTr);
