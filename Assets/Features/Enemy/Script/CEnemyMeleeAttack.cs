@@ -23,11 +23,11 @@ public class CEnemyMeleeAttack : CEnemy
         _preControll = _currentControll;
         _currentControll = controll;
 
-        if(_preControll  != null)
+        if(_preControll != null)
         { 
             _preControll.ActionExit();
         }
-
+         
         _currentControll.ActionEnter(PlayerTr);
          
     }
