@@ -1,18 +1,31 @@
+using Cysharp.Threading.Tasks;
+using NavMeshPlus.Extensions;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine; 
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.AI; 
 
 public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
 {
+     
+    private CEnemy _enemy; 
+    private NavMeshAgent _navMove;
 
-    float _speed;
-    private Rigidbody2D _rb2D;
-    private CEnemy _enemy;
+    private Vector3 _setPosition;
+
+    private float _time;
+    private float _timeInterval = 3f;
+    private Coroutine _coroutine;
+
     private void Awake()
     {
-        _rb2D = GetComponent<Rigidbody2D>();
-        _enemy = GetComponent<CEnemy>();
-        _speed = _enemy.Enemydata.MovementSpeed;
+        _enemy = GetComponent<CEnemy>(); 
+        _navMove = GetComponent<NavMeshAgent>();
+
+        _setPosition = transform.position; 
+        _navMove.speed = _enemy.Enemydata.MovementSpeed; 
     }
     
     public void ActionEnter(Transform PlayerTr)
@@ -27,27 +40,30 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         {
             return;
         }
-     
-        Vector3 dir = Vector3.Normalize(PlayerTr.position - transform.position);
-
-        _rb2D.velocity = dir * _speed;
-
-        Rotation(PlayerTr);
-
-        
+         
+        _navMove.destination = PlayerTr.position;  
     }
-
+  
     public void ActionExit()
-    {
-        _rb2D.velocity = Vector3.zero;
+    {  
+        if(_coroutine != null )
+        {
+            StopCoroutine(_coroutine);
+        }
+
+        _coroutine = StartCoroutine(COReturnPosition()); 
     }
 
-    private void Rotation(Transform PlayerTr)
+    IEnumerator COReturnPosition()
     {
-        Quaternion rot = Quaternion.Euler(0, -90f, 0);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(PlayerTr.position - transform.position) * rot, 0.2f);
+        while(_time < _timeInterval)
+        {
+            _time += Time.deltaTime;
+            yield return null;
+        }
+        
+        _navMove.destination = _setPosition;
+        _time = 0;
     }
-
-    
+  
 }
