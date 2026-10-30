@@ -7,12 +7,11 @@ public class CEnemyIdle : MonoBehaviour, IEnemyControllInterface
    
     public void ActionEnter(Transform PlayerTr)
     {
-        ActionUpdate(PlayerTr);
+        
     }
     public void ActionUpdate(Transform PlayerTr)
     {
-        Debug.Log("Idle");
-        
+        Debug.Log("Idle"); 
     }
 
     public void ActionExit()

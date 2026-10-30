@@ -16,7 +16,7 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
     }
     public void ActionEnter(Transform PlayerTr)
     {
-        ActionUpdate(PlayerTr);
+         
     }
     public void ActionUpdate(Transform PlayerTr)
     {
@@ -40,7 +40,7 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 
     public void ActionExit()
     {
-        _time = 0;
+        _time = 0; 
     }
     private void Rotation(Transform PlayerTr)
     { 

@@ -10,7 +10,7 @@ public class CEnemyMeleeAttack : CEnemy
      
     public void Action()
     {
-        _currentControll.ActionEnter(PlayerTr);
+        _currentControll.ActionUpdate(PlayerTr);
     }
 
     public void SetControll(IEnemyControllInterface controll)
@@ -27,6 +27,8 @@ public class CEnemyMeleeAttack : CEnemy
         { 
             _preControll.ActionExit();
         }
+
+        _currentControll.ActionEnter(PlayerTr);
          
     }
      
