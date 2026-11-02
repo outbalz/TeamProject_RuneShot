@@ -43,6 +43,11 @@ public class CAddModifier : CModifier
     public CAddModifier(string name, float modifier) : base(name, modifier)
     {
     }
+
+    public CAddModifier() : this("", 1)
+    {
+
+    }
 }
 
 
@@ -59,10 +64,13 @@ public class CMultiflyModifier : CModifier
     {
     }
 
+    public CMultiflyModifier() : this("", 1)
+    {
+
+    }
 }
 
-
-[SerializeField]
+[Serializable]
 public class CAddtiveMultiflyModifier : CModifier
 {
     #region 인스팩터
@@ -83,6 +91,32 @@ public class CAddtiveMultiflyModifier : CModifier
     {
         _addModifierName = addModifierName;
         ModifierHandler = modifierHandler;
+    }
+}
+
+
+[Serializable]
+public class CConditionalModifier : CModifier
+{
+    [SerializeReference, SubclassSelector] private CCondition _condition;
+    [SerializeReference, SubclassSelector] private CModifier _tModifier;
+
+    public override float GetModifiedValue(float baseValue)
+    {
+        if (_condition.CheckCondition())
+        {
+            return _tModifier.GetModifiedValue(baseValue);
+        }
+
+        return baseValue * _modifier;
+    }
+
+    public CConditionalModifier(string name, float modifier = 1f) : base(name, modifier)
+    {
+    }
+
+    public CConditionalModifier() : this("")
+    {
     }
 
 }
