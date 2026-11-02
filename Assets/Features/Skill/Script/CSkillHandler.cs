@@ -7,16 +7,16 @@ using UnityEngine;
 public class CSkillHandler : CSingleton<CSkillHandler>
 {
 	#region 내부변수
-	private List<CSkillDataSO<CModifier>> _skills = new List<CSkillDataSO<CModifier>>();
+	private List<CSkillDataSO> _skills = new List<CSkillDataSO>();
 	#endregion
 
-	public void ApllySkill(CSkillDataSO<CModifier> skill)
+	public void ApllySkill(CSkillDataSO skill)
 	{
 		_skills.Add(skill);
 		skill.OnSkiilGet();
 	}
 
-	public void RemoveSkill(CSkillDataSO<CModifier> skill)
+	public void RemoveSkill(CSkillDataSO skill)
 	{
 		_skills.Remove(skill);
 		skill.OnSkiilLost();

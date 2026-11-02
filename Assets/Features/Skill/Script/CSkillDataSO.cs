@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[CreateAssetMenu(menuName = "SO/SkillDataSO", fileName = "SkillDataSO_")]
-public abstract class CSkillDataSO<T> : CGameDataSO where T : CModifier
+[CreateAssetMenu(menuName = "SO/SkillDataSO", fileName = "SkillDataSO_")]
+public class CSkillDataSO : CGameDataSO
 {
     #region 인스팩터
-    [SerializeField] protected List<T> _modifiers;
+    [SerializeField] protected List<CAddModifier> _modifiers;
     #endregion
 
     public virtual void OnSkiilGet()
@@ -28,17 +28,4 @@ public abstract class CSkillDataSO<T> : CGameDataSO where T : CModifier
             modifierHandler.RemoveModifier(_modifiers[i]);
         }
     }
-}
-
-
-[CreateAssetMenu(menuName = "SO/SkillDataSO/AddModifier", fileName = "SkillAddModifierDataSO_")]
-public class CSkillAddModifierDataSO : CSkillDataSO<CAddModifier>
-{
-
-}
-
-[CreateAssetMenu(menuName = "SO/SkillDataSO/MuliflyModifier", fileName = "SkillMuliflyModifierDataSO_")]
-public class CSkillMuliflyModifierDataSO : CSkillDataSO<CMultiflyModifier>
-{
-
 }
