@@ -4,17 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "ScriptableObject/ItemSO", fileName ="ItemSO_")]
+public enum EItemtype
+{
+	None,
+	Weapon,
+	Mics,
+}
+
+[CreateAssetMenu(menuName = "SO/ItemSO", fileName ="ItemSO_")]
 public abstract class CItemDataSO : CGameDataSO
 {
 	#region 인스팩터
 	[SerializeField] private Sprite _itemSprite;
 	[SerializeField] private int _maxStack;
+	[SerializeField] private EItemtype _itemType;
 	#endregion
 
 	#region 프로퍼티
 	public Sprite ItemSprite => _itemSprite;
 	public int MaxStack => _maxStack;
+	public EItemtype ItemType => _itemType;
 	#endregion
 
 	public abstract void OnUse(GameObject target);
