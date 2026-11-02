@@ -28,8 +28,7 @@ public class CEnemyDetect : MonoBehaviour
      
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-         
+    { 
         if (collision.tag == _playerTag)
         {
             //Enemy에 감지된 정보를 보낸다

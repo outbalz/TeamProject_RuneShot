@@ -21,7 +21,8 @@ public class CEnemy : MonoBehaviour
     protected virtual void Awake()
     { 
         Debug.Log("디텍트 오브젝트 생성");
-        Instantiate(_detectObject, transform.position + transform.up * _enemydata.DetectionDistance, transform.rotation,transform); 
+        //Instantiate(_detectObject, transform.position + transform.up * _enemydata.DetectionDistance, transform.rotation,transform); 
+        Instantiate(_detectObject,transform); 
     }
 
     public void Die()
