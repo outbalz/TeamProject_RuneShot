@@ -30,18 +30,18 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         Debug.Log("Enter Move");
 
         _navMove.stoppingDistance = _attackRange;
+
+        _aniMove.SetInteger(_move, 1);
     }
     public void ActionUpdate(Transform PlayerTr)
-    {
-        Debug.Log("Move update");
-
+    { 
         if (PlayerTr == null)
         {
             return;
         }
          
         _navMove.destination = PlayerTr.position;
-        _aniMove.SetInteger(_move,1);
+        
 
         if ((PlayerTr.position - transform.position).x <= 0)
         {
