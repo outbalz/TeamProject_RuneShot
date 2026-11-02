@@ -16,17 +16,28 @@ public class CEnemy : MonoBehaviour
     private Transform _playerTr; 
     public Transform PlayerTr { get { return _playerTr; } set { _playerTr = value; } }
 
-    protected bool isAlive = true;
-    
+    protected bool _isAlive = true;
+      
+    protected float _hp;
+
     protected virtual void Awake()
     { 
         Debug.Log("디텍트 오브젝트 생성");
         //Instantiate(_detectObject, transform.position + transform.up * _enemydata.DetectionDistance, transform.rotation,transform); 
-        Instantiate(_detectObject,transform); 
+        Instantiate(_detectObject,transform);
+        _hp = _enemydata.MaxHP;
     }
 
-    public void Die()
+    public bool Die()
     {
-        isAlive = false;
+        if (_hp <= 0)
+        {
+            _hp = 0;
+
+            _isAlive = false;
+        }    
+        
+
+        return _isAlive;
     }
 }
