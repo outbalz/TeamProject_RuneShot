@@ -9,9 +9,15 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
     private float _time;
 
     private CEnemy _enemy;
+    private Animator _aniAttack;
+
+    private string _attack = "TAttack";
+
     private void Awake()
     {
         _enemy = GetComponent<CEnemy>();
+        _aniAttack = GetComponent<Animator>();
+
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
     }
     public void ActionEnter(Transform PlayerTr)
@@ -20,21 +26,32 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
     }
     public void ActionUpdate(Transform PlayerTr)
     {
+         
         if (PlayerTr == null)
         {
             return;
         }
 
-        Rotation(PlayerTr);
-
-        _time += Time.deltaTime;
+        if((PlayerTr.position - transform.position).x <= 0)
+        {
+            transform.rotation = Quaternion.identity;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180f, 0);
+        }
+         
+         _time += Time.deltaTime;
 
         if( _time < _attackInterval )
         {
             return;
         }
-         
+
+        _aniAttack.SetTrigger(_attack);
         _time = 0;
+
+        Debug.Log("Attack Update");
     }
 
     public void ActionExit()
