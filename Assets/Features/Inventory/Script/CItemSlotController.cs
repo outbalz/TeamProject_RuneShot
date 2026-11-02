@@ -28,7 +28,7 @@ public class CItemSlotController : MonoBehaviour, IDropHandler
         _item.UpdateSlotItem(item);
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
         GameObject dropedGO = eventData.pointerDrag;
         CDragableItemController item =  dropedGO.GetComponent<CDragableItemController>();
