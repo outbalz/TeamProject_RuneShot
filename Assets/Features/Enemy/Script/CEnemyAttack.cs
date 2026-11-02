@@ -50,8 +50,7 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 
         _aniAttack.SetTrigger(_attack);
         _time = 0;
-
-        Debug.Log("Attack Update");
+         
     }
 
     public void ActionExit()
