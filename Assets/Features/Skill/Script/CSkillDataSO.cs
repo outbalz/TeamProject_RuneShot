@@ -6,7 +6,7 @@ using UnityEngine;
 public class CSkillDataSO : CGameDataSO
 {
     #region 인스팩터
-    [SerializeField] protected List<CAddModifier> _modifiers;
+    [SerializeReference, SubclassSelector] protected List<CModifier> _modifiers;
     #endregion
 
     public virtual void OnSkiilGet()

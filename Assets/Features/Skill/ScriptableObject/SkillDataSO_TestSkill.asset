@@ -15,3 +15,6 @@ MonoBehaviour:
   _id: id
   _name: name
   _modifiers: []
+  references:
+    version: 2
+    RefIds: []
