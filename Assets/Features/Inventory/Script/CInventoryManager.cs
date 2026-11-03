@@ -81,9 +81,13 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 	#endregion
 
 	#region 프로퍼티
-    #endregion
+	#endregion
 
-    protected override void Awake()
+	#region 인덱서
+	public CItemSlotData this[int index] => _inventory[index];
+	#endregion
+
+	protected override void Awake()
     {
 		base.Awake();
 

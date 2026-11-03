@@ -160,7 +160,13 @@ public class CInventoryInputController : MonoBehaviour
 
     private void UseQuickSlot(int slotIndex)
     {
-        //Do Somthing
+        CItemSlotData slot = CInventoryManager.Instance[slotIndex];
+
+        if (slot.Item != null)
+        {
+            slot.Item.OnUse();
+        }
+
         Debug.Log(slotIndex);
     }
 
