@@ -62,6 +62,11 @@ public class CEnemyControllerArcher : MonoBehaviour
     }
     private void Update()
     {
+        if(!_enemy.IsAlive)
+        {
+            return;
+        }
+
         if (_enemy.PlayerTr != null && (_enemy.PlayerTr.transform.position - transform.position).magnitude <= 2f)
         {
             _enemyFSM.SetControll(_runaway);
@@ -82,13 +87,11 @@ public class CEnemyControllerArcher : MonoBehaviour
         {
             _enemyFSM.SetControll(_return);
         }
-
-        
-
-        if (!_enemy.Die())
-        {
-            _enemyFSM.SetControll(_death);
-        }
+         
+       //if (!_enemy.Die())
+       //{
+       //    _enemyFSM.SetControll(_death);
+       //}
 
         _enemyFSM.Action();
     }
