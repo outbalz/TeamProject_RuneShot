@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5490964744466061223}
   - component: {fileID: 3120156359838973911}
   - component: {fileID: 4327622223508731951}
+  - component: {fileID: 7388600970780976996}
   m_Layer: 0
   m_Name: testPrefab (1)
   m_TagString: Untagged
@@ -68,6 +69,26 @@ MonoBehaviour:
   - {fileID: 7695682041740760972}
   - {fileID: 1082117452465958426}
   - {fileID: 2379293917539148056}
+--- !u!114 &7388600970780976996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8211400074861014349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9d0882612f73d46a302fcf65dcd4a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventoyPanel: {fileID: 2418217374639702529}
+  _scrollActionName: Scroll
+  _toggleInventoryActionName: ToggleInventory
+  _quickSoltAction1Name: UseQuickSlot1
+  _quickSoltAction2Name: UseQuickSlot2
+  _quickSoltAction3Name: UseQuickSlot3
+  _quickSoltAction4Name: UseQuickSlot4
+  _quickSoltAction5Name: UseQuickSlot5
 --- !u!1001 &1120565697379067881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -311,10 +332,6 @@ PrefabInstance:
     - target: {fileID: 6312712270729616414, guid: b7fb8f951b0cf5a45b07cb84ab34b8e4, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6652436464243575161, guid: b7fb8f951b0cf5a45b07cb84ab34b8e4, type: 3}
-      propertyPath: m_Name
-      value: QuickSlotPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7095800169546776499, guid: b7fb8f951b0cf5a45b07cb84ab34b8e4, type: 3}
       propertyPath: m_AnchorMax.y
@@ -570,6 +587,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1ad97ded092254d963d8bdbc31d8e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2418217374639702529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3315273243947410920, guid: b7fb8f951b0cf5a45b07cb84ab34b8e4, type: 3}
+  m_PrefabInstance: {fileID: 1120565697379067881}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4103361804269051005 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3998947166043814804, guid: b7fb8f951b0cf5a45b07cb84ab34b8e4, type: 3}
