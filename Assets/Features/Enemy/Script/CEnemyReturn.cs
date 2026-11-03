@@ -1,18 +1,17 @@
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
 {
-    private NavMeshAgent _navMove;
-    private Animator _aniIdle;
-     
+    #region 인스펙터
+    [SerializeField] private NavMeshAgent _navMove;
+    [SerializeField] private Animator _aniReturn;
+    #endregion
+
+    #region 내부변수
     private float _timeInterval = 3f;
     private Coroutine _coroutine;
 
@@ -21,10 +20,18 @@ public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
     private string _move = "IMove";
 
     CancellationTokenSource _tokenSource;
+    #endregion
+
     private void Awake()
     {
-        _navMove = GetComponent<NavMeshAgent>();
-        _aniIdle = GetComponent<Animator>();
+        if(_navMove == null)
+        {
+            _navMove = GetComponent<NavMeshAgent>();
+        }
+        if( _aniReturn == null)
+        {
+            _aniReturn = GetComponent<Animator>();
+        }  
 
         _setPosition = transform.position;
     }
@@ -69,8 +76,8 @@ public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
     }
 
     async UniTask ReturnPosition(CancellationTokenSource tokenSource)
-    { 
-        _aniIdle.SetInteger(_move, 1);
+    {
+        _aniReturn.SetInteger(_move, 1);
 
         await UniTask.Delay(TimeSpan.FromSeconds(_timeInterval),false,PlayerLoopTiming.Update,tokenSource.Token);
 

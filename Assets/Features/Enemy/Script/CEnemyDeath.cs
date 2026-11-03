@@ -1,16 +1,21 @@
-using Cysharp.Threading.Tasks.Triggers;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CEnemyDeath : MonoBehaviour, IEnemyControllInterface
 {
-    Animator _aniDeath;
+    #region 인스펙터
+    [SerializeField] Animator _aniDeath;
+    #endregion
 
+    #region 내부변수
     string _death = "BDeath";
+    #endregion
+
     private void Awake()
     {
-        _aniDeath = GetComponent<Animator>();
+        if( _aniDeath == null )
+        { 
+            _aniDeath = GetComponent<Animator>();
+        }
     }
 
     public void ActionEnter(Transform PlayerTr)

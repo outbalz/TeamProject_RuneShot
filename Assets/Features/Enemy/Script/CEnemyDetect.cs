@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class CEnemyDetect : MonoBehaviour
 {
+    #region 인스펙터
+    [SerializeField] private LayerMask _MonsterRangelayer;
+    [SerializeField] private CircleCollider2D _MonsterRangelayerCollider;
+    [SerializeField] private CEnemy _parentEnemy;
+    #endregion
 
+    #region 내부변수
     private string _playerTag = "Player";
     private string _playerLayer = "Player";
     private string _wallLayer = "Wall";
-
-    [SerializeField] private LayerMask _MonsterRangelayer;
-    private CircleCollider2D _MonsterRangelayerCollider;
-
     private RaycastHit2D _hit2D;
-
     private bool _isDetected;
+    #endregion
 
-    private CEnemy _parentEnemy;
     private void Awake()
     {
-        _MonsterRangelayerCollider = GetComponent<CircleCollider2D>();
-        _MonsterRangelayer = 1 << LayerMask.NameToLayer(_playerLayer) | 1 << LayerMask.NameToLayer(_wallLayer);
+        if(_MonsterRangelayerCollider == null)
+        {
+            _MonsterRangelayerCollider = GetComponent<CircleCollider2D>();
+        }
 
-        _parentEnemy = transform.parent.GetComponent<CEnemy>();
+        if (_parentEnemy == null)
+        {
+            _parentEnemy = transform.parent.GetComponent<CEnemy>();
+        }
+
+        _MonsterRangelayer = 1 << LayerMask.NameToLayer(_playerLayer) | 1 << LayerMask.NameToLayer(_wallLayer);
         _MonsterRangelayerCollider.radius = _parentEnemy.Enemydata.DetectionDistance;
     }
      

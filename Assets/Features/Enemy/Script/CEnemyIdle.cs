@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CEnemyIdle : MonoBehaviour, IEnemyControllInterface
 {
-    
-    private Animator _aniIdle;
-     
+    #region 인스펙터
+    [SerializeField] private Animator _aniIdle;
+    #endregion
+
+    #region 내부변수 
     private string _move = "IMove";
-      
+    #endregion
+
     private void Awake()
     { 
-        _aniIdle = GetComponent<Animator>(); 
+        if(_aniIdle == null)
+        {
+            _aniIdle = GetComponent<Animator>();
+        } 
     }
     public void ActionEnter(Transform PlayerTr)
     {

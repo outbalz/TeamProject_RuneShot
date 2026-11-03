@@ -1,25 +1,32 @@
-using Cysharp.Threading.Tasks;
-using NavMeshPlus.Extensions;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI; 
 
 public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
 {
-     
-    private CEnemy _enemy; 
-    private NavMeshAgent _navMove;
-    private Animator _aniMove;
+    #region 인스펙터
+    [SerializeField] private CEnemy _enemy;
+    [SerializeField] private NavMeshAgent _navMove;
+    [SerializeField] private Animator _aniMove;
+    #endregion
+
+    #region 내부변수 
     private string _move = "IMove";
-     
+    #endregion
+
     private void Awake()
     {
-        _enemy = GetComponent<CEnemy>(); 
-        _navMove = GetComponent<NavMeshAgent>();
-        _aniMove = GetComponent<Animator>();
+        if( _enemy == null )
+        {
+            _enemy = GetComponent<CEnemy>();
+        }
+        if( _navMove == null )
+        {
+            _navMove = GetComponent<NavMeshAgent>();
+        }
+        if(_aniMove == null )
+        {
+            _aniMove = GetComponent<Animator>();
+        }  
 
         _navMove.speed = _enemy.Enemydata.MovementSpeed; 
     }

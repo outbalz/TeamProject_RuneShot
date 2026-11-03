@@ -4,22 +4,30 @@ using UnityEngine;
 
 public class CEnemyController : MonoBehaviour
 {
-      
+    #region 인스펙터
+    [SerializeField] private CEnemy _enemy;
     [SerializeField] private CEnemyFSM _enemyFSM;
-
     [SerializeField] private CEnemyAttack _attack;
     [SerializeField] private CEnemyMove _move;
     [SerializeField] private CEnemyIdle _idle;
-    [SerializeField] private CEnemyDamaged _damaged;
     [SerializeField] private CEnemyDeath _death;
     [SerializeField] private CEnemyReturn _return;
-    
+    #endregion
+
+    #region 내부변수 
     Vector3 _setPosition;
+    #endregion
+
     private void Awake()
-    { 
-        if(_enemyFSM == null)
+    {
+        #region Getcomponent
+        if (_enemyFSM == null)
         {
             _enemyFSM = GetComponent<CEnemyFSM>();
+        }
+        if(_enemy == null)
+        {
+            _enemy = GetComponent<CEnemy>();
         }
         
         if( _attack == null)
@@ -35,10 +43,6 @@ public class CEnemyController : MonoBehaviour
             _idle = GetComponent<CEnemyIdle>();
         }
 
-        if(_damaged == null)
-        {
-            _damaged = GetComponent<CEnemyDamaged>();
-        }
         if(_death == null)
         {
             _death = GetComponent<CEnemyDeath>();
@@ -47,29 +51,30 @@ public class CEnemyController : MonoBehaviour
         {
             _return = GetComponent<CEnemyReturn>();
         }
+        #endregion
 
         _setPosition = transform.position;
     }
     private void Update()
     { 
-       if (_enemyFSM.PlayerTr != null && (_enemyFSM.PlayerTr.transform.position - transform.position).magnitude <= _enemyFSM.Enemydata.AttackRange)
+       if (_enemy.PlayerTr != null && (_enemy.PlayerTr.transform.position - transform.position).magnitude <= _enemy.Enemydata.AttackRange)
        {
             _enemyFSM.SetControll(_attack);  
        }
-       else if (_enemyFSM.PlayerTr != null)
+       else if (_enemy.PlayerTr != null)
        {
             _enemyFSM.SetControll(_move);
        }
-       else if(_enemyFSM.PlayerTr == null && (_setPosition - transform.position).sqrMagnitude < 0.1f)
+       else if(_enemy.PlayerTr == null && (_setPosition - transform.position).sqrMagnitude < 0.1f)
        { 
             _enemyFSM.SetControll(_idle);
        }
-       else if(_enemyFSM.PlayerTr == null)
+       else if(_enemy.PlayerTr == null)
        {
             _enemyFSM.SetControll(_return);
        }
 
-       if(!_enemyFSM.Die())
+       if(!_enemy.Die())
        {
            _enemyFSM.SetControll(_death);
        }

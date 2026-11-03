@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 {
+    #region 인스펙터
+    [SerializeField] private CEnemy _enemy;
+    [SerializeField] private Animator _aniAttack;
+    #endregion
 
-    private float _attackInterval; 
+    #region 내부변수
+    private float _attackInterval;
     private float _time;
-
-    private CEnemy _enemy;
-    private Animator _aniAttack;
-
     private string _attack = "TAttack";
+    #endregion
 
     private void Awake()
     {
-        _enemy = GetComponent<CEnemy>();
-        _aniAttack = GetComponent<Animator>();
+        if( _enemy == null )
+        {
+            _enemy = GetComponent<CEnemy>();
+        }
+        if( _aniAttack == null )
+        {
+            _aniAttack = GetComponent<Animator>();
+        }
 
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
     }
+     
     public void ActionEnter(Transform PlayerTr)
     {
         Debug.Log("Enter Attack");
