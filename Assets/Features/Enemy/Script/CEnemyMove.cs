@@ -14,8 +14,7 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
     private NavMeshAgent _navMove;
     private Animator _aniMove;
     private string _move = "IMove";
-
-    [SerializeField] private float _attackRange = 2f;
+     
     private void Awake()
     {
         _enemy = GetComponent<CEnemy>(); 
@@ -29,7 +28,7 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
     {
         Debug.Log("Enter Move");
 
-        _navMove.stoppingDistance = _attackRange;
+        _navMove.stoppingDistance = _enemy.Enemydata.AttackRange;
 
         _aniMove.SetInteger(_move, 1);
     }

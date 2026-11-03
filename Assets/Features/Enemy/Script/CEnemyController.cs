@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class CEnemyController : MonoBehaviour
 {
-     
-    [SerializeField] private float _attackRange = 2f;
-
+      
     [SerializeField] private CEnemyFSM _enemyFSM;
 
     [SerializeField] private CEnemyAttack _attack;
@@ -54,7 +52,7 @@ public class CEnemyController : MonoBehaviour
     }
     private void Update()
     { 
-       if (_enemyFSM.PlayerTr != null && (_enemyFSM.PlayerTr.transform.position - transform.position).magnitude <= _attackRange)
+       if (_enemyFSM.PlayerTr != null && (_enemyFSM.PlayerTr.transform.position - transform.position).magnitude <= _enemyFSM.Enemydata.AttackRange)
        {
             _enemyFSM.SetControll(_attack);  
        }
@@ -62,7 +60,7 @@ public class CEnemyController : MonoBehaviour
        {
             _enemyFSM.SetControll(_move);
        }
-       else if(_enemyFSM.PlayerTr == null && (_setPosition - transform.position).magnitude < 0.1f)
+       else if(_enemyFSM.PlayerTr == null && (_setPosition - transform.position).sqrMagnitude < 0.1f)
        { 
             _enemyFSM.SetControll(_idle);
        }
