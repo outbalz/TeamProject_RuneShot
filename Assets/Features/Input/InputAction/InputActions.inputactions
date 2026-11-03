@@ -25,15 +25,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UseItem",
-                    "type": "Button",
-                    "id": "cadac5aa-7912-4dc8-91f4-a24df4efa424",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "27cee427-6753-4e6a-9fe0-eb495ca17c17",
@@ -46,15 +37,6 @@
                     "name": "DodgeRoll",
                     "type": "Button",
                     "id": "3730d3ce-3df3-45d1-8156-bfe9407d445a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "UseBlankRound",
-                    "type": "Button",
-                    "id": "6e7d19e3-397a-403a-bb45-f6e6f2c57e61",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -77,6 +59,69 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ToggleInventory",
+                    "type": "Button",
+                    "id": "96519fe3-d04c-4de6-a906-69035c24cc46",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseQuickSlot1",
+                    "type": "Button",
+                    "id": "d217da44-3b7c-493b-ba8f-d460e51479ce",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseQuickSlot2",
+                    "type": "Button",
+                    "id": "c48f9359-cf0d-40d1-8a5a-c705353992a9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseQuickSlot3",
+                    "type": "Button",
+                    "id": "cfda29e5-8cc3-45c7-b636-95722db7a820",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseQuickSlot4",
+                    "type": "Button",
+                    "id": "2aa56f6a-7d8c-4317-b202-cf9e7fc9326c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseQuickSlot5",
+                    "type": "Button",
+                    "id": "ccd28d77-72f3-4794-b3b3-9e4f6a49e9d1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "4494dfac-d026-4066-88f8-2879555f8682",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -148,17 +193,6 @@
                 },
                 {
                     "name": "",
-                    "id": "78bee604-abd5-4039-9c5b-f4c3f7bc77fa",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "UseItem",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c915dc2b-6958-4d4b-94b3-eeae5e5f0214",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -171,22 +205,11 @@
                 {
                     "name": "",
                     "id": "1cf1e416-b1b4-43be-b69c-f1d266072cb7",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "DodgeRoll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "20ac86a5-0d42-445c-8301-12081d72b785",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "UseBlankRound",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -202,13 +225,112 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "5bd6e400-975c-4076-8dfc-0f1a5a8a4b32",
+                    "name": "1D Axis",
+                    "id": "b3d0c353-4004-4c91-ae68-9ea33c5c381e",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "d1199807-0a23-41cf-b638-dca02f686d7b",
                     "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "31cdbdb6-0919-46d8-94ab-237c4cee939a",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "bb884452-411a-43e0-9674-15c738757e65",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c331b73f-1efa-410d-bf15-727f05af8452",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseQuickSlot1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d8c1509e-e5e9-4413-a203-b6eb4b9cb3af",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseQuickSlot2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "029a1f66-ccc5-4ae0-9f81-518028ac46e4",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseQuickSlot3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5c82dd7-8447-4586-aaad-abc5394bbfc5",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseQuickSlot4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0cd7d120-71db-419c-a15b-e35a2fbed1d8",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseQuickSlot5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c9bb2da-18bd-4c97-b839-d198a7510c8e",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
