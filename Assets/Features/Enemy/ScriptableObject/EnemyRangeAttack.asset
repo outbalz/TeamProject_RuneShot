@@ -24,3 +24,4 @@ MonoBehaviour:
   _weaponDamage: 2
   _reloadSpeed: 4
   _detectionDistance: 10
+  _attackRange: 5

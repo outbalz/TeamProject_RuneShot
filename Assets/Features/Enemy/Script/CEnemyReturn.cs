@@ -12,8 +12,7 @@ public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
 {
     private NavMeshAgent _navMove;
     private Animator _aniIdle;
-
-    private float _time;
+     
     private float _timeInterval = 3f;
     private Coroutine _coroutine;
 
@@ -73,11 +72,10 @@ public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
     { 
         _aniIdle.SetInteger(_move, 1);
 
-        await UniTask.Delay(TimeSpan.FromSeconds(3f),false,PlayerLoopTiming.Update,tokenSource.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(_timeInterval),false,PlayerLoopTiming.Update,tokenSource.Token);
 
         _navMove.velocity = Vector3.zero;
-        _navMove.destination = _setPosition;
-        _time = 0;
+        _navMove.destination = _setPosition; 
 
         if ((_setPosition - transform.position).x <= 0)
         {
