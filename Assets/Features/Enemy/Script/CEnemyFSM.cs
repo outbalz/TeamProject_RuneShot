@@ -25,12 +25,12 @@ public class CEnemyFSM : MonoBehaviour
     }
 
     public void SetControll(IEnemyControllInterface controll)
-    {
-        if(_currentControll == controll)
+    { 
+        if (_currentControll == controll)
         {
             return;
         }
-
+        
         _preControll = _currentControll;
         _currentControll = controll;
 
