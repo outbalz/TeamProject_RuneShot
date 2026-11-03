@@ -1,16 +1,27 @@
-using System.Collections;
-using System.Collections.Generic; 
 using UnityEngine;
 
-public class CEnemyFSM : CEnemy
+public class CEnemyFSM : MonoBehaviour 
 {
-       
+    #region 인스펙터 
+    [SerializeField] private CEnemy _enemy;
+    #endregion
+
+    #region 내부변수
     private IEnemyControllInterface _currentControll;
-    private IEnemyControllInterface _preControll; 
+    private IEnemyControllInterface _preControll;
+    #endregion
      
+    private void Awake()
+    {
+        if(_enemy == null)
+        { 
+            _enemy = GetComponent<CEnemy>();
+        }    
+    }
+
     public void Action()
     {
-        _currentControll.ActionUpdate(PlayerTr);
+        _currentControll.ActionUpdate(_enemy.PlayerTr);
     }
 
     public void SetControll(IEnemyControllInterface controll)
@@ -28,7 +39,7 @@ public class CEnemyFSM : CEnemy
             _preControll.ActionExit();
         }
          
-        _currentControll.ActionEnter(PlayerTr);
+        _currentControll.ActionEnter(_enemy.PlayerTr);
          
     }
      
