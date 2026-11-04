@@ -7,14 +7,16 @@ public class CItemSlotController : MonoBehaviour, IDropHandler
 {
 	#region 인스팩터
 	[SerializeField] private CDragableItemController _item;
-	#endregion
+    [SerializeField] private EItemtype _slotType = EItemtype.None;
+    #endregion
 
-	#region 내부변수
-	[SerializeField] private int _slotIndex;
+    #region 내부변수
+    [SerializeField] private int _slotIndex;
     #endregion
 
     #region 프로퍼티
     public int SlotIndex => _slotIndex;
+    public EItemtype SlotType => _slotType;
     #endregion
 
     public void InitializeSlot(int index, CItemDataSO item = null)
@@ -28,7 +30,7 @@ public class CItemSlotController : MonoBehaviour, IDropHandler
         _item.UpdateSlotItem(item);
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
         GameObject dropedGO = eventData.pointerDrag;
         CDragableItemController item =  dropedGO.GetComponent<CDragableItemController>();

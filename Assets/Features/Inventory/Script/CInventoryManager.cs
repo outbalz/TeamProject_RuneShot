@@ -72,23 +72,27 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 	#region 인스팩터
 	[SerializeField] private Transform _itemSlotLayout;
 	[SerializeField] private CItemSlotController _itemSlotPrefab;
-	[SerializeField] private int _inventorySize = 20;
+	[SerializeField] private int _inventorySize = 25;
+	[SerializeField] private List<CItemSlotController> _inventorySlots;
 	#endregion
 
 	#region 내부변수
-	private CItemSlotData[] _inventory;
-	private CItemSlotController[] _inventorySlots;
+	private List<CItemSlotData> _inventory = new List<CItemSlotData>();
 	#endregion
 
 	#region 프로퍼티
-    #endregion
+	#endregion
 
-    protected override void Awake()
+	#region 인덱서
+	public CItemSlotData this[int index] => _inventory[index];
+	#endregion
+
+	protected override void Awake()
     {
 		base.Awake();
 
-		_inventory = new CItemSlotData[_inventorySize];
-		_inventorySlots = new CItemSlotController[_inventorySize];
+		//_inventory = new CItemSlotData[_inventorySize];
+		//_inventorySlots = new CItemSlotController[_inventorySize];
 
 		InitializeInventory();
     }
@@ -100,19 +104,26 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 			Debug.LogWarning("아이템 슬롯 프리팹 누락");
 			return;
 		}
-
+		
 
 		for (int i = 0; i < _inventorySize; i++)
 		{
-			CItemSlotController slot = Instantiate(_itemSlotPrefab, _itemSlotLayout);
-
-			if (slot == null)
+			if (_inventorySlots.Count -1 < i)
 			{
-				continue;
+
+				CItemSlotController slot = Instantiate(_itemSlotPrefab, _itemSlotLayout);
+				
+				if (slot == null)
+				{
+					continue;
+				}
+
+				_inventorySlots.Add(slot);
 			}
 
-			_inventorySlots[i] = slot;
-			slot.InitializeSlot(i);
+			_inventory.Add(null);
+            //_inventorySlots[i] = slot;
+            _inventorySlots[i].InitializeSlot(i);
         }
     }
 
@@ -126,8 +137,13 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 
         CInventoryManager inst = Instance;
 
-		for (int i = 0; i < inst._inventory.Length; i++)
+		for (int i = 0; i < inst._inventory.Count; i++)
 		{
+			if (inst._inventorySlots[i].SlotType != EItemtype.None && item.ItemType != inst._inventorySlots[i].SlotType)
+			{
+				continue;
+            }
+
 			if (inst._inventory[i] == null || inst._inventory[i].Item == item)
 			{
 				AddToInventory(item, i, amount, out amount);
