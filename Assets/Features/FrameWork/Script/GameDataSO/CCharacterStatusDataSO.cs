@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CCharacterStatusDataSO : CGameDataSO
+public abstract class CCharacterStatusDataSO : CGameDataSO
 {
     #region 인스팩터
     [SerializeField] protected float _maxHp;
