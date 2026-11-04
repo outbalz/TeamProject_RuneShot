@@ -31,7 +31,7 @@ public class CItemDataSO : CGameDataSO
 
 	public void OnUse()
 	{
-		if (!_condition.CheckCondition())
+		if (_condition != null && !_condition.CheckCondition())
 		{
 			return;
 		}
