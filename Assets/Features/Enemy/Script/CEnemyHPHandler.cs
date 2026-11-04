@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class CEnemyHPHandler : CHPHandler
+public class CEnemyHPHandler : CHPHandler<CEnemyStatusDataSO>
 {
     #region ¿ŒΩ∫∆Â≈Õ
     [SerializeField] private CEnemy _enemy;
@@ -25,6 +25,10 @@ public class CEnemyHPHandler : CHPHandler
         if(_aniHP == null)
         {
             _aniHP = GetComponent<Animator>();
+        }
+        if(_status == null)
+        {
+            _status = GetComponent<CEnemyStatusHandler>();
         }
 
         HP = MaxHP;
