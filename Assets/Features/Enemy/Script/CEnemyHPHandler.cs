@@ -1,0 +1,59 @@
+using Cysharp.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+
+public class CEnemyHPHandler : CHPHandler
+{
+    #region 인스펙터
+    [SerializeField] private CEnemy _enemy;
+    [SerializeField] private Animator _aniHP;
+    #endregion
+
+    #region 내부변수
+    private string _death = "BDeath";
+    private string _stringDamaged = "TDamaged";
+    #endregion
+
+    private void Awake()
+    {
+        if(_enemy == null)
+        {
+            _enemy = GetComponent<CEnemy>();
+        }
+        if(_aniHP == null)
+        {
+            _aniHP = GetComponent<Animator>();
+        }
+
+        HP = MaxHP;
+    }
+    public override async UniTask OnHit(float damage)
+    {
+        if(damage <= 0 || HP <= 0)
+        {
+            return;
+        }
+        //invoke에 파티클, 사운드, 경험치, 아이템,애니메이션, destroy
+        HP -= damage;
+        OnHitInvoke();
+        _aniHP.SetTrigger(_stringDamaged);
+        if (HP <= 0f)
+        {
+            _enemy.Die();
+            _aniHP.SetBool(_death,true);
+
+            await UniTask.WaitUntil( () => _aniHP.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f,PlayerLoopTiming.Update, destroyCancellationToken);
+
+            OnDeathInvoke();
+             
+        }
+       
+    }
+    public override UniTask OnHeal(float amount)
+    { 
+        HP += amount;
+        return UniTask.CompletedTask;
+    }
+}
