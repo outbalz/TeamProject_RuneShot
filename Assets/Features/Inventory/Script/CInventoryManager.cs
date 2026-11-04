@@ -121,8 +121,9 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 				_inventorySlots.Add(slot);
 			}
 
-			//_inventorySlots[i] = slot;
-			_inventorySlots[i].InitializeSlot(i);
+			_inventory.Add(null);
+            //_inventorySlots[i] = slot;
+            _inventorySlots[i].InitializeSlot(i);
         }
     }
 

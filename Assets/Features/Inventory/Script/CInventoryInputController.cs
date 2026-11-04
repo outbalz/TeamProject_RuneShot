@@ -162,7 +162,7 @@ public class CInventoryInputController : MonoBehaviour
     {
         CItemSlotData slot = CInventoryManager.Instance[slotIndex];
 
-        if (slot.Item != null)
+        if (slot != null && slot.Item != null)
         {
             slot.Item.OnUse();
         }
