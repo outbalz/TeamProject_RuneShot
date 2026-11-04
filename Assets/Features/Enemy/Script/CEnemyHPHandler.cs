@@ -28,14 +28,30 @@ public class CEnemyHPHandler : CHPHandler
         }
 
         HP = MaxHP;
+
+        OnDeath += DropItem;
+        OnDeath += Destroy;
+
     }
+
+    private void DropItem()
+    {
+       
+    }
+     
+    private void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    //TODO
+    //invoke에 파티클, 사운드, 경험치, 아이템, destroy 구현 필요
     public override async UniTask OnHit(float damage)
     {
         if(damage <= 0 || HP <= 0)
         {
             return;
         }
-        //invoke에 파티클, 사운드, 경험치, 아이템,애니메이션, destroy
         HP -= damage;
         OnHitInvoke();
         _aniHP.SetTrigger(_stringDamaged);
