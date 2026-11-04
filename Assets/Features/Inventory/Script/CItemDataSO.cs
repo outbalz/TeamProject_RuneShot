@@ -30,7 +30,7 @@ public class CItemDataSO : CGameDataSO
 	public EItemtype ItemType => _itemType;
 	#endregion
 
-	public void OnUse()
+	public bool OnUse()
 	{
 		for (int i = 0; i < _condition.Length; i++)
 		{
@@ -41,7 +41,7 @@ public class CItemDataSO : CGameDataSO
 
             if (!_condition[i].CheckCondition())
 			{
-				return;
+				return false;
 			}
         }
 
@@ -49,6 +49,8 @@ public class CItemDataSO : CGameDataSO
 		{
 			_effect[i].OnUse().Forget();
         }
+
+		return true;
     }
 
     protected override void OnValidate()
@@ -111,5 +113,20 @@ public class CItemEffectHealOverTime : CItemEffect
 			timer += Time.deltaTime;
 			await UniTask.Yield();
 		}
+	}
+}
+
+[Serializable]
+public class CItemEffectEquipWeapon : CItemEffect
+{
+	#region 인스팩터
+	[SerializeField] private CWeaponDataSO _weaponData;
+	#endregion
+
+	public override UniTask OnUse()
+	{
+        //Todo: 무기 장착 로직 구현
+
+        return UniTask.CompletedTask;
 	}
 }
