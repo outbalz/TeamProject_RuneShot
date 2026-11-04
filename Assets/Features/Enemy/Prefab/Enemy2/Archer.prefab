@@ -2560,6 +2560,9 @@ GameObject:
   - component: {fileID: 3096947156243238289}
   - component: {fileID: 7127168094105659718}
   - component: {fileID: 4154194748888095997}
+  - component: {fileID: 7551762821858981715}
+  - component: {fileID: 5977237214794189970}
+  - component: {fileID: 8953204874932785617}
   m_Layer: 0
   m_Name: UnitRoot
   m_TagString: Untagged
@@ -2684,6 +2687,7 @@ MonoBehaviour:
   _death: {fileID: 0}
   _return: {fileID: 0}
   _runaway: {fileID: 0}
+  _runawayDistance: 2
 --- !u!114 &1932836467865977098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2847,6 +2851,48 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7551762821858981715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4630076504840659355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9254efa9cc121064a83a542d83afe0f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _status: {fileID: 8953204874932785617}
+  _enemy: {fileID: 0}
+  _aniHP: {fileID: 0}
+--- !u!114 &5977237214794189970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4630076504840659355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19f14ce78f44f4479baf6d4b7f08910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dataSO: {fileID: 11400000, guid: 9a8d21c0962ff3c499151b822ef91a7b, type: 2}
+--- !u!114 &8953204874932785617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4630076504840659355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3c7c910f79016439f2d4c994b86fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dataSO: {fileID: 11400000, guid: 9a8d21c0962ff3c499151b822ef91a7b, type: 2}
+  _enemyStatus: {fileID: 5977237214794189970}
 --- !u!1 &4639591493786123159
 GameObject:
   m_ObjectHideFlags: 0
@@ -4282,7 +4328,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7664203789072113408}
-  m_LocalRotation: {x: -0, y: 0.008726557, z: -0, w: 0.9999619}
+  m_LocalRotation: {x: 0, y: 0.008726558, z: 0, w: 0.999962}
   m_LocalPosition: {x: 0, y: 0, z: 0.00015256465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
