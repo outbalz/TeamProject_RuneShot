@@ -47,8 +47,24 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         }
          
         _navMove.destination = PlayerTr.position;
-        
+ 
+        if(_navMove.speed != 0f)
+        {
+            _aniMove.speed = _navMove.velocity.magnitude / _navMove.speed;
+        } 
 
+        Flip(PlayerTr); 
+    }
+  
+    public void ActionExit()
+    {
+        _aniMove.SetInteger(_move, 0);
+        _aniMove.speed = 1f;
+        Debug.Log("Exit Move");
+    }
+
+    private void Flip(Transform PlayerTr)
+    {
         if ((PlayerTr.position - transform.position).x <= 0)
         {
             transform.rotation = Quaternion.identity;
@@ -57,14 +73,5 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         {
             transform.rotation = Quaternion.Euler(0, 180f, 0);
         }
-
     }
-  
-    public void ActionExit()
-    {
-        _aniMove.SetInteger(_move, 0);
-        Debug.Log("Exit Move");
-    }
-
-    
 }
