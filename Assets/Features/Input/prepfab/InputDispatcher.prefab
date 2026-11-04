@@ -65,6 +65,8 @@ MonoBehaviour:
     _actionName: UseQuickSlot4
   - _reference: {fileID: -4657924372133052806, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
     _actionName: UseQuickSlot5
+  - _reference: {fileID: 4425686281568598678, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: Aim
   _inputVectorActions:
   - _reference: {fileID: -6494512496449401202, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
     _actionName: Move
