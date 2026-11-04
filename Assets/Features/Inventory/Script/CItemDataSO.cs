@@ -9,6 +9,7 @@ public enum EItemtype
 {
 	None,
 	Weapon,
+	Consumable,
 	Mics,
 }
 
@@ -19,8 +20,8 @@ public class CItemDataSO : CGameDataSO
 	[SerializeField] private Sprite _itemSprite;
 	[SerializeField] private int _maxStack;
 	[SerializeField] private EItemtype _itemType;
-	[SerializeReference, SubclassSelector] private CItemEffect _effect;
-	[SerializeReference, SubclassSelector] private CCondition _condition;
+	[SerializeReference, SubclassSelector] private CItemEffect[] _effect;
+	[SerializeReference, SubclassSelector] private CCondition[] _condition;
 	#endregion
 
 	#region 프로퍼티
@@ -31,13 +32,24 @@ public class CItemDataSO : CGameDataSO
 
 	public void OnUse()
 	{
-		if (_condition != null && !_condition.CheckCondition())
+		for (int i = 0; i < _condition.Length; i++)
 		{
-			return;
-		}
+			if(_condition[i] == null)
+			{
+				continue;
+            }
 
-		_effect.OnUse().Forget();
-	}
+            if (!_condition[i].CheckCondition())
+			{
+				return;
+			}
+        }
+
+        for (int i = 0; i < _effect.Length; i++)
+		{
+			_effect[i].OnUse().Forget();
+        }
+    }
 
     protected override void OnValidate()
     {
@@ -50,8 +62,54 @@ public class CItemDataSO : CGameDataSO
     }
 }
 
-
+[Serializable]
 public abstract class CItemEffect
 {
 	public abstract UniTask OnUse();
+}
+
+[Serializable]
+public class CItemEffectHeal : CItemEffect
+{
+	#region 인스팩터
+	[SerializeField] private float _healAmount;
+	#endregion
+	public override UniTask OnUse()
+	{
+		CPlayerHPHandler playerHP = CPlayerCharacterController.Instance.HPhandler;
+		if(playerHP == null)
+		{
+			return UniTask.CompletedTask;
+		}
+
+		playerHP.OnHeal(_healAmount);
+		return UniTask.CompletedTask;
+    }
+}
+
+[Serializable]
+public class CItemEffectHealOverTime : CItemEffect
+{
+	#region 인스팩터
+	[SerializeField] private float _healAmount;
+	[SerializeField] private float _duration;
+	#endregion
+	public override async UniTask OnUse()
+	{
+		CPlayerHPHandler playerHP = CPlayerCharacterController.Instance.HPhandler;
+		if(playerHP == null)
+		{
+			return;
+		}
+
+		float healPerSecond = _healAmount / _duration;
+		float timer = 0.0f;
+
+		while(timer < _duration)
+		{
+			await playerHP.OnHeal(healPerSecond * Time.deltaTime);
+			timer += Time.deltaTime;
+			await UniTask.Yield();
+		}
+	}
 }
