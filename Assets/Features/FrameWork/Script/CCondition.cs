@@ -10,9 +10,11 @@ public abstract class CCondition
 }
 
 [Serializable]
-public class CPlayerHPCondition : CCondition
+public class CPlayerHPLesserCondition : CCondition
 {
+    [Range(0,1)]
     [SerializeField] private float _percentage;
+    [SerializeField] private bool _allowEqual;
 
     public override bool CheckCondition()
     {
@@ -23,7 +25,12 @@ public class CPlayerHPCondition : CCondition
             return false;
         }
 
-        if (playerHP.HP <= playerHP.MaxHP * _percentage)
+        if(_allowEqual && playerHP.HP == playerHP.MaxHP * _percentage)
+        {
+            return true;
+        }
+
+        if (playerHP.HP < playerHP.MaxHP * _percentage)
         {
             return true;
         }
@@ -32,4 +39,32 @@ public class CPlayerHPCondition : CCondition
     }
 }
 
+[Serializable]
+public class CPlayerHPGreaterCondition : CCondition
+{
+    [Range(0, 1)]
+    [SerializeField] private float _percentage;
+    [SerializeField] private bool _allowEqual;
 
+    public override bool CheckCondition()
+    {
+        CPlayerHPHandler playerHP = CPlayerCharacterController.Instance.HPhandler;
+
+        if(playerHP == null)
+        {
+            return false;
+        }
+
+        if(_allowEqual && playerHP.HP == playerHP.MaxHP * _percentage)
+        {
+            return true;
+        }
+
+        if (playerHP.HP > playerHP.MaxHP * _percentage)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
