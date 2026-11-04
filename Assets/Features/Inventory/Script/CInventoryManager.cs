@@ -139,6 +139,11 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 
 		for (int i = 0; i < inst._inventory.Count; i++)
 		{
+			if (inst._inventorySlots[i].SlotType != EItemtype.None && item.ItemType != inst._inventorySlots[i].SlotType)
+			{
+				continue;
+            }
+
 			if (inst._inventory[i] == null || inst._inventory[i].Item == item)
 			{
 				AddToInventory(item, i, amount, out amount);

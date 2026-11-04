@@ -167,7 +167,7 @@ public class CInventoryInputController : MonoBehaviour
             slot.Item.OnUse();
         }
 
-        Debug.Log(slotIndex);
+        //Debug.Log(slotIndex);
     }
 
     private void OnScroll(float scroll)
