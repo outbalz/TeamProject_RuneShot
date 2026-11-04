@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CCharacterStatusHandler<T> : MonoBehaviour where T : CCharacterStatusDataSO
+public abstract class CCharacterStatusHandler<T> : MonoBehaviour where T : CCharacterStatusDataSO
 {
     #region 인스팩터
     [SerializeField] protected T _dataSO;
@@ -24,7 +24,7 @@ public class CCharacterStatusHandler<T> : MonoBehaviour where T : CCharacterStat
     {
         if (_dataSO == null)
         {
-            Debug.LogWarning("에너미 스탯 데이터 SO 누락");
+            Debug.LogWarning("스탯 데이터 SO 누락");
             enabled = false;
             return;
         }
