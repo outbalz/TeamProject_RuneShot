@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CPlayerHPHandler : CHPHandler
+public class CPlayerHPHandler : CHPHandler<CPlayerStausDataSO>
 {
     #region 인스펙터
     [SerializeField] private float _hitDuration = 0.15f;

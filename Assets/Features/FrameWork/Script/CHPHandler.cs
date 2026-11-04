@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CHPHandler : MonoBehaviour
+public abstract class CHPHandler<T> : MonoBehaviour where T : CCharacterStatusDataSO
 {
     #region 인스팩터
-    [SerializeField] protected CCharacterStatusHandler<CCharacterStatusDataSO> _status;
+    [SerializeField] protected CCharacterStatusHandler<T> _status;
     #endregion
 
     #region 내부변수
