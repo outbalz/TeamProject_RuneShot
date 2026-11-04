@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine; 
 
 public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
@@ -13,6 +14,8 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
     private float _attackInterval;
     private float _time;
     private string _attack = "TAttack";
+    private CPlayerHPHandler _playerHP;
+    private float _damage;
     #endregion
 
     private void Awake()
@@ -27,16 +30,20 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
         }
 
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
+        _damage = _enemy.Enemydata.WeaponDamage;
     }
      
     public void ActionEnter(Transform PlayerTr)
     {
         Debug.Log("Enter Attack");
+        if(_playerHP == null )
+        {
+            _playerHP = PlayerTr.GetComponent<CPlayerHPHandler>();
+        }
     }
     public void ActionUpdate(Transform PlayerTr)
-    {
-         
-        if (PlayerTr == null)
+    { 
+        if (PlayerTr == null || _playerHP == null)
         {
             return;
         }
@@ -56,6 +63,8 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
         {
             return;
         }
+
+        _playerHP.OnHit(_damage);
 
         _aniAttack.SetTrigger(_attack);
         _time = 0;
