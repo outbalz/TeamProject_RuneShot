@@ -11,11 +11,15 @@ public class CEnemyControllerSwardman : CEnemyController
         base.Awake();  
     }
     protected override void Update()
-    {
-       
+    { 
+        if (!_enemy.IsAlive)
+        {
+            return;
+        }
+
         base.Update();
 
-        if (_enemy.PlayerTr != null && (_enemy.PlayerTr.transform.position - transform.position).magnitude <= _enemy.Enemydata.AttackRange)
+        if (_enemy.PlayerTr != null && distance <= _enemy.Enemydata.AttackRange)
         {
             _enemyFSM.SetControll(_attack);
         }

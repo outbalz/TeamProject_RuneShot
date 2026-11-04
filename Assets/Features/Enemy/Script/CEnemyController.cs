@@ -16,6 +16,7 @@ public class CEnemyController : MonoBehaviour
 
     #region 내부변수 
     protected Vector3 _setPosition;
+    protected float distance = 0;
     #endregion
 
     protected virtual void Awake()
@@ -57,12 +58,12 @@ public class CEnemyController : MonoBehaviour
         
     }
     protected virtual void Update()
-    { 
-        if (!_enemy.IsAlive)
+    {
+        if (_enemy.PlayerTr != null)
         {
-            return;
+            distance = (_enemy.PlayerTr.transform.position - transform.position).magnitude;
         }
-        
+
         if (_enemy.PlayerTr == null && (_setPosition - transform.position).sqrMagnitude < 0.1f)
         {
             _enemyFSM.SetControll(_idle);

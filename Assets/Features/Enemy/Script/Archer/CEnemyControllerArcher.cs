@@ -11,7 +11,7 @@ public class CEnemyControllerArcher : CEnemyController
     #region 내부변수
     [SerializeField] private float _runawayDistance = 2f;
     #endregion
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -22,14 +22,18 @@ public class CEnemyControllerArcher : CEnemyController
     }
     protected override void Update()
     {
-         
-        base.Update();
+        if (!_enemy.IsAlive)
+        {
+            return;
+        }
 
-        if (_enemy.PlayerTr != null && (_enemy.PlayerTr.transform.position - transform.position).magnitude <= _runawayDistance)
+        base.Update();
+           
+        if (_enemy.PlayerTr != null && distance <= _runawayDistance)
         {
             _enemyFSM.SetControll(_runaway);
         }
-        else if (_enemy.PlayerTr != null && (_enemy.PlayerTr.transform.position - transform.position).magnitude <= _enemy.Enemydata.AttackRange)
+        else if (_enemy.PlayerTr != null && distance <= _enemy.Enemydata.AttackRange)
         {
             _enemyFSM.SetControll(_attack);
         }
@@ -37,11 +41,7 @@ public class CEnemyControllerArcher : CEnemyController
         {
             _enemyFSM.SetControll(_move);
         }
-        //if (!_enemy.Die())
-        //{
-        //    _enemyFSM.SetControll(_death);
-        //}
-
+          
         _enemyFSM.Action();
 
     }
