@@ -50,12 +50,26 @@ public class CEnemyRunaway : MonoBehaviour, IEnemyControllInterface
     {
         Vector3 dir = (transform.position - PlayerTr.position).normalized;
          
-        _navMove.destination = transform.position + dir * _enemy.Enemydata.AttackRange; 
+        _navMove.destination = transform.position + dir * _enemy.Enemydata.AttackRange;
+
+        Flip(PlayerTr);
     }
     public void ActionExit()
     {
         _navMove.stoppingDistance = 2;
         _aniRunaway.SetInteger(_Runaway, 0);
          
+    }
+
+    private void Flip(Transform PlayerTr)
+    {
+        if ((PlayerTr.position - transform.position).x > 0)
+        {
+            transform.rotation = Quaternion.identity;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180f, 0);
+        }
     }
 }
