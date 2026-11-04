@@ -48,15 +48,8 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
             return;
         }
 
-        if((PlayerTr.position - transform.position).x <= 0)
-        {
-            transform.rotation = Quaternion.identity;
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 180f, 0);
-        }
-         
+        Flip(PlayerTr);
+
          _time += Time.deltaTime;
 
         if( _time < _attackInterval )
@@ -75,6 +68,17 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
     {
         Debug.Log("Exit Attack");
         _time = 0; 
+    }
+    private void Flip(Transform PlayerTr)
+    {
+        if ((PlayerTr.position - transform.position).x <= 0)
+        {
+            transform.rotation = Quaternion.identity;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180f, 0);
+        }
     }
     private void Rotation(Transform PlayerTr)
     { 
