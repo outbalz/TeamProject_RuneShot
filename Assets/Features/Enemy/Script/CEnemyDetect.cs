@@ -44,12 +44,17 @@ public class CEnemyDetect : MonoBehaviour
     }
 
     private void OnTriggerStay2D(Collider2D collision)
-    { 
+    {
+        if(_parentEnemy.PlayerTr != null)
+        {
+            return;
+        }
+
         if (!_isDetected)
         {
             return;
         }
-        //Enemy에 감지된 정보를 보낸다
+        
         Vector3 origin = transform.parent.position;
         Vector3 dir = collision.transform.position - transform.parent.position;
         _hit2D = Physics2D.Raycast(origin, dir, _MonsterRangelayerCollider.bounds.size.x, _MonsterRangelayer);
