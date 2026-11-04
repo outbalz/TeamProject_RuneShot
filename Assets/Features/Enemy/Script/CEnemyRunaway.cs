@@ -44,16 +44,18 @@ public class CEnemyRunaway : MonoBehaviour, IEnemyControllInterface
 
         _aniRunaway.SetInteger(_Runaway,1);
         _navMove.stoppingDistance = 0;
-         
+        Debug.Log("지금 호출되나?");
     }
     public void ActionUpdate(Transform PlayerTr)
     {
         Vector3 dir = (transform.position - PlayerTr.position).normalized;
+         
         _navMove.destination = transform.position + dir * _enemy.Enemydata.AttackRange; 
     }
     public void ActionExit()
     {
         _navMove.stoppingDistance = 2;
         _aniRunaway.SetInteger(_Runaway, 0);
+         
     }
 }
