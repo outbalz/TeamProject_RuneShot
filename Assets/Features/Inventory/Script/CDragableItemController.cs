@@ -16,6 +16,11 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
     private CItemDataSO _itemData;
     #endregion
 
+    #region 프로퍼티
+    public CItemDataSO ItemData => _itemData;
+    public EItemtype Itemtype => _itemData.ItemType;
+    #endregion
+
     private void Awake()
     {
         if(_itemImage ==  null || _amountText == null)
