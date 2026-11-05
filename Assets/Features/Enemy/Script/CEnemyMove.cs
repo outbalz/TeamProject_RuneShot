@@ -101,7 +101,8 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         _aniMove.speed = 1f;
         _time = 0f;
         _navMove.stoppingDistance = _enemy.Enemydata.AttackRange;
-        Debug.Log("Exit Move");
+        Debug.Log("Exit Move"); 
+        
     }
 
     private void Flip()
