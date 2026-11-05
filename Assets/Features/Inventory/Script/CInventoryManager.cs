@@ -81,6 +81,7 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 	#endregion
 
 	#region 프로퍼티
+	public IReadOnlyList<CItemSlotData> Inventory => _inventory;
 	#endregion
 
 	#region 인덱서
