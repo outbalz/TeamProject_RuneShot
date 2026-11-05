@@ -12,7 +12,13 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
     #region 내부변수 
     private string _move = "IMove";
     #endregion
+    private float _time;
+    private float _waitTime = 3f;
+    private Vector3 _setPosition; 
 
+    private Vector3 _prePlayerPosision; 
+
+     
     private void Awake()
     {
         if( _enemy == null )
@@ -27,8 +33,9 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         {
             _aniMove = GetComponent<Animator>();
         }  
-
-        _navMove.speed = _enemy.Enemydata.MovementSpeed; 
+         
+        _navMove.speed = _enemy.Enemydata.MovementSpeed;
+        _setPosition = transform.position;
     }
     
     public void ActionEnter(Transform PlayerTr)
@@ -45,33 +52,68 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         {
             return;
         }
-         
-        _navMove.destination = PlayerTr.position;
- 
-        if(_navMove.speed != 0f)
-        {
-            _aniMove.speed = _navMove.velocity.magnitude / _navMove.speed;
-        } 
 
-        Flip(PlayerTr); 
+        if (_navMove.speed != 0f)
+        {
+            float speed = _navMove.velocity.sqrMagnitude / (_navMove.speed * _navMove.speed);
+
+            if (speed == 0)
+            {
+                _time += Time.deltaTime;
+            }
+
+            _aniMove.speed = speed == 0 ? 1f : speed;
+        }
+
+        if (_prePlayerPosision == PlayerTr.position)
+        {
+            if (_time <= _waitTime)
+            {
+                return;
+            }
+           
+        }
+         
+        _prePlayerPosision = PlayerTr.position;
+
+
+        if (!_navMove.pathPending)
+        {
+            if (_time <= _waitTime)
+            {
+                _navMove.destination = PlayerTr.position;
+
+            }
+            else
+            {
+                _time = 0f;
+                _navMove.stoppingDistance = 0;
+                _navMove.destination = _setPosition; 
+            }
+        }
+
+        Flip(); 
     }
   
     public void ActionExit()
     {
         _aniMove.SetInteger(_move, 0);
         _aniMove.speed = 1f;
+        _time = 0f;
+        _navMove.stoppingDistance = _enemy.Enemydata.AttackRange;
         Debug.Log("Exit Move");
     }
 
-    private void Flip(Transform PlayerTr)
-    {
-        if ((PlayerTr.position - transform.position).x <= 0)
-        {
-            transform.rotation = Quaternion.identity;
+    private void Flip()
+    { 
+        
+        if ((_navMove.destination - transform.position).x <= 0)
+        { 
+           transform.rotation = Quaternion.identity;
         }
         else
-        {
-            transform.rotation = Quaternion.Euler(0, 180f, 0);
+        { 
+           transform.rotation = Quaternion.Euler(0, 180f, 0);
         }
     }
 }
