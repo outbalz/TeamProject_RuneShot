@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da104c830eec47afa56da9adcf9ec069, type: 3}
+  m_Name: RifleProjectile
+  m_EditorClassIdentifier:
+  _id: rifleprojectile
+  _name: RifleProjectile
+  _prefab: {fileID: 11400, guid: 84c54f19a6ee4c20bdb15640bdd7f4e4, type: 3}
+  _speed: 15
+  _lifeTime: 1.6
