@@ -53,10 +53,20 @@ MonoBehaviour:
     _actionName: ReloadWeapon
   - _reference: {fileID: 8591784490846643055, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
     _actionName: TriggerWeapon
-  - _reference: {fileID: -8082825223521642780, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
-    _actionName: UseBlankRound
-  - _reference: {fileID: -8756277636637658342, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
-    _actionName: UseItem
+  - _reference: {fileID: -6448911731117877974, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: ToggleInventory
+  - _reference: {fileID: -5520172372876744898, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: UseQuickSlot1
+  - _reference: {fileID: -2881739346669955028, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: UseQuickSlot2
+  - _reference: {fileID: 2374661559461983730, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: UseQuickSlot3
+  - _reference: {fileID: 648476996388368027, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: UseQuickSlot4
+  - _reference: {fileID: -4657924372133052806, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: UseQuickSlot5
+  - _reference: {fileID: 4425686281568598678, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
+    _actionName: Aim
   _inputVectorActions:
   - _reference: {fileID: -6494512496449401202, guid: 200e6164e90dfc2499f3177eebf29beb, type: 3}
     _actionName: Move
