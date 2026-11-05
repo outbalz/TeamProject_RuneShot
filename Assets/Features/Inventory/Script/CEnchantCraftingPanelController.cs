@@ -1,0 +1,63 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CEnchantCraftingPanelController : MonoBehaviour
+{
+	#region 인스팩터
+	[SerializeField] private CEnchantCraftingRecipeDataSO _recipeData;
+	[SerializeField] private CItemIconController _resultItemIcon;
+	[SerializeField] private CItemIconController _ingredientItemIconPrefab;
+	[SerializeField] private List<CItemIconController> _ingredientItemIcons = new List<CItemIconController>();
+    [SerializeField] private Transform _ingredientItemIconLayout;
+    [SerializeField] private Button _craftButton;
+    #endregion
+
+    #region 프로퍼티
+    public CEnchantCraftingRecipeDataSO RecipeData => _recipeData;
+    #endregion
+
+    public void InitializePanel(CEnchantCraftingRecipeDataSO recipe)
+    {
+        if(recipe != null)
+        {
+            _recipeData = recipe;
+        }
+
+        if(_recipeData == null)
+        {
+            Debug.LogError("Recipe data is null.");
+            return;
+        }
+
+        _resultItemIcon.SetItemData(_recipeData.Result, _recipeData.Amount);
+
+        for (int i = 0; i < _recipeData.Ingredients.Length; i++)
+        {
+            if(i >= _ingredientItemIcons.Count)
+            {
+                CItemIconController newIcon = Instantiate(_ingredientItemIconPrefab, _ingredientItemIconLayout);
+                _ingredientItemIcons.Add(newIcon);
+            }
+
+            _ingredientItemIcons[i].SetItemData(_recipeData.Ingredients[i].Item, _recipeData.Ingredients[i].Amount);
+        }
+
+    }
+
+    private void OnEnable()
+    {
+        _craftButton.onClick.AddListener(OnCraftButtonClicked);
+    }
+
+    private void OnDisable()
+    {
+        _craftButton.onClick.RemoveAllListeners();
+    }
+
+    private void OnCraftButtonClicked()
+    {
+        CEnchantCraftingManager.Instance.CraftItem(_recipeData);
+    }
+}

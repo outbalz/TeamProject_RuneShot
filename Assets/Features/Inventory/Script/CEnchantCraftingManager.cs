@@ -2,8 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CEnchantCraftingManager : MonoBehaviour
+public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
 {
+    #region 인스팩터
+    [SerializeField] private CEnchantCraftingPanelController _panelPrefab;
+    [SerializeField] private Transform _panelLayout;
+    #endregion
+
+    #region 내부변수
+    private List<CEnchantCraftingPanelController> _panels = new List<CEnchantCraftingPanelController>();
+    #endregion
+
+    private void Start()
+    {
+        InitializePanels();
+        UpdatePanel();
+    }
+
+    private void InitializePanels()
+    {
+        CEnchantCraftingRecipeDatabaseSO recipeDatabase = CDataBaseManager.Instance.EnchantCraftingRecipeDB;
+
+        for (int i = 0; i < recipeDatabase.Count; i++)
+        {
+            CEnchantCraftingPanelController panel = Instantiate(_panelPrefab, _panelLayout);
+
+            panel.InitializePanel(recipeDatabase[i]);
+
+            _panels.Add(panel);
+        }
+    }
+
+    public void UpdatePanel()
+    {
+        for (int i = 0; i < _panels.Count; i++)
+        {
+            if (IngredientCheck(_panels[i].RecipeData))
+            {
+                _panels[i].gameObject.SetActive(true);
+            }
+
+            else
+            {
+                _panels[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+
     private bool IngredientCheck(CEnchantCraftingRecipeDataSO recipe)
     {
         IReadOnlyList<CItemSlotData> invnetory = CInventoryManager.Instance.Inventory;
