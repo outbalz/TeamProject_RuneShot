@@ -1,11 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public abstract class CWeaponTriggerStrategySO : CGameDataSO
 {
+    public virtual bool IsAutomatic => false;
+
+    protected bool HasInvalidReferences(CProjectileDataSO projectileData, CProjectilePool pool, Vector2 direction)
+    {
+        if (projectileData == null || projectileData.Prefab == null || pool == null ||
+            !pool.isActiveAndEnabled || pool.Prefab != projectileData.Prefab || direction == Vector2.zero)
+        {
+            Debug.LogError("투사체 데이터, 풀, 프리팹 또는 발사 방향을 확인하세요.");
+            return true;
+        }
+
+        return false;
+    }
+
     public abstract UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction);
 }
