@@ -70,7 +70,6 @@ GameObject:
   - component: {fileID: 2344442353313218282}
   - component: {fileID: 70578492069737218}
   - component: {fileID: 6194405959580171548}
-  - component: {fileID: 8496779164990562459}
   - component: {fileID: 2426145308757645254}
   - component: {fileID: 7861532054912300001}
   - component: {fileID: 7861532054912300002}
@@ -297,7 +296,7 @@ MonoBehaviour:
   _interactionController: {fileID: 2426145308757645254}
   _hpHandler: {fileID: 1717773717688115804}
   _statusHandler: {fileID: 7861532054912300001}
-  _modifierHandler: {fileID: 8496779164990562459}
+  _modifierHandler: {fileID: 0}
 --- !u!95 &70578492069737218
 Animator:
   serializedVersion: 5
@@ -338,18 +337,6 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 4646929293568256905}
   _hitMask: {fileID: 5186906133742873614}
   _whiteFlashRenderer: {fileID: 1747761946901716647}
---- !u!114 &8496779164990562459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1912541226460858926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ae977458e927924ba753446903f3290, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2426145308757645254
 MonoBehaviour:
   m_ObjectHideFlags: 0
