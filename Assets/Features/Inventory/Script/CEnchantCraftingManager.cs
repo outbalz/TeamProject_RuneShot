@@ -105,9 +105,14 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
 
             for (int j = 0; j < invnetory.Count; j++)
             {
+                if(invnetory[j] == null)
+                {
+                    continue;
+                }
+
                 if (invnetory[j].Item == ingredientItem)
                 {
-                    int slotAmount = Mathf.Max(invnetory[j].Amount, amount);
+                    int slotAmount = Mathf.Min(invnetory[j].Amount, amount);
                     amount -= slotAmount;
 
                     CInventoryManager.RemoveFromInventory(j, slotAmount);
