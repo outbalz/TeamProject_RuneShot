@@ -7,6 +7,9 @@ public class CInventoryDebuggingTool : MonoBehaviour
     [SerializeField] private CItemDataSO _itemDataSO;
     [SerializeField] private int _amount;
 
+    [Space]
+    [SerializeField] private CItemDataSO[] _startItems;
+
     [ContextMenu("Add Item")]
     private void AddItem()
     {
@@ -16,5 +19,13 @@ public class CInventoryDebuggingTool : MonoBehaviour
             return;
         }
         CInventoryManager.AddToInventory(_itemDataSO, _amount);
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < _startItems.Length; i++)
+        {
+            CInventoryManager.AddToInventory(_startItems[i], _amount);
+        }
     }
 }
