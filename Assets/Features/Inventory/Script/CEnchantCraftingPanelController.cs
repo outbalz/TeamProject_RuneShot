@@ -8,6 +8,8 @@ public class CEnchantCraftingPanelController : MonoBehaviour
 {
 	#region 인스팩터
 	[SerializeField] private CEnchantCraftingRecipeDataSO _recipeData;
+
+    [SerializeField] private CanvasGroup _canvasGroup;
 	[SerializeField] private CItemIconController _resultItemIcon;
     [SerializeField] private TMP_Text _recipeNameText;
     [SerializeField] private CItemIconController _ingredientItemIconPrefab;
@@ -22,7 +24,8 @@ public class CEnchantCraftingPanelController : MonoBehaviour
 
     private void Awake()
     {
-        if(_resultItemIcon ==  null || _recipeNameText == null || _ingredientItemIconPrefab == null || _ingredientItemIconLayout == null || _craftButton == null)
+        if(_canvasGroup == null|| _resultItemIcon ==  null || _recipeNameText == null || 
+            _ingredientItemIconPrefab == null || _ingredientItemIconLayout == null || _craftButton == null)
         {
             Debug.LogWarning("인스펙터 요소 누락");
             gameObject.SetActive(false);
@@ -72,5 +75,20 @@ public class CEnchantCraftingPanelController : MonoBehaviour
     private void OnCraftButtonClicked()
     {
         CEnchantCraftingManager.Instance.CraftItem(_recipeData);
+    }
+
+    public void SetPanelActive(bool active)
+    {
+        if (active)
+        {
+            _canvasGroup.alpha = 1;
+            _canvasGroup.interactable = true;
+        }
+
+        else
+        {
+            _canvasGroup.alpha = 0.2f;
+            _canvasGroup.interactable = false;
+        }
     }
 }

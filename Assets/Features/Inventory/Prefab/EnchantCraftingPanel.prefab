@@ -596,7 +596,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.04150939, g: 0.04150939, b: 0.04150939, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -627,6 +627,7 @@ GameObject:
   - component: {fileID: 4343517696608034078}
   - component: {fileID: 5675424757760635775}
   - component: {fileID: 6533501175026028633}
+  - component: {fileID: 2199913874400735528}
   m_Layer: 5
   m_Name: EnchantCraftingPanel
   m_TagString: Untagged
@@ -710,6 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _recipeData: {fileID: 0}
+  _canvasGroup: {fileID: 2199913874400735528}
   _resultItemIcon: {fileID: 8458965544614058671}
   _recipeNameText: {fileID: 7342800750164031932}
   _ingredientItemIconPrefab: {fileID: 6784237619822908987, guid: ecd26122f1b3e3e40af90bfcd94ba99d, type: 3}
@@ -717,6 +719,18 @@ MonoBehaviour:
   - {fileID: 1910525861713270216}
   _ingredientItemIconLayout: {fileID: 911187349274785564}
   _craftButton: {fileID: 3745502755256951846}
+--- !u!225 &2199913874400735528
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139072180713212989}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1
 --- !u!1 &6885996873757040235
 GameObject:
   m_ObjectHideFlags: 0
