@@ -9,68 +9,80 @@ public class CWeapon : MonoBehaviour
     [SerializeField] private Transform _gunHolder;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private string _triggerActionName = "TriggerWeapon";
+    [SerializeField] private bool _usePlayerInput = true;
     #endregion
 
     #region 내부 변수
-    private CInputActionData _triggerInput;
-    private int _pendingShots;
+    private CPlayerWeaponInput _playerInput;
+    private float _nextFireTime;
+    #endregion
+
+    #region 프로퍼티
+    public bool IsAutomatic => _data != null && _data.Trigger != null && _data.Trigger.IsAutomatic;
     #endregion
 
     private void Start()
     {
-        if (_data == null || _data.Trigger == null || _data.Projectile == null ||
-            _data.Projectile.Prefab == null || _projectilePool == null ||
-            !_projectilePool.isActiveAndEnabled || _projectilePool.Prefab != _data.Projectile.Prefab ||
-            _gunHolder == null || _muzzle == null)
+        if (HasInvalidReferences())
         {
-            Debug.LogError("무기 데이터, 투사체 풀, GunHolder 또는 Muzzle이 비어있음.");
+            Debug.LogError("무기 데이터, 투사체 풀 또는 Muzzle이 비어있음");
             enabled = false;
             return;
         }
 
-        CInputDispatcher dispatcher = CInputDispatcher.Instance;
-
-        if (dispatcher == null ||
-            !dispatcher.InputActionMap.TryGetValue(_triggerActionName, out _triggerInput))
+        if (_usePlayerInput)
         {
-            Debug.LogError("TriggerWeapon Action이 없음");
-            enabled = false;
-            return;
-        }
+            if (_gunHolder == null)
+            {
+                Debug.LogError("GunHolder가 비어있음");
+                return;
+            }
 
-        _triggerInput.OnPerformedAction += InputTrigger;
+            _playerInput = GetComponent<CPlayerWeaponInput>();
+
+            if (_playerInput == null)
+            {
+                _playerInput = gameObject.AddComponent<CPlayerWeaponInput>();
+            }
+
+            _playerInput.Initialize(this, _gunHolder, _triggerActionName);
+        }
     }
 
     private void OnEnable()
     {
-        if (_triggerInput != null)
+        if (_playerInput != null)
         {
-            _triggerInput.OnPerformedAction += InputTrigger;
+            _playerInput.enabled = true;
         }
     }
 
     private void OnDisable()
     {
-        if (_triggerInput != null)
+        if (_playerInput != null)
         {
-            _triggerInput.OnPerformedAction -= InputTrigger;
+            _playerInput.enabled = false;
         }
-
-        _pendingShots = 0;
     }
 
-    private void InputTrigger()
+    private bool HasInvalidReferences()
     {
-        _pendingShots++;
+        return _data == null || _data.Trigger == null || _data.Projectile == null ||
+            _data.Projectile.Prefab == null || _projectilePool == null ||
+            !_projectilePool.isActiveAndEnabled || _projectilePool.Prefab != _data.Projectile.Prefab ||
+            _muzzle == null;
     }
 
-    private void LateUpdate()
+    public bool TryFire(Vector2 direction)
     {
-        for (int i = 0; i < _pendingShots; i++)
+        if (!isActiveAndEnabled || HasInvalidReferences() ||
+            direction == Vector2.zero || Time.time < _nextFireTime)
         {
-            _data.Trigger.TriggerWeapon(_data.Projectile, _projectilePool, _muzzle.position, _gunHolder.right).Forget();
+            return false;
         }
 
-        _pendingShots = 0;
+        _nextFireTime = Time.time + _data.FireInterval;
+        _data.Trigger.TriggerWeapon(_data.Projectile, _projectilePool, _muzzle.position, direction).Forget();
+        return true;
     }
 }

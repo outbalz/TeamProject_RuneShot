@@ -10,32 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6f50e388ea3be84bbb056a12128fe17, type: 3}
-  m_Name: ItemSO_Potion
+  m_Name: ItemSO_Manaherb
   m_EditorClassIdentifier: 
-  _id: ItemSO_Potion
-  _name: "\uD3EC\uC158"
-  _itemSprite: {fileID: 21300000, guid: abcb6839766484f83bcfbf47c8c4ba8c, type: 3}
-  _maxStack: 5
+  _id: Item_Manaherb
+  _name: "\uB9C8\uB825\uCD08"
+  _itemSprite: {fileID: 21300000, guid: 414ef8d59a7e44cffaef0875d5f26081, type: 3}
+  _maxStack: 10
   _itemType: 2
   _effect:
-  - rid: 5559903838880399360
-  - rid: 5559903838880399365
+  - rid: 5559903884550864898
   _condition:
-  - rid: 5559903838880399364
+  - rid: 5559903884550864899
   references:
     version: 2
     RefIds:
-    - rid: 5559903838880399360
-      type: {class: CItemEffectHeal, ns: , asm: Assembly-CSharp}
+    - rid: 5559903884550864898
+      type: {class: CItemEffectHealOverTime, ns: , asm: Assembly-CSharp}
       data:
         _healAmount: 10
-    - rid: 5559903838880399364
+        _duration: 30
+    - rid: 5559903884550864899
       type: {class: CPlayerHPLesserCondition, ns: , asm: Assembly-CSharp}
       data:
         _percentage: 1
         _allowEqual: 0
-    - rid: 5559903838880399365
-      type: {class: CItemEffectHealOverTime, ns: , asm: Assembly-CSharp}
-      data:
-        _healAmount: 30
-        _duration: 30
