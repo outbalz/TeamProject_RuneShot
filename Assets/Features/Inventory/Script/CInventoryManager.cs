@@ -81,6 +81,7 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 	#endregion
 
 	#region 프로퍼티
+	public IReadOnlyList<CItemSlotData> Inventory => _inventory;
 	#endregion
 
 	#region 인덱서
@@ -93,6 +94,11 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 
 		//_inventory = new CItemSlotData[_inventorySize];
 		//_inventorySlots = new CItemSlotController[_inventorySize];
+
+		if(_itemSlotLayout == null || _itemSlotPrefab == null)
+		{
+			Debug.LogWarning("아이템 슬롯 요소 누락");
+		}
 
 		InitializeInventory();
     }
@@ -139,7 +145,7 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 
 		for (int i = 0; i < inst._inventory.Count; i++)
 		{
-			if (inst._inventorySlots[i].SlotType != EItemtype.None && item.ItemType != inst._inventorySlots[i].SlotType)
+			if (inst._inventorySlots[i].SlotType != EItemtype.None)
 			{
 				continue;
             }
@@ -150,6 +156,7 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 
 				if(amount <= 0)
 				{
+					CEnchantCraftingManager.Instance.UpdatePanelIfActive();
 					return true;
 				}
 			}
@@ -186,6 +193,7 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 				leftAmount = amount - item.MaxStack;
 			}
 
+			CEnchantCraftingManager.Instance.UpdatePanelIfActive();
 			return true;
 		}
 
@@ -199,8 +207,9 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 		if(inst._inventory[index].AddToSlot(item, amount, out leftAmount))
 		{
 			inst._inventorySlots[index].UpdateSlot(item);
-			
-			return true;
+
+            CEnchantCraftingManager.Instance.UpdatePanelIfActive();
+            return true;
 		}
 
 		leftAmount = amount;
@@ -225,6 +234,7 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 
         inst._inventory[index] = null;
         inst._inventorySlots[index].UpdateSlot(null);
+        CEnchantCraftingManager.Instance.UpdatePanelIfActive();
     }
 
 	public static void RemoveFromInventory(int index, int amount)
@@ -247,10 +257,12 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 		{
 			inst._inventory[index] = null;
 			inst._inventorySlots[index].UpdateSlot(null);
-			return;
+            CEnchantCraftingManager.Instance.UpdatePanelIfActive();
+            return;
 		}
 
         inst._inventorySlots[index].UpdateSlot(inst._inventory[index].Item);
+        CEnchantCraftingManager.Instance.UpdatePanelIfActive();
     }
 
 	public static CItemSlotData GetSlotData(int index)

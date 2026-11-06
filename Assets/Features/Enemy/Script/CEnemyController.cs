@@ -4,40 +4,80 @@ using UnityEngine;
 
 public class CEnemyController : MonoBehaviour
 {
-     
-    [SerializeField] private float _attackRange = 2f;
+    #region 인스펙터
+    [SerializeField] protected CEnemy _enemy;
+    [SerializeField] protected CEnemyFSM _enemyFSM;
+    [SerializeField] protected CEnemyAttack _attack;
+    [SerializeField] protected CEnemyMove _move;
+    [SerializeField] protected CEnemyIdle _idle;
+    [SerializeField] protected CEnemyDeath _death;
+    [SerializeField] protected CEnemyReturn _return;
+    #endregion
 
-    private CEnemyMeleeAttack _enemy;
+    #region 내부변수 
+    protected Vector3 _setPosition;
+    protected float distance = 0;
+    #endregion
 
-    private CEnemyAttack _attack;
-    private CEnemyMove _move;
-    private CEnemyIdle _idle;
-
-    
-    private void Awake()
-    { 
-        _enemy = GetComponent<CEnemyMeleeAttack>();
-
-        _attack = GetComponent<CEnemyAttack>();
-        _move = GetComponent<CEnemyMove>();
-        _idle = GetComponent<CEnemyIdle>();
-    }
-    private void Update()
+    protected virtual void Awake()
     {
-         
-       if (_enemy.PlayerTr != null && (_enemy.PlayerTr.transform.position - transform.position).magnitude <= _attackRange)
-       { 
-            _enemy.SetControll(_attack);  
-       }
-       else if (_enemy.PlayerTr != null)
-       {
-            _enemy.SetControll(_move);
-       }
-       else
-       {
-            _enemy.SetControll(_idle);
-       }
+        #region Getcomponent
+        if (_enemyFSM == null)
+        {
+            _enemyFSM = GetComponent<CEnemyFSM>();
+        }
+        if(_enemy == null)
+        {
+            _enemy = GetComponent<CEnemy>();
+        }
+        
+        if( _attack == null)
+        {
+            _attack = GetComponent<CEnemyAttack>();
+        }
+        if(_move == null)
+        {
+            _move = GetComponent<CEnemyMove>();
+        }
+        if(_idle == null)
+        {
+            _idle = GetComponent<CEnemyIdle>();
+        }
 
-        _enemy.Action();
+        if(_death == null)
+        {
+            _death = GetComponent<CEnemyDeath>();
+        }
+        if(_return == null)
+        {
+            _return = GetComponent<CEnemyReturn>();
+        }
+        #endregion
+
+        _setPosition = transform.position; 
+        
+    }
+    protected virtual void Update()
+    {
+        if (_enemy.PlayerTr != null)
+        {
+            distance = (_enemy.PlayerTr.transform.position - transform.position).magnitude;
+        }
+
+        if (_enemy.PlayerTr == null && (_setPosition - transform.position).sqrMagnitude < 0.1f)
+        {
+            _enemyFSM.SetControll(_idle);
+        }
+        else if (_enemy.PlayerTr == null)
+        {
+            _enemyFSM.SetControll(_return);
+        }
+
+        //if(!_enemy.Die())
+        //{
+        //    _enemyFSM.SetControll(_death);
+        //}
+
+        
     }
 }

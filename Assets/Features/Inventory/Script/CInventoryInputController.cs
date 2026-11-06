@@ -164,7 +164,13 @@ public class CInventoryInputController : MonoBehaviour
 
         if (slot != null && slot.Item != null)
         {
-            slot.Item.OnUse();
+            if (slot.Item.OnUse())
+            {
+                if (slot.Item.ItemType == EItemtype.Consumable)
+                {
+                    CInventoryManager.RemoveFromInventory(slotIndex, 1);
+                }
+            }
         }
 
         //Debug.Log(slotIndex);
