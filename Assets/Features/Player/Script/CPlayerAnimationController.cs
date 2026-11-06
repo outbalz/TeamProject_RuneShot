@@ -3,6 +3,9 @@
 public class CPlayerAnimationController : MonoBehaviour
 {
     #region 인스펙터
+    [SerializeField] private SPUM_Prefabs _spumPrefabs;
+    [SerializeField] private Transform _visualRoot;
+    [SerializeField] private Transform _gunHolder;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private SpriteMask _hitMask;
@@ -19,6 +22,11 @@ public class CPlayerAnimationController : MonoBehaviour
     private bool _wasHit;
     private float _hitFlashTimer;
     private string _currentAnimation;
+    private SpriteRenderer[] _spumRenderers;
+    private Color[] _spumColors;
+    private Vector3 _visualScale;
+    private PlayerState _currentSpumAnimation;
+    private bool _hasSpumAnimation;
     #endregion
 
     private void Awake()
@@ -42,6 +50,11 @@ public class CPlayerAnimationController : MonoBehaviour
             Debug.LogError("WhiteFlash 스프라이트가 비어있음");
             enabled = false;
             return;
+        }
+
+        if (_spumPrefabs != null)
+        {
+            InitializeSpum();
         }
 
         // 흰색 점멸 초기 설정
@@ -74,12 +87,25 @@ public class CPlayerAnimationController : MonoBehaviour
 
     private void LateUpdate()
     {
-        UpdateHitMask();
+        if (_spumPrefabs != null)
+        {
+            UpdateSpumVisualDirection();
+        }
+        else
+        {
+            UpdateHitMask();
+        }
     }
 
     // 플레이어 상태에 따른 애니메이션 변경
     private void UpdateAnimation()
     {
+        if (_spumPrefabs != null)
+        {
+            UpdateSpumAnimation();
+            return;
+        }
+
         EPlayerState state = _stateController.CurrentState;
 
         // 사망 애니메이션
@@ -230,6 +256,12 @@ public class CPlayerAnimationController : MonoBehaviour
     // 피격 및 무적 효과
     private void UpdateHitEffect()
     {
+        if (_spumPrefabs != null)
+        {
+            UpdateSpumHitEffect();
+            return;
+        }
+
         EPlayerState state = _stateController.CurrentState;
 
         if (state == EPlayerState.Dead)
@@ -312,5 +344,169 @@ public class CPlayerAnimationController : MonoBehaviour
         scale.y = sprite.bounds.size.y / whiteSprite.bounds.size.y;
 
         _whiteFlashRenderer.transform.localScale = scale;
+    }
+
+    // SPUM은 기존 플레이어 상태를 외형 애니메이션으로만 연결
+    private void InitializeSpum()
+    {
+        if (_visualRoot == null || _gunHolder == null || _spumPrefabs._anim == null ||
+            _spumPrefabs._anim.runtimeAnimatorController == null ||
+            _spumPrefabs.IDLE_List.Count == 0 || _spumPrefabs.IDLE_List[0] == null ||
+            _spumPrefabs.MOVE_List.Count == 0 || _spumPrefabs.MOVE_List[0] == null ||
+            _spumPrefabs.DEATH_List.Count == 0 || _spumPrefabs.DEATH_List[0] == null)
+        {
+            Debug.LogError("SPUM 외형 또는 기본 애니메이션 참조가 비어있음");
+            enabled = false;
+            return;
+        }
+
+        Transform bodyRoot = _spumPrefabs._anim.transform.Find("Root");
+
+        if (bodyRoot == null)
+        {
+            Debug.LogError("SPUM Root가 비어있음");
+            enabled = false;
+            return;
+        }
+
+        // 그림자와 기존 GunHolder는 제외하고 몸 부위의 원래 색상을 보관
+        _spumRenderers = bodyRoot.GetComponentsInChildren<SpriteRenderer>(true);
+        _spumColors = new Color[_spumRenderers.Length];
+
+        for (int i = 0; i < _spumRenderers.Length; i++)
+        {
+            _spumColors[i] = _spumRenderers[i].color;
+        }
+
+        _visualScale = _visualRoot.localScale;
+        _spumPrefabs.OverrideControllerInit();
+        _animator.enabled = false;
+        _spriteRenderer.enabled = false;
+    }
+
+    private void UpdateSpumAnimation()
+    {
+        EPlayerState state = _stateController.CurrentState;
+
+        if (state == EPlayerState.Dead)
+        {
+            PlaySpumAnimation(PlayerState.DEATH);
+            return;
+        }
+
+        if (state == EPlayerState.Hit)
+        {
+            return;
+        }
+
+        if (state == EPlayerState.Move || state == EPlayerState.Roll)
+        {
+            PlaySpumAnimation(PlayerState.MOVE);
+        }
+        else
+        {
+            PlaySpumAnimation(PlayerState.IDLE);
+        }
+    }
+
+    // 마우스 조준 방향에 따른 외형
+    private void UpdateSpumVisualDirection()
+    {
+        if (_visualRoot == null || _gunHolder == null)
+        {
+            return;
+        }
+
+        EPlayerState state = _stateController.CurrentState;
+
+        // 피격 및 사망 중에는 기존 방향 유지
+        if (state == EPlayerState.Hit || state == EPlayerState.Dead)
+        {
+            return;
+        }
+
+        float directionX;
+
+        // 구르기 중에는 구르기 방향 사용
+        if (state == EPlayerState.Roll)
+        {
+            directionX = _roll.RollDirection.x;
+        }
+        else
+        {
+            // 일반 상태에서는 마우스 조준 방향 사용
+            directionX = _gunHolder.right.x;
+        }
+
+        Vector3 scale = _visualRoot.localScale;
+
+        // SPUM 기본 외형은 왼쪽을 바라보는 상태
+        if (directionX > 0.05f)
+        {
+            scale.x = -Mathf.Abs(_visualScale.x);
+        }
+        else if (directionX < -0.05f)
+        {
+            scale.x = Mathf.Abs(_visualScale.x);
+        }
+        else
+        {
+            return;
+        }
+
+        _visualRoot.localScale = scale;
+    }
+
+    // 같은 애니메이션은 다시 시작하지 않음
+    private void PlaySpumAnimation(PlayerState animation)
+    {
+        if (_hasSpumAnimation && _currentSpumAnimation == animation)
+        {
+            return;
+        }
+
+        _spumPrefabs.PlayAnimation(animation, 0);
+        _currentSpumAnimation = animation;
+        _hasSpumAnimation = true;
+    }
+
+    // 여러 부위의 피격 및 무적 점멸. 흰색 실루엣은 별도 대응 필요
+    private void UpdateSpumHitEffect()
+    {
+        EPlayerState state = _stateController.CurrentState;
+        float alpha = 1.0f;
+
+        if (state == EPlayerState.Hit)
+        {
+            if (!_wasHit)
+            {
+                _hitFlashTimer = 0.0f;
+                _wasHit = true;
+            }
+
+            _hitFlashTimer += Time.deltaTime;
+
+            if (Mathf.FloorToInt(_hitFlashTimer / 0.05f) % 2 == 0)
+            {
+                alpha = 0.4f;
+            }
+        }
+        else
+        {
+            _wasHit = false;
+
+            if (state != EPlayerState.Dead && _hpHandler.IsHitInvincible &&
+                Mathf.PingPong(Time.time * 6.0f, 1.0f) < 0.5f)
+            {
+                alpha = 0.4f;
+            }
+        }
+
+        for (int i = 0; i < _spumRenderers.Length; i++)
+        {
+            Color color = _spumColors[i];
+            color.a *= alpha;
+            _spumRenderers[i].color = color;
+        }
     }
 }
