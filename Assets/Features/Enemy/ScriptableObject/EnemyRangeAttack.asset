@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: 2
   _name: RangeAttack
   _maxHp: 80
-  _movementSpeed: 5
+  _movementSpeed: 2
   _healRate: 1
   _weaponSpread: 1
   _weaponSpreadHeapfire: 1.4
@@ -24,3 +24,4 @@ MonoBehaviour:
   _weaponDamage: 2
   _reloadSpeed: 4
   _detectionDistance: 10
+  _attackRange: 6
