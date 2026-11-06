@@ -7,11 +7,13 @@ public class CDataBaseManager : CSingletonDontDstroyAtLoad<CDataBaseManager>
 	#region 인스팩터
 	[SerializeField] private CWeaponDatabaseSO _weaponDB;
 	[SerializeField] private CPrefabDatabaseSO _prefabDB;
-	#endregion
+	[SerializeField] private CEnchantCraftingRecipeDatabaseSO _enchantCraftingRecipeDB;
+    #endregion
 
-	#region 
-	public CWeaponDatabaseSO WeaponDB => _weaponDB;
+    #region 
+    public CWeaponDatabaseSO WeaponDB => _weaponDB;
 	public CPrefabDatabaseSO PrefabDB => _prefabDB;
-	#endregion
+	public CEnchantCraftingRecipeDatabaseSO EnchantCraftingRecipeDB => _enchantCraftingRecipeDB;
+    #endregion
 
 }

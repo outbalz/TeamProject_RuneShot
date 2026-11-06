@@ -68,3 +68,12 @@ public class CPlayerHPGreaterCondition : CCondition
         return false;
     }
 }
+
+[Serializable]
+public class CNotUseableCondition : CCondition
+{
+    public override bool CheckCondition()
+    {
+        return false;
+    }
+}
