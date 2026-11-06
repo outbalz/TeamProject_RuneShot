@@ -50,6 +50,7 @@ MonoBehaviour:
   _gunHolder: {fileID: 3406150681989994273}
   _muzzle: {fileID: 7861532054912300012}
   _triggerActionName: TriggerWeapon
+  _usePlayerInput: 1
 --- !u!1 &1912541226460858926
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +755,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5298852443925502804, guid: b24b24a1878dfa24891e5e98ca961a88, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b0ec251157defd047820397b2e26c3b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
