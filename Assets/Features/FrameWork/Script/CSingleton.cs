@@ -15,6 +15,7 @@ public abstract class CSingleton<T> : MonoBehaviour where T : MonoBehaviour
             {
                 var go = new GameObject(typeof(T).ToString());
                 _instance = go.AddComponent<T>();
+                Debug.Log($"[CSingleton] {typeof(T).ToString()} 인스턴스가 존재하지 않아 새로 생성되었습니다.");
             }
 
             return _instance;
