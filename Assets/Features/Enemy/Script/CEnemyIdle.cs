@@ -1,62 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CEnemyIdle : MonoBehaviour, IEnemyControllInterface
 {
-    private NavMeshAgent _navMove;
+    #region 인스펙터
+    [SerializeField] private Animator _aniIdle;
+    #endregion
 
-    private float _time;
-    private float _timeInterval = 3f;
-    private Coroutine _coroutine;
-
-    private Vector3 _setPosition;
+    #region 내부변수 
+    private string _move = "IMove";
+    #endregion
 
     private void Awake()
-    {
-        _navMove = GetComponent<NavMeshAgent>();
-
-        _setPosition = transform.position;
+    { 
+        if(_aniIdle == null)
+        {
+            _aniIdle = GetComponent<Animator>();
+        } 
     }
     public void ActionEnter(Transform PlayerTr)
     {
         Debug.Log("Enter Idle");
-
-        _navMove.stoppingDistance = 0f;
-
-        if (_coroutine != null)
-        {
-            StopCoroutine(_coroutine);
-        }
-
-        _coroutine = StartCoroutine(COReturnPosition());
-
+         
+        _aniIdle.SetInteger(_move, 0);
     }
     public void ActionUpdate(Transform PlayerTr)
-    {
-        
+    { 
+
     }
 
     public void ActionExit()
     {
-        Debug.Log("Exit Idle");
-
-        if (_coroutine != null)
-        {
-            StopCoroutine(_coroutine);
-        }
+        Debug.Log("Exit Idle"); 
     }
-
-    IEnumerator COReturnPosition()
-    {
-        while (_time < _timeInterval)
-        {
-            _time += Time.deltaTime;
-            yield return null;
-        }
-
-        _navMove.destination = _setPosition;
-        _time = 0;
-    }
+     
 }

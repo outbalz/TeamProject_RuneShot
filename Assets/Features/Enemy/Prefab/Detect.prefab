@@ -80,3 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8833fcdda0c332e4aaff252767dd0347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _MonsterRangelayer:
+    serializedVersion: 2
+    m_Bits: 72
