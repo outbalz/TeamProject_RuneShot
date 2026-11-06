@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e5cf1e16c0aa54f9219b7da6c25186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _status: {fileID: 7861532054912300002}
+  _status: {fileID: 7861532054912300001}
   _hitDuration: 0.15
   _hitInvincibleDuration: 1
 --- !u!114 &2344442353313218282
