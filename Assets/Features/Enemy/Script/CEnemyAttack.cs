@@ -1,30 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEngine; 
+using UnityEngine;
 
 public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 {
     #region 인스펙터
-    [SerializeField] private CEnemy _enemy;
-    [SerializeField] private Animator _aniAttack;
+    [SerializeField] protected CEnemy _enemy;
+    [SerializeField] protected Animator _aniAttack;
     #endregion
 
     #region 내부변수
-    private float _attackInterval;
-    private float _time;
-    private string _attack = "TAttack";
-    private CPlayerHPHandler _playerHP;
-    private float _damage;
+    protected float _attackInterval;
+    protected float _time;
+    protected string _attack = "TAttack";
+    protected CPlayerHPHandler _playerHP;
+    protected float _damage;
     #endregion
 
     private void Awake()
     {
-        if( _enemy == null )
+        if (_enemy == null)
         {
             _enemy = GetComponent<CEnemy>();
         }
-        if( _aniAttack == null )
+        if (_aniAttack == null)
         {
             _aniAttack = GetComponent<Animator>();
         }
@@ -32,17 +32,17 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
         _damage = _enemy.Enemydata.WeaponDamage;
     }
-     
+
     public void ActionEnter(Transform PlayerTr)
     {
         Debug.Log("Enter Attack");
-        if(_playerHP == null )
+        if (_playerHP == null)
         {
             _playerHP = PlayerTr.GetComponent<CPlayerHPHandler>();
         }
     }
-    public void ActionUpdate(Transform PlayerTr)
-    { 
+    public virtual void ActionUpdate(Transform PlayerTr)
+    {
         if (PlayerTr == null || _playerHP == null)
         {
             return;
@@ -50,9 +50,9 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 
         Flip(PlayerTr);
 
-         _time += Time.deltaTime;
+        _time += Time.deltaTime;
 
-        if( _time < _attackInterval )
+        if (_time < _attackInterval)
         {
             return;
         }
@@ -61,13 +61,13 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 
         _aniAttack.SetTrigger(_attack);
         _time = 0;
-         
+
     }
 
     public void ActionExit()
     {
         Debug.Log("Exit Attack");
-        _time = 0; 
+        _time = 0;
     }
     private void Flip(Transform PlayerTr)
     {
@@ -81,11 +81,11 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
         }
     }
     private void Rotation(Transform PlayerTr)
-    { 
-        Quaternion rot = Quaternion.Euler(90f,0 , 0);
+    {
+        Quaternion rot = Quaternion.Euler(90f, 0, 0);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(PlayerTr.position - transform.position) * rot, 0.2f);
 
-        transform.eulerAngles = new Vector3(0,0, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
     }
 }
