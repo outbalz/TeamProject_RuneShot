@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RecipeSO_Potion_Haste
   m_EditorClassIdentifier: 
   _id: Recipe_Potion_Haste
-  _name: "\uC2E0\uC18D\uD3EC\uC158 \uC870\uD569\uBC95"
+  _name: "\uD3EC\uC158\uC5F0\uAE08: \uC2E0\uC18D\uD3EC\uC158"
   _ingredient:
   - _ingredientItem: {fileID: 11400000, guid: 02191d6ad107f344e9025571e036b821, type: 2}
     _amount: 1

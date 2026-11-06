@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,8 @@ public class CEnchantCraftingPanelController : MonoBehaviour
 	#region 인스팩터
 	[SerializeField] private CEnchantCraftingRecipeDataSO _recipeData;
 	[SerializeField] private CItemIconController _resultItemIcon;
-	[SerializeField] private CItemIconController _ingredientItemIconPrefab;
+    [SerializeField] private TMP_Text _recipeNameText;
+    [SerializeField] private CItemIconController _ingredientItemIconPrefab;
 	[SerializeField] private List<CItemIconController> _ingredientItemIcons = new List<CItemIconController>();
     [SerializeField] private Transform _ingredientItemIconLayout;
     [SerializeField] private Button _craftButton;
@@ -17,6 +19,16 @@ public class CEnchantCraftingPanelController : MonoBehaviour
     #region 프로퍼티
     public CEnchantCraftingRecipeDataSO RecipeData => _recipeData;
     #endregion
+
+    private void Awake()
+    {
+        if(_resultItemIcon ==  null || _recipeNameText == null || _ingredientItemIconPrefab == null || _ingredientItemIconLayout == null || _craftButton == null)
+        {
+            Debug.LogWarning("인스펙터 요소 누락");
+            gameObject.SetActive(false);
+            enabled = false;
+        }
+    }
 
     public void InitializePanel(CEnchantCraftingRecipeDataSO recipe)
     {
@@ -31,6 +43,7 @@ public class CEnchantCraftingPanelController : MonoBehaviour
             return;
         }
 
+        _recipeNameText.text = _recipeData.Name;
         _resultItemIcon.SetItemData(_recipeData.Result, _recipeData.Amount);
 
         for (int i = 0; i < _recipeData.Ingredients.Length; i++)

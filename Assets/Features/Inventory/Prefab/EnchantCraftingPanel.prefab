@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 6489805690631952418}
   - component: {fileID: 7342800750164031932}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NameText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -711,8 +711,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _recipeData: {fileID: 0}
   _resultItemIcon: {fileID: 8458965544614058671}
+  _recipeNameText: {fileID: 7342800750164031932}
   _ingredientItemIconPrefab: {fileID: 6784237619822908987, guid: ecd26122f1b3e3e40af90bfcd94ba99d, type: 3}
-  _ingredientItemIcons: []
+  _ingredientItemIcons:
+  - {fileID: 1910525861713270216}
   _ingredientItemIconLayout: {fileID: 911187349274785564}
   _craftButton: {fileID: 3745502755256951846}
 --- !u!1 &6885996873757040235
@@ -1084,6 +1086,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecd26122f1b3e3e40af90bfcd94ba99d, type: 3}
+--- !u!114 &1910525861713270216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6784237619822908987, guid: ecd26122f1b3e3e40af90bfcd94ba99d, type: 3}
+  m_PrefabInstance: {fileID: 4946633602667316211}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8f93a3bf3fb7440b83a617ad87e145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2608051605342578992 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6959275355264510659, guid: ecd26122f1b3e3e40af90bfcd94ba99d, type: 3}
