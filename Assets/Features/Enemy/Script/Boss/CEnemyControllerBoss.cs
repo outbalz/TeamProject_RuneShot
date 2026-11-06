@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class CEnemyControllerBoss : CEnemyController
 {
-   
-
+    
     protected override void Awake()
     {
-        base.Awake();  
+        base.Awake();
+        if(_attack == null)
+        {
+            _attack = GetComponent<CEnemyAttackBoss>();
+        }
     }
     protected override void Update()
     { 
