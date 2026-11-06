@@ -7,10 +7,12 @@ public class CWeaponDataSO : CGameDataSO
     [SerializeField] private CProjectileDataSO _projectile;
     [SerializeField] private CWeaponTriggerStrategySO _trigger;
     [SerializeField] private CWeaponReloadStrategySO _reload;
+    [SerializeField, Min(0.0f)] private float _fireInterval;
     #endregion
 
     #region 프로퍼티
     public CProjectileDataSO Projectile => _projectile;
     public CWeaponTriggerStrategySO Trigger => _trigger;
+    public float FireInterval => _fireInterval;
     #endregion
 }
