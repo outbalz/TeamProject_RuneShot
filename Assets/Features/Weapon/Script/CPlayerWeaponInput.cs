@@ -20,7 +20,7 @@ public class CPlayerWeaponInput : MonoBehaviour
         _weapon = weapon;
         _gunHolder = gunHolder;
         _pendingShots = 0;
-        CInputDispatcher dispatcher = FindObjectOfType<CInputDispatcher>();
+        CInputDispatcher dispatcher = CInputDispatcher.Instance;
         CInputActionData input;
 
         if (dispatcher == null || !dispatcher.InputActionMap.TryGetValue(actionName, out input) ||
