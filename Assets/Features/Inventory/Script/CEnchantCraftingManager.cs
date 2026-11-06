@@ -39,12 +39,12 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
         {
             if (IngredientCheck(_panels[i].RecipeData))
             {
-                _panels[i].gameObject.SetActive(true);
+                //_panels[i].gameObject.SetActive(true);
             }
 
             else
             {
-                _panels[i].gameObject.SetActive(false);
+                //_panels[i].gameObject.SetActive(false);
             }
         }
     }
@@ -62,6 +62,11 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
 
             for (int j = 0; j < invnetory.Count; j++)
             {
+                if(invnetory[j] == null)
+                {
+                    continue;
+                }
+
                 if (invnetory[j].Item == ingredientItem)
                 {
                     amount -= invnetory[j].Amount;

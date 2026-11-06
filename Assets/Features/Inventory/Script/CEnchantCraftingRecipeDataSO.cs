@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "SO/GameDataSO/EnchantCraftingRecipeSO", fileName = "RecipeSO_")]
 public class CEnchantCraftingRecipeDataSO : CGameDataSO
 {
     [System.Serializable]

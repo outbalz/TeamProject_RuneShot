@@ -10,10 +10,12 @@ public enum EItemtype
 	None,
 	Weapon,
 	Consumable,
-	Mics,
+    Ingredient,
+    Ammunition,
+    Mics,
 }
 
-[CreateAssetMenu(menuName = "SO/ItemSO", fileName ="ItemSO_")]
+[CreateAssetMenu(menuName = "SO/GameDataSO/ItemSO", fileName ="ItemSO_")]
 public class CItemDataSO : CGameDataSO
 {
 	#region 인스팩터
