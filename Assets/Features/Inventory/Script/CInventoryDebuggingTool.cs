@@ -18,14 +18,14 @@ public class CInventoryDebuggingTool : MonoBehaviour
             Debug.LogWarning("ItemDataSO is not assigned.");
             return;
         }
-        CInventoryManager.AddToInventory(_itemDataSO, _amount);
+        CInventoryManager.Instance.AddToInventory(_itemDataSO, _amount);
     }
 
     private void Start()
     {
         for (int i = 0; i < _startItems.Length; i++)
         {
-            CInventoryManager.AddToInventory(_startItems[i], _amount);
+            CInventoryManager.Instance.AddToInventory(_startItems[i], _amount);
         }
     }
 }

@@ -119,7 +119,7 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
                     int slotAmount = Mathf.Min(invnetory[j].Amount, amount);
                     amount -= slotAmount;
 
-                    CInventoryManager.RemoveFromInventory(j, slotAmount);
+                    CInventoryManager.Instance.RemoveFromInventory(j, slotAmount);
 
                     if (amount <= 0)
                     {
@@ -130,7 +130,7 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
 
         }
 
-        CInventoryManager.AddToInventory(recipe.Result, recipe.Amount);
+        CInventoryManager.Instance.AddToInventory(recipe.Result, recipe.Amount);
     }
 
     public void UpdatePanelIfActive()

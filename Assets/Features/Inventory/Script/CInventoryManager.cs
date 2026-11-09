@@ -67,7 +67,19 @@ public class CItemSlotData
 	}
 }
 
-public class CInventoryManager : CSingleton<CInventoryManager> 
+public interface IitemContainer
+{
+
+	public IReadOnlyList<CItemSlotData> Inventory { get; }
+	public CItemSlotData this[int index] { get; }
+	public bool AddToInventory(CItemDataSO item, int amount);
+    public bool AddToInventory(CItemDataSO item, int index, int amount, out int leftAmount);
+	public void RemoveFromInventory(int index);
+	public void RemoveFromInventory(int index, int amount);
+	//public int GetItemAmount(int index);
+}
+
+public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
 {
 	#region 인스팩터
 	[SerializeField] private Transform _itemSlotLayout;
@@ -91,9 +103,6 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 	protected override void Awake()
     {
 		base.Awake();
-
-		//_inventory = new CItemSlotData[_inventorySize];
-		//_inventorySlots = new CItemSlotController[_inventorySize];
 
 		if(_itemSlotLayout == null || _itemSlotPrefab == null)
 		{
@@ -128,29 +137,20 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 			}
 
 			_inventory.Add(null);
-            //_inventorySlots[i] = slot;
-            _inventorySlots[i].InitializeSlot(i);
+            _inventorySlots[i].InitializeSlot(i, this, null);
         }
     }
 
-    public static bool AddToInventory(CItemDataSO item, int amount)
+    public bool AddToInventory(CItemDataSO item, int amount)
     {
-        if (Instance == null)
-        {
-            Debug.LogWarning("아이탬 메니저 인스턴스 누락");
-            return false;
-        }
-
-        CInventoryManager inst = Instance;
-
-		for (int i = 0; i < inst._inventory.Count; i++)
+		for (int i = 0; i <_inventory.Count; i++)
 		{
-			if (inst._inventorySlots[i].SlotType != EItemtype.None)
+			if (_inventorySlots[i].SlotType != EItemtype.None)
 			{
 				continue;
             }
 
-			if (inst._inventory[i] == null || inst._inventory[i].Item == item)
+			if (_inventory[i] == null || _inventory[i].Item == item)
 			{
 				AddToInventory(item, i, amount, out amount);
 
@@ -166,22 +166,14 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 		return false;
     }
 
-    public static bool AddToInventory(CItemDataSO item, int index, int amount, out int leftAmount)
+    public bool AddToInventory(CItemDataSO item, int index, int amount, out int leftAmount)
 	{
-		if (Instance == null)
-		{
-			Debug.LogWarning("아이탬 메니저 인스턴스 누락");
-			leftAmount = amount;
-			return false;
-		}
 
-        CInventoryManager inst = Instance;
-
-		if(inst._inventory[index] == null)
+		if(_inventory[index] == null)
 		{
 
-			inst._inventory[index] = new CItemSlotData(item, amount);
-			inst._inventorySlots[index].UpdateSlot(item);
+			_inventory[index] = new CItemSlotData(item, amount);
+			_inventorySlots[index].UpdateSlot(item);
 
 			if (amount <= item.MaxStack)
 			{
@@ -197,16 +189,16 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 			return true;
 		}
 
-		if(inst._inventory[index].Item != item && inst._inventory[index].Item != null)
+		if(_inventory[index].Item != item && _inventory[index].Item != null)
 		{
 			Debug.Log("이미 이 아이템 슬롯을 점유하고 있음");
 			leftAmount = amount;
 			return false;
 		}
 
-		if(inst._inventory[index].AddToSlot(item, amount, out leftAmount))
+		if(_inventory[index].AddToSlot(item, amount, out leftAmount))
 		{
-			inst._inventorySlots[index].UpdateSlot(item);
+			_inventorySlots[index].UpdateSlot(item);
 
             CEnchantCraftingManager.Instance.UpdatePanelIfActive();
             return true;
@@ -216,72 +208,49 @@ public class CInventoryManager : CSingleton<CInventoryManager>
 		return false;
     }
 
-	public static void RemoveFromInventory(int index)
+	public void RemoveFromInventory(int index)
 	{
-		if (Instance == null)
-		{
-			Debug.LogWarning("아이탬 메니저 인스턴스 누락");
-			return;
-		}
 
-		CInventoryManager inst = Instance;
 
-        if (inst._inventory[index] == null)
+        if (_inventory[index] == null)
         {
             Debug.LogWarning("이 아이템슬롯은 이미 비어있음");
             return;
         }
 
-        inst._inventory[index] = null;
-        inst._inventorySlots[index].UpdateSlot(null);
+        _inventory[index] = null;
+        _inventorySlots[index].UpdateSlot(null);
         CEnchantCraftingManager.Instance.UpdatePanelIfActive();
     }
 
-	public static void RemoveFromInventory(int index, int amount)
+	public void RemoveFromInventory(int index, int amount)
 	{
-		if (Instance == null)
-		{
-			Debug.LogWarning("아이탬 메니저 인스턴스 누락");
-			return;
-		}
 
-		CInventoryManager inst = Instance;
-
-        if (inst._inventory[index] == null)
+        if (_inventory[index] == null)
         {
             Debug.LogWarning("이 아이템슬롯은 이미 비어있음");
             return;
         }
 
-		if (!inst._inventory[index].RemoveFormSlot(amount))
+		if (!_inventory[index].RemoveFormSlot(amount))
 		{
-			inst._inventory[index] = null;
-			inst._inventorySlots[index].UpdateSlot(null);
+			_inventory[index] = null;
+			_inventorySlots[index].UpdateSlot(null);
             CEnchantCraftingManager.Instance.UpdatePanelIfActive();
             return;
 		}
 
-        inst._inventorySlots[index].UpdateSlot(inst._inventory[index].Item);
+        _inventorySlots[index].UpdateSlot(_inventory[index].Item);
         CEnchantCraftingManager.Instance.UpdatePanelIfActive();
     }
-
-	public static CItemSlotData GetSlotData(int index)
+	/*
+	public CItemSlotData GetSlotData(int index)
 	{
-		if(Instance == null)
-		{
-			return null;
-		}
-
-		return Instance._inventory[index];
+		return _inventory[index];
 	}
-
-	public static int GetItemAmount(int index)
+	public int GetItemAmount(int index)
 	{
-		if (Instance == null)
-		{
-			return 0;
-		}
-
-		return Instance._inventory[index].Amount;
+		return _inventory[index].Amount;
 	}
+	*/
 }
