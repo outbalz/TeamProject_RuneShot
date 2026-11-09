@@ -87,7 +87,7 @@ public class CEnchantCraftingPanelController : MonoBehaviour
 
         else
         {
-            _canvasGroup.alpha = 0.2f;
+            _canvasGroup.alpha = 0.4f;
             _canvasGroup.interactable = false;
         }
     }
