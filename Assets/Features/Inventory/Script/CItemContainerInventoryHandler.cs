@@ -7,7 +7,7 @@ public class CItemContainerInventoryHandler : MonoBehaviour, IitemContainer
     #region 인스팩터
     [SerializeField] private Transform _itemSlotLayout;
     [SerializeField] private CItemSlotController _itemSlotPrefab;
-    [SerializeField] private int _inventorySize = 25;
+    [SerializeField] private int _inventorySize;
     [SerializeField] private List<CItemSlotController> _inventorySlots;
     #endregion
 
@@ -31,11 +31,12 @@ public class CItemContainerInventoryHandler : MonoBehaviour, IitemContainer
             Debug.LogWarning("아이템 슬롯 요소 누락");
         }
 
-        InitializeInventory();
     }
 
-    private void InitializeInventory()
+    public void InitializeInventory(int inventorySize)
     {
+        _inventorySize = inventorySize;
+
         if (_itemSlotPrefab == null)
         {
             Debug.LogWarning("아이템 슬롯 프리팹 누락");
