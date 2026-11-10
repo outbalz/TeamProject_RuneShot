@@ -8,20 +8,13 @@ public interface IRewardable
 }
 
 [System.Serializable]
-public class CLootTable
-{
-    public string LootTableName;
-    public List<CLootTableElement> LootTableElements;
-}
-
-[System.Serializable]
 public class CLootTableElement
 {
     #region 인스팩터
     [SerializeField] private float _weight;
     [SerializeField] private List<string> _modifiers;
-    [SerializeField] private IRewardable _element;
-    [SerializeField] private float _luckModifier;
+    [SerializeReference, SubclassSelector] private IRewardable _element;
+    [SerializeField] private float _luckModifier = 1;
     #endregion
 
     #region 프로퍼티
@@ -47,48 +40,57 @@ public class CLootTableElement
 
             modifier = modifier * _luckModifier;
 
-            return weight + modifier; 
+            return Mathf.Max(0, weight + modifier); 
         }
     }
     #endregion
 }
 
-public class CLootTableManager : CSingleton<CLootTableManager>
+[System.Serializable]
+public class CItemReward : IRewardable
 {
     #region 인스팩터
-    [SerializeField] private List<CLootTable> _lootTables;
+    [SerializeField, Min(0)] private int _minAmount;
+    [SerializeField, Min(0)] private int _maxAmount;
+    [SerializeField] private CItemDataSO _item;
     #endregion
 
-    #region 내부변수
-    private Dictionary<string, CLootTable> _lootTableMap = new Dictionary<string, CLootTable>();
+
+    #region 프로퍼티
+    public int MinAmount => _minAmount;
+    public int MaxAmount => _maxAmount;
+    public CItemDataSO Item => _item;
     #endregion
 
-    protected override void Awake()
+}
+
+[System.Serializable]
+public class CSkillReward : IRewardable
+{
+    #region 인스팩터
+    [SerializeField] private CSkillDataSO _skill;
+    #endregion
+
+    #region 프로퍼티
+    public CSkillDataSO Skill => _skill;
+    #endregion
+}
+
+public class CLootTableManager : CSingleton<CLootTableManager>
+{
+
+    public static CLootTableDataSO GetLootTable(string id)
     {
-        base.Awake();
-
-        for (int i = 0; i < _lootTables.Count; i++)
-        {
-            if (string.IsNullOrWhiteSpace(_lootTables[i].LootTableName))
-            {
-                continue;
-            }
-
-            _lootTableMap.Add(_lootTables[i].LootTableName, _lootTables[i]);
-        }
-    }
-
-    public static CLootTable GetLootTable(string lootTableName)
-    {
-        if (!Instance._lootTableMap.ContainsKey(lootTableName))
+        CLootTableDataSO lootTable;
+        if (!CDataBaseManager.Instance.LootTableDB.TryGet(id, out lootTable))
         {
             return null;
         }
 
-        return Instance._lootTableMap[lootTableName];
+        return lootTable;
     }
 
-    public static IRewardable[] GetLootTableElements(string lootTableName, int amount = 1)
+    public static IRewardable[] GetLootTableElements(string id, int amount = 1)
     {
         if (amount <= 0)
         {
@@ -100,16 +102,17 @@ public class CLootTableManager : CSingleton<CLootTableManager>
 
         for (int i = 0; i < amount; i++)
         {
-            rewards[i] = Instance.GetLootTableElement(lootTableName);
+            rewards[i] = Instance.GetLootTableElement(id);
         }
 
         return rewards;
     }
 
-    private IRewardable GetLootTableElement(string lootTableName)
+    private IRewardable GetLootTableElement(string id)
     {
-        CLootTable lootTable = _lootTableMap[lootTableName];
-        
+        CLootTableDataSO lootTable;
+        CDataBaseManager.Instance.LootTableDB.TryGet(id, out lootTable);
+
         float ranMax = 0;
 
         for (int i = 0; i < lootTable.LootTableElements.Count; i++)
