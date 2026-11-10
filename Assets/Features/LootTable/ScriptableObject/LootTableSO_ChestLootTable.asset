@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3bc3182d286bd2488c474b7aa08882c, type: 3}
+  m_Name: LootTableSO_ChestLootTable
+  m_EditorClassIdentifier: 
+  _id: LootTable_ChestLootTable
+  _name: LootTable_ChestLootTable
+  _lootTableElements:
+  - _weight: 1
+    _modifiers: []
+    _element:
+      rid: 5559903975761510400
+    _luckModifier: 0
+  - _weight: 2
+    _modifiers:
+    - luck
+    _element:
+      rid: 5559903975761510401
+    _luckModifier: 1
+  - _weight: 1
+    _modifiers:
+    - luck
+    _element:
+      rid: 5559903975761510403
+    _luckModifier: 1
+  - _weight: 2
+    _modifiers:
+    - luck
+    _element:
+      rid: 5559903975761510404
+    _luckModifier: 1
+  - _weight: 0.5
+    _modifiers:
+    - luck
+    _element:
+      rid: 5559903975761510405
+    _luckModifier: 2
+  - _weight: 0.3
+    _modifiers:
+    - luck
+    _element:
+      rid: 5559903975761510406
+    _luckModifier: 2
+  references:
+    version: 2
+    RefIds:
+    - rid: 5559903975761510400
+      type: {class: CItemReward, ns: , asm: Assembly-CSharp}
+      data:
+        _minAmount: 0
+        _maxAmount: 0
+        _item: {fileID: 0}
+    - rid: 5559903975761510401
+      type: {class: CItemReward, ns: , asm: Assembly-CSharp}
+      data:
+        _minAmount: 1
+        _maxAmount: 10
+        _item: {fileID: 11400000, guid: 02191d6ad107f344e9025571e036b821, type: 2}
+    - rid: 5559903975761510403
+      type: {class: CItemReward, ns: , asm: Assembly-CSharp}
+      data:
+        _minAmount: 1
+        _maxAmount: 5
+        _item: {fileID: 11400000, guid: 8e74a07b6c661d04d931d55866d307c5, type: 2}
+    - rid: 5559903975761510404
+      type: {class: CItemReward, ns: , asm: Assembly-CSharp}
+      data:
+        _minAmount: 1
+        _maxAmount: 5
+        _item: {fileID: 11400000, guid: 1bb2c225c3219804398339ab519ee025, type: 2}
+    - rid: 5559903975761510405
+      type: {class: CItemReward, ns: , asm: Assembly-CSharp}
+      data:
+        _minAmount: 1
+        _maxAmount: 2
+        _item: {fileID: 11400000, guid: 8cf1c157838a28349af23efcf2e48114, type: 2}
+    - rid: 5559903975761510406
+      type: {class: CItemReward, ns: , asm: Assembly-CSharp}
+      data:
+        _minAmount: 1
+        _maxAmount: 2
+        _item: {fileID: 11400000, guid: 463c00064baa9d74b92dbca98be857b9, type: 2}
