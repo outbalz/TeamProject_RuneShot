@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class CEnemyController : MonoBehaviour
 {
-    #region ¿ŒΩ∫∆Â≈Õ
-    [SerializeField] List<EnemyBaseSO> stateSOList; 
-    
+    #region ¿ŒΩ∫∆Â≈Õ 
     [SerializeField] protected CEnemy _enemy;
     [SerializeField] protected CEnemyFSM _enemyFSM;
     [SerializeField] protected CEnemyAttack _attack;
