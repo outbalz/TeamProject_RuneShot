@@ -1283,6 +1283,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8738026982332127506, guid: a651eecb4238f3148b3f85b367674804, type: 3}
+      propertyPath: m_AnimatedTiles.Array.data[0].second.m_AnimationSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738026982332127506, guid: a651eecb4238f3148b3f85b367674804, type: 3}
       propertyPath: m_AnimatedTiles.Array.data[1].second.m_AnimationSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -2263,7 +2267,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146951003554941036, guid: aeefc8a0a6e216b4b9ce8a3e8c51f174, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.00091552734
       objectReference: {fileID: 0}
     - target: {fileID: 5237808444646914900, guid: aeefc8a0a6e216b4b9ce8a3e8c51f174, type: 3}
       propertyPath: m_AnchorMax.y

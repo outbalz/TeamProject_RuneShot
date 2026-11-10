@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(CItemContainerInventoryHandler))]
 public class CLootChestController : MonoBehaviour, IInteractable
@@ -9,7 +8,7 @@ public class CLootChestController : MonoBehaviour, IInteractable
     #region 인스팩터
     [SerializeField] private CLootChestDataSO _data;
     [SerializeField] private CItemContainerInventoryHandler _inventory;
-    [SerializeField] private Image _image;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     #endregion
 
     #region 내부변수
@@ -28,15 +27,16 @@ public class CLootChestController : MonoBehaviour, IInteractable
             }
         }
 
-        if(_image == null)
+        if(_spriteRenderer == null)
         {
-            if(!TryGetComponent<Image>(out _image))
+            if(!TryGetComponent<SpriteRenderer>(out _spriteRenderer))
             {
-                Debug.LogWarning("아이템 컨테이너 스프라이티 이미지 컴포넌트 누락");
+                Debug.LogWarning("스프라이트 렌더러 누락");
                 enabled = false;
                 return;
             }
         }
+
 
         if(_data == null)
         {
@@ -44,6 +44,8 @@ public class CLootChestController : MonoBehaviour, IInteractable
             enabled = false;
             return;
         }
+
+        _spriteRenderer.sprite = _data.ChestSprite;
     }
 
     public void Interact()
@@ -87,7 +89,7 @@ public class CLootChestController : MonoBehaviour, IInteractable
 
     //for test=================
 
-    [ContextMenu("DebuggingTest")]
+    [ContextMenu("DebuggingTest(OpenChest)")]
     private void ChestOpenTest()
     {
         _isOpend = false;
