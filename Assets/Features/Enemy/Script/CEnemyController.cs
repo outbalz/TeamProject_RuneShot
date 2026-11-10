@@ -5,6 +5,8 @@ using UnityEngine;
 public class CEnemyController : MonoBehaviour
 {
     #region ¿ŒΩ∫∆Â≈Õ
+    [SerializeField] List<EnemyBaseSO> stateSOList; 
+    
     [SerializeField] protected CEnemy _enemy;
     [SerializeField] protected CEnemyFSM _enemyFSM;
     [SerializeField] protected CEnemyAttack _attack;
@@ -19,6 +21,7 @@ public class CEnemyController : MonoBehaviour
     protected float distance = 0;
     #endregion
 
+   
     protected virtual void Awake()
     {
         #region Getcomponent
@@ -54,11 +57,12 @@ public class CEnemyController : MonoBehaviour
         }
         #endregion
 
-        _setPosition = transform.position; 
-        
+        _setPosition = transform.position;
+
     }
     protected virtual void Update()
     {
+        
         if (_enemy.PlayerTr != null)
         {
             distance = (_enemy.PlayerTr.transform.position - transform.position).magnitude;
@@ -72,12 +76,6 @@ public class CEnemyController : MonoBehaviour
         {
             _enemyFSM.SetControll(_return);
         }
-
-        //if(!_enemy.Die())
-        //{
-        //    _enemyFSM.SetControll(_death);
-        //}
-
-        
+          
     }
 }
