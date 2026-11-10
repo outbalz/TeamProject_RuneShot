@@ -40,7 +40,7 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
             _itemImage.enabled = true;
             _amountText.enabled = true;
             _itemImage.sprite = _itemData.ItemSprite;
-            _amountText.text = $"{CInventoryManager.Instance[_slot.SlotIndex].Amount}";
+            _amountText.text = $"{_slot.ItemContainer[_slot.SlotIndex].Amount}";
         }
 
         else
@@ -82,16 +82,11 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
             return;
         }
 
-        if(slot.ItemContainer is CInventoryManager && _slot.ItemContainer is CInventoryManager)
-        {
-
-        }
-
-        int amount = CInventoryManager.Instance[_slot.SlotIndex].Amount;
-        int leftAmount;
-
         IitemContainer originContainer = _slot.ItemContainer;
         IitemContainer targetContainer = slot.ItemContainer;
+
+        int amount = originContainer[_slot.SlotIndex].Amount;
+        int leftAmount;
 
         CItemSlotData originSlotData = originContainer[_slot.SlotIndex];
         CItemSlotData targetSlotData = targetContainer[slot.SlotIndex];
@@ -103,8 +98,8 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
                 originContainer.RemoveFromInventory(_slot.SlotIndex);
                 targetContainer.RemoveFromInventory(slot.SlotIndex);
 
-                originContainer.AddToInventory(originSlotData.Item, slot.SlotIndex, originSlotData.Amount, out leftAmount);
-                targetContainer.AddToInventory(targetSlotData.Item, _slot.SlotIndex, targetSlotData.Amount, out leftAmount);
+                originContainer.AddToInventory(targetSlotData.Item, _slot.SlotIndex, originSlotData.Amount, out leftAmount);
+                targetContainer.AddToInventory(originSlotData.Item, slot.SlotIndex, targetSlotData.Amount, out leftAmount);
                 return;
             }
         }
