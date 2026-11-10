@@ -39,14 +39,12 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
         {
             if (IngredientCheck(_panels[i].RecipeData))
             {
-                //_panels[i].gameObject.SetActive(true);
                 _panels[i].SetPanelActive(true);
                 _panels[i].transform.SetAsFirstSibling();
             }
 
             else
             {
-                //_panels[i].gameObject.SetActive(false);
                 _panels[i].SetPanelActive(false);
                 _panels[i].transform.SetAsLastSibling();
             }
@@ -139,5 +137,11 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
         {
             UpdatePanel();
         }
+    }
+
+    public void ToggleUI()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+        UpdatePanelIfActive();
     }
 }
