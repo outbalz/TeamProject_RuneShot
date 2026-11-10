@@ -15,11 +15,17 @@ public class CWeapon : MonoBehaviour
     #region 내부 변수
     private CPlayerWeaponInput _playerInput;
     private float _nextFireTime;
+    private CPlayerStateController _playerState;
     #endregion
 
     #region 프로퍼티
     public bool IsAutomatic => _data != null && _data.Trigger != null && _data.Trigger.IsAutomatic;
     #endregion
+
+    private void Awake()
+    {
+        _playerState = GetComponentInParent<CPlayerStateController>();
+    }
 
     private void Start()
     {
@@ -77,6 +83,11 @@ public class CWeapon : MonoBehaviour
     {
         if (!isActiveAndEnabled || HasInvalidReferences() ||
             direction == Vector2.zero || Time.time < _nextFireTime)
+        {
+            return false;
+        }
+
+        if (_playerState != null && _playerState.CurrentState == EPlayerState.Dead)
         {
             return false;
         }

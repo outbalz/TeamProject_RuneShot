@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class CProjectile : MonoBehaviour
 {
+    #region 인스펙터
+    [SerializeField, Min(0.01f)] private float _collisionRadius = 0.05f;
+    #endregion
+
     #region 내부 변수
     private CProjectilePool _pool;
+    private CProjectileDataSO _data;
     private Vector2 _direction;
     private float _speed;
+    private float _damage;
     private float _remainingLifeTime;
     private bool _isReturned = true;
     #endregion
@@ -13,8 +20,10 @@ public class CProjectile : MonoBehaviour
     public void Initialize(CProjectileDataSO data, CProjectilePool pool, Vector3 position, Vector2 direction)
     {
         _pool = pool;
+        _data = data;
         _direction = direction.normalized;
         _speed = data.Speed;
+        _damage = data.Damage;
         _remainingLifeTime = data.LifeTime;
         _isReturned = false;
 
@@ -30,13 +39,57 @@ public class CProjectile : MonoBehaviour
             return;
         }
 
-        transform.position += (Vector3)(_direction * _speed * Time.deltaTime);
+        float moveTime = Mathf.Min(Time.deltaTime, _remainingLifeTime);
+        float distance = _speed * moveTime;
+
+        if (TryHit(distance))
+        {
+            return;
+        }
+
+        transform.position += (Vector3)(_direction * distance);
         _remainingLifeTime -= Time.deltaTime;
 
         if (_remainingLifeTime <= 0.0f)
         {
             ReturnToPool();
         }
+    }
+
+    private bool TryHit(float distance)
+    {
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, _collisionRadius, _direction, distance);
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            Collider2D collider = hits[i].collider;
+
+            if (collider.isTrigger || collider.GetComponentInParent<CPlayerStateController>() != null)
+            {
+                continue;
+            }
+
+            CEnemyHPHandler enemyHP = collider.GetComponentInParent<CEnemyHPHandler>();
+            CProjectileDataSO data = _data;
+            float damage = _damage;
+            transform.position = hits[i].centroid;
+
+            ReturnToPool();
+
+            if (enemyHP != null)
+            {
+                enemyHP.OnHit(damage).Forget();
+                data.OnHit().Forget();
+            }
+            else
+            {
+                data.OnImpact().Forget();
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public void ReturnToPool()
@@ -47,8 +100,10 @@ public class CProjectile : MonoBehaviour
         }
 
         _isReturned = true;
+        _data = null;
         _remainingLifeTime = 0.0f;
         _speed = 0.0f;
+        _damage = 0.0f;
         _direction = Vector2.zero;
         _pool.ReturnToPool(this);
     }
