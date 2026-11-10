@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "SO/GameDataSO/LootTableSO", fileName = "LootTableSO_")]
 public class CLootTableDataSO : CGameDataSO
 {
     #region 인스팩터

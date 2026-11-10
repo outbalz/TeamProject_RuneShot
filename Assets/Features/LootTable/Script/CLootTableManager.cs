@@ -13,9 +13,7 @@ public class CLootTableElement
     #region 인스팩터
     [SerializeField] private float _weight;
     [SerializeField] private List<string> _modifiers;
-    [SerializeField] private IRewardable _element;
-    [SerializeField, Min(0)] private int _minAmount;
-    [SerializeField, Min(0)] private int _maxAmount;
+    [SerializeReference, SubclassSelector] private IRewardable _element;
     [SerializeField] private float _luckModifier = 1;
     #endregion
 
@@ -45,6 +43,36 @@ public class CLootTableElement
             return Mathf.Max(0, weight + modifier); 
         }
     }
+    #endregion
+}
+
+[System.Serializable]
+public class CItemReward : IRewardable
+{
+    #region 인스팩터
+    [SerializeField, Min(0)] private int _minAmount;
+    [SerializeField, Min(0)] private int _maxAmount;
+    [SerializeField] private CItemDataSO _item;
+    #endregion
+
+
+    #region 프로퍼티
+    public int MinAmount => _minAmount;
+    public int MaxAmount => _maxAmount;
+    public CItemDataSO Item => _item;
+    #endregion
+
+}
+
+[System.Serializable]
+public class CSkillReward : IRewardable
+{
+    #region 인스팩터
+    [SerializeField] private CSkillDataSO _skill;
+    #endregion
+
+    #region 프로퍼티
+    public CSkillDataSO Skill => _skill;
     #endregion
 }
 

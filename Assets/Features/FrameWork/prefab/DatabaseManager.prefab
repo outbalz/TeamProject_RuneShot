@@ -47,3 +47,4 @@ MonoBehaviour:
   _weaponDB: {fileID: 11400000, guid: 407c1417400650849a045f3513101476, type: 2}
   _prefabDB: {fileID: 11400000, guid: 5fd49bea3a25f2447a70ee1aa3d9fe76, type: 2}
   _enchantCraftingRecipeDB: {fileID: 11400000, guid: 81c48cce66893294186ceeb71b99481a, type: 2}
+  _lootTableDB: {fileID: 11400000, guid: b03df4626669a2544aeacba0196e8e93, type: 2}
