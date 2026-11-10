@@ -5,8 +5,6 @@ using UnityEngine;
 public class CItemContainerInventoryHandler : MonoBehaviour, IitemContainer
 {
     #region 인스팩터
-    [SerializeField] private Transform _itemSlotLayout;
-    [SerializeField] private CItemSlotController _itemSlotPrefab;
     [SerializeField] private int _inventorySize;
     [SerializeField] private List<CItemSlotController> _inventorySlots;
     #endregion
@@ -17,50 +15,35 @@ public class CItemContainerInventoryHandler : MonoBehaviour, IitemContainer
 
     #region 프로퍼티
     public IReadOnlyList<CItemSlotData> Inventory => _inventory;
+    public int InventorySize => _inventorySize;
     #endregion
 
     #region 인덱서
     public CItemSlotData this[int index] => _inventory[index];
     #endregion
 
-    private void Awake()
-    {
-
-        if (_itemSlotLayout == null || _itemSlotPrefab == null)
-        {
-            Debug.LogWarning("아이템 슬롯 요소 누락");
-        }
-
-    }
 
     public void InitializeInventory(int inventorySize)
     {
+        CItemSlotController[] slots = CLootChestUIController.Instance.Slots;
+
         _inventorySize = inventorySize;
-
-        if (_itemSlotPrefab == null)
-        {
-            Debug.LogWarning("아이템 슬롯 프리팹 누락");
-            return;
-        }
-
+        _inventory.Clear();
+        _inventorySlots.Clear();
 
         for (int i = 0; i < _inventorySize; i++)
         {
-            if (_inventorySlots.Count - 1 < i)
+            _inventory.Add(null);
+
+            if( slots[i] == null)
             {
-
-                CItemSlotController slot = Instantiate(_itemSlotPrefab, _itemSlotLayout);
-
-                if (slot == null)
-                {
-                    continue;
-                }
-
-                _inventorySlots.Add(slot);
+                Debug.Log(i);
             }
 
-            _inventory.Add(null);
-            _inventorySlots[i].InitializeSlot(i, this, null);
+            CItemSlotController slot = slots[i];
+
+            slot.InitializeSlot(i, this, null);
+            _inventorySlots.Add(slot);
         }
     }
 
