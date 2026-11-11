@@ -89,10 +89,12 @@ public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
 
 	#region 내부변수
 	private List<CItemSlotData> _inventory = new List<CItemSlotData>();
+	private Dictionary<CItemDataSO, List<int>> _inventoryItemMap = new Dictionary<CItemDataSO, List<int>>();
 	#endregion
 
 	#region 프로퍼티
 	public IReadOnlyList<CItemSlotData> Inventory => _inventory;
+	public IReadOnlyDictionary<CItemDataSO, List<int>> InventoryItemMap => _inventoryItemMap;
 	#endregion
 
 	#region 인덱서
@@ -142,6 +144,21 @@ public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
 
     public bool AddToInventory(CItemDataSO item, int amount)
     {
+
+		if (_inventoryItemMap.ContainsKey(item))
+		{
+			for (int i = 0; i < _inventoryItemMap[item].Count; i++)
+			{
+				AddToInventory(item, _inventoryItemMap[item][i], amount, out amount);
+			}
+
+			if(amount <= 0)
+			{
+				CEnchantCraftingManager.Instance.UpdatePanelIfActive();
+				return true;
+			}
+		}
+
 		for (int i = 0; i <_inventory.Count; i++)
 		{
 			if (_inventorySlots[i].SlotType != EItemtype.None)
@@ -184,6 +201,16 @@ public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
 				leftAmount = amount - item.MaxStack;
 			}
 
+			if (_inventoryItemMap.ContainsKey(item))
+			{
+				_inventoryItemMap[item].Add(index);
+			}
+
+			else
+			{
+                _inventoryItemMap.Add(item, new List<int> {index});
+            }
+
 			CEnchantCraftingManager.Instance.UpdatePanelIfActive();
 			return true;
 		}
@@ -217,6 +244,20 @@ public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
             return;
         }
 
+		if (_inventoryItemMap.ContainsKey(_inventory[index].Item))
+		{
+			if (_inventoryItemMap[_inventory[index].Item].Count == 1)
+			{
+				_inventoryItemMap[_inventory[index].Item] = null;
+				_inventoryItemMap.Remove(_inventory[index].Item);
+			}
+
+			else
+			{
+				_inventoryItemMap[_inventory[index].Item].Remove(index);
+			}
+		}
+
         _inventory[index] = null;
         _inventorySlots[index].UpdateSlot(null);
         CEnchantCraftingManager.Instance.UpdatePanelIfActive();
@@ -232,8 +273,22 @@ public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
         }
 
 		if (!_inventory[index].RemoveFormSlot(amount))
-		{
-			_inventory[index] = null;
+        {
+            if (_inventoryItemMap.ContainsKey(_inventory[index].Item))
+            {
+                if (_inventoryItemMap[_inventory[index].Item].Count == 1)
+                {
+                    _inventoryItemMap[_inventory[index].Item] = null;
+                    _inventoryItemMap.Remove(_inventory[index].Item);
+                }
+
+                else
+                {
+                    _inventoryItemMap[_inventory[index].Item].Remove(index);
+                }
+            }
+
+            _inventory[index] = null;
 			_inventorySlots[index].UpdateSlot(null);
             CEnchantCraftingManager.Instance.UpdatePanelIfActive();
             return;
@@ -242,14 +297,4 @@ public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
         _inventorySlots[index].UpdateSlot(_inventory[index].Item);
         CEnchantCraftingManager.Instance.UpdatePanelIfActive();
     }
-	/*
-	public CItemSlotData GetSlotData(int index)
-	{
-		return _inventory[index];
-	}
-	public int GetItemAmount(int index)
-	{
-		return _inventory[index].Amount;
-	}
-	*/
 }
