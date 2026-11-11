@@ -6,7 +6,7 @@ public class CEnemy : MonoBehaviour
     [SerializeField]
     private CEnemyDetect _detectObject;
     [SerializeField]
-    private CEnemyStatusDataSO _enemydata;
+    private CEnemyStatusHandler _enemydata;
     #endregion
 
     #region 내부변수
@@ -15,7 +15,7 @@ public class CEnemy : MonoBehaviour
     #endregion
 
     #region 프로퍼티
-    public CEnemyStatusDataSO Enemydata => _enemydata;
+    public CEnemyStatusHandler Enemydata => _enemydata;
     public Transform PlayerTr { get { return _playerTr; } set { _playerTr = value; } }
     public bool IsAlive => _isAlive;
     #endregion
