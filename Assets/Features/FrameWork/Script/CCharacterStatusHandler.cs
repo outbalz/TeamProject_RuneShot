@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public abstract class CCharacterStatusHandler<T> : MonoBehaviour where T : CChar
     #endregion
 
     #region 프로퍼티
+    public event Action OnStatChange;
     public virtual float MaxHP
     {
         get { return GetStatusValue(_dataSO.MaxHP, "MaxHP"); }
@@ -72,6 +74,11 @@ public abstract class CCharacterStatusHandler<T> : MonoBehaviour where T : CChar
         result = _modifierHandler.GetModifiedValue(modifierName, baseVal);
 
         return result;
+    }
+
+    public void InvokeOnStatChange()
+    {
+        OnStatChange?.Invoke();
     }
 
 }
