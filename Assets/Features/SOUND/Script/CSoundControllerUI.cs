@@ -9,5 +9,17 @@ public class CSoundControllerUI : CSoundController
     {
         AudioSource.outputAudioMixerGroup = CSoundManager.Instance.UI;
     }
-      
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            PlaySound(SoundSO.Clips["Inventory"]);
+        }
+
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            PlaySound(SoundSO.Clips["Craft"]);
+        }
+        
+    }
 }
