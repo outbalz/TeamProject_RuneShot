@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: CSoundBackgroundSO
   m_EditorClassIdentifier: 
   cSoundData:
-    _AudioClipList: []
-    _AudioClipNames: []
+    _AudioClipList:
+    - {fileID: 8300000, guid: 033766cc31c97904bae4404b8a079544, type: 3}
+    _AudioClipNames:
+    - BattleMap

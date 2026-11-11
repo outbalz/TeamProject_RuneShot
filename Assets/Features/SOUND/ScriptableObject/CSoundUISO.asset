@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: CSoundUISO
   m_EditorClassIdentifier: 
   cSoundData:
-    _AudioClipList: []
-    _AudioClipNames: []
+    _AudioClipList:
+    - {fileID: 8300000, guid: 6dff165a6fca25e489a69d26a10ab6b9, type: 3}
+    - {fileID: 8300000, guid: 2e1c0edfc97324f3cbdc4ed5f343753b, type: 3}
+    _AudioClipNames:
+    - Inventory
+    - Craft
