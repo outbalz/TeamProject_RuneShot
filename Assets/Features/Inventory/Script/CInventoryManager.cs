@@ -76,7 +76,6 @@ public interface IitemContainer
     public bool AddToInventory(CItemDataSO item, int index, int amount, out int leftAmount);
 	public void RemoveFromInventory(int index);
 	public void RemoveFromInventory(int index, int amount);
-	//public int GetItemAmount(int index);
 }
 
 public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
