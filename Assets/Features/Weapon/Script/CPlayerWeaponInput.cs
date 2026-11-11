@@ -57,6 +57,11 @@ public class CPlayerWeaponInput : MonoBehaviour
         _pendingShots = 0;
     }
 
+    public void ClearPendingShots()
+    {
+        _pendingShots = 0;
+    }
+
     private void InputTrigger()
     {
         _pendingShots++;

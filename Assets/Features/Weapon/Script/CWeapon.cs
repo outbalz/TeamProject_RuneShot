@@ -29,7 +29,7 @@ public class CWeapon : MonoBehaviour
 
     private void Start()
     {
-        if (HasInvalidReferences())
+        if (HasInvalidReferences(_data))
         {
             Debug.LogError("무기 데이터, 투사체 풀 또는 Muzzle이 비어있음");
             enabled = false;
@@ -71,17 +71,40 @@ public class CWeapon : MonoBehaviour
         }
     }
 
-    private bool HasInvalidReferences()
+    private bool HasInvalidReferences(CWeaponDataSO data)
     {
-        return _data == null || _data.Trigger == null || _data.Projectile == null ||
-            _data.Projectile.Prefab == null || _projectilePool == null ||
-            !_projectilePool.isActiveAndEnabled || _projectilePool.Prefab != _data.Projectile.Prefab ||
+        return data == null || data.Trigger == null || data.Projectile == null ||
+            data.Projectile.Prefab == null || _projectilePool == null ||
+            !_projectilePool.isActiveAndEnabled || _projectilePool.Prefab != data.Projectile.Prefab ||
             _muzzle == null;
+    }
+
+    public bool EquipWeapon(CWeaponDataSO data)
+    {
+        if (HasInvalidReferences(data))
+        {
+            Debug.LogError("무기 데이터, 투사체 풀 또는 Muzzle이 비어있음");
+            return false;
+        }
+
+        if (_data == data)
+        {
+            return true;
+        }
+
+        _data = data;
+
+        if (_playerInput != null)
+        {
+            _playerInput.ClearPendingShots();
+        }
+
+        return true;
     }
 
     public bool TryFire(Vector2 direction)
     {
-        if (!isActiveAndEnabled || HasInvalidReferences() ||
+        if (!isActiveAndEnabled || HasInvalidReferences(_data) ||
             direction == Vector2.zero || Time.time < _nextFireTime)
         {
             return false;
