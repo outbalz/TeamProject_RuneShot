@@ -168,7 +168,7 @@ public class CInventoryInputController : MonoBehaviour
             {
                 if (slot.Item.ItemType == EItemtype.Consumable)
                 {
-                    CInventoryManager.RemoveFromInventory(slotIndex, 1);
+                    CInventoryManager.Instance.RemoveFromInventory(slotIndex, 1);
                 }
             }
         }

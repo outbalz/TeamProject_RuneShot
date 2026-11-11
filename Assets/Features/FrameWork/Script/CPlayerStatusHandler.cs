@@ -23,7 +23,8 @@ public class CPlayerStatusHandler : CCharacterStatusHandler<CPlayerStausDataSO>
 
     public override float WeaponSpread 
     { 
-        get { return GetStatusValue(_dataSO.WeaponSpread, "WeaponSpread"); }     }
+        get { return GetStatusValue(_dataSO.WeaponSpread, "WeaponSpread"); }     
+    }
 
     public override float WeaponSpreadHeapfire
     {

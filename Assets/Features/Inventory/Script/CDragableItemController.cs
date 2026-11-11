@@ -40,7 +40,7 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
             _itemImage.enabled = true;
             _amountText.enabled = true;
             _itemImage.sprite = _itemData.ItemSprite;
-            _amountText.text = $"{CInventoryManager.GetItemAmount(_slot.SlotIndex)}";
+            _amountText.text = $"{_slot.ItemContainer[_slot.SlotIndex].Amount}";
         }
 
         else
@@ -76,28 +76,37 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
             return;
         }
 
-        int amount = CInventoryManager.GetItemAmount(_slot.SlotIndex);
+        if(slot.ItemContainer == null || _slot.ItemContainer == null)
+        {
+            Debug.LogWarning("아이템 컨테이너 누락");
+            return;
+        }
+
+        IitemContainer originContainer = _slot.ItemContainer;
+        IitemContainer targetContainer = slot.ItemContainer;
+
+        int amount = originContainer[_slot.SlotIndex].Amount;
         int leftAmount;
 
-        CItemSlotData originSlotData = CInventoryManager.GetSlotData(_slot.SlotIndex);
-        CItemSlotData targetSlotData = CInventoryManager.GetSlotData(slot.SlotIndex);
+        CItemSlotData originSlotData = originContainer[_slot.SlotIndex];
+        CItemSlotData targetSlotData = targetContainer[slot.SlotIndex];
 
         if (targetSlotData != null)
         {
             if (targetSlotData.Item != _itemData)
             {
-                CInventoryManager.RemoveFromInventory(_slot.SlotIndex);
-                CInventoryManager.RemoveFromInventory(slot.SlotIndex);
+                originContainer.RemoveFromInventory(_slot.SlotIndex);
+                targetContainer.RemoveFromInventory(slot.SlotIndex);
 
-                CInventoryManager.AddToInventory(originSlotData.Item, slot.SlotIndex, originSlotData.Amount, out leftAmount);
-                CInventoryManager.AddToInventory(targetSlotData.Item, _slot.SlotIndex, targetSlotData.Amount, out leftAmount);
+                originContainer.AddToInventory(targetSlotData.Item, _slot.SlotIndex, originSlotData.Amount, out leftAmount);
+                targetContainer.AddToInventory(originSlotData.Item, slot.SlotIndex, targetSlotData.Amount, out leftAmount);
                 return;
             }
         }
 
-        if (CInventoryManager.AddToInventory(_itemData, slot.SlotIndex, amount, out leftAmount))
+        if (targetContainer.AddToInventory(_itemData, slot.SlotIndex, amount, out leftAmount))
         {
-            CInventoryManager.RemoveFromInventory(_slot.SlotIndex, amount - leftAmount);
+            originContainer.RemoveFromInventory(_slot.SlotIndex, amount - leftAmount);
         }
     }
 
