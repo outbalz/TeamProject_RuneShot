@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static Unity.VisualScripting.Member;
 
 public class CEnemyAttackBoss : CEnemyAttack
 {
@@ -19,6 +21,7 @@ public class CEnemyAttackBoss : CEnemyAttack
     private string _attackCharge = "IMove";
     private bool _isCharging;
     private float _chargeAttackSpeed = 10f;
+    private CancellationTokenSource _source;
     #endregion
 
     private void Awake()
@@ -76,9 +79,11 @@ public class CEnemyAttackBoss : CEnemyAttack
             ChangeAlpha(false);
             _aniAttack.SetTrigger(_attackRange);
         }
-        else
-        {  
-            ChargeAttack(PlayerTr).Forget();
+
+        else 
+        {
+            _source = new CancellationTokenSource();
+            ChargeAttack(PlayerTr,_source).Forget();
         }
          
         _time = 0;
@@ -119,7 +124,7 @@ public class CEnemyAttackBoss : CEnemyAttack
         _rangeAttack.color = colorRange;
     }
 
-    private async UniTask ChargeAttack(Transform PlayerTr)
+    private async UniTask ChargeAttack(Transform PlayerTr, CancellationTokenSource source)
     {
 
         IsCharging(true);
@@ -129,7 +134,7 @@ public class CEnemyAttackBoss : CEnemyAttack
             _navMove.SetDestination(PlayerTr.position);
         }
 
-        await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, cancellationToken: destroyCancellationToken);
+        await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, cancellationToken: destroyCancellationToken,source.IsCancellationRequested);
 
         IsCharging(false);
     }
@@ -180,12 +185,5 @@ public class CEnemyAttackBoss : CEnemyAttack
             transform.rotation = Quaternion.Euler(0, 180f, 0);
         }
     }
-    private void Rotation(Transform PlayerTr)
-    {
-        Quaternion rot = Quaternion.Euler(90f, 0, 0);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(PlayerTr.position - transform.position) * rot, 0.2f);
-
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
-    }
+   
 }
