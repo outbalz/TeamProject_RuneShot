@@ -2022,9 +2022,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29c749b36ad5914fa369f3fe16aa310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
-  _aniAttack: {fileID: 0}
-  _navMove: {fileID: 0}
+  _enemy: {fileID: 8492027645726006587}
+  _aniAttack: {fileID: 6950746572801166874}
+  _navMove: {fileID: 2778142347458383008}
   _meleeAttack: {fileID: 5264859269640265551}
   _rangeAttack: {fileID: 2892317310372394637}
 --- !u!114 &2421437862406488896
@@ -2039,13 +2039,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f7bbe0f6f68b44b23d458f0ef3959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
-  _enemyFSM: {fileID: 0}
-  _attack: {fileID: 0}
-  _move: {fileID: 0}
-  _idle: {fileID: 0}
-  _death: {fileID: 0}
-  _return: {fileID: 0}
+  _enemy: {fileID: 8492027645726006587}
+  _enemyFSM: {fileID: 8035123451245004838}
+  _attack: {fileID: 4357491387489169099}
+  _move: {fileID: 819483616670409676}
+  _idle: {fileID: 8399781234963918219}
+  _death: {fileID: 3231057657054042496}
+  _return: {fileID: 772073402868623363}
 --- !u!114 &8492027645726006587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,7 +2059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectObject: {fileID: -1032632159660435134, guid: fbca1830812baed42b1d86d3db6da985, type: 3}
-  _enemydata: {fileID: 11400000, guid: 0c427abc95da759479f38f314fd552b9, type: 2}
+  _enemydata: {fileID: 1633414142874394920}
 --- !u!114 &1488268992938186636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2072,13 +2072,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4f7bbe0f6f68b44b23d458f0ef3959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
-  _enemyFSM: {fileID: 0}
-  _attack: {fileID: 0}
-  _move: {fileID: 0}
-  _idle: {fileID: 0}
-  _death: {fileID: 0}
-  _return: {fileID: 0}
+  _enemy: {fileID: 8492027645726006587}
+  _enemyFSM: {fileID: 8035123451245004838}
+  _attack: {fileID: 4357491387489169099}
+  _move: {fileID: 819483616670409676}
+  _idle: {fileID: 8399781234963918219}
+  _death: {fileID: 3231057657054042496}
+  _return: {fileID: 772073402868623363}
 --- !u!114 &3231057657054042496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2117,9 +2117,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9254efa9cc121064a83a542d83afe0f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _status: {fileID: 0}
-  _enemy: {fileID: 0}
-  _aniHP: {fileID: 0}
+  _status: {fileID: 1633414142874394920}
+  _enemy: {fileID: 8492027645726006587}
+  _aniHP: {fileID: 6950746572801166874}
 --- !u!114 &8399781234963918219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2132,7 +2132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 589b6307957c46b4aa8dc5d789d4d5c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aniIdle: {fileID: 0}
+  _aniIdle: {fileID: 6950746572801166874}
 --- !u!114 &819483616670409676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2255,6 +2255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataSO: {fileID: 11400000, guid: 0c427abc95da759479f38f314fd552b9, type: 2}
+  _modifierHandler: {fileID: 0}
 --- !u!1 &2772452684905689719
 GameObject:
   m_ObjectHideFlags: 0
