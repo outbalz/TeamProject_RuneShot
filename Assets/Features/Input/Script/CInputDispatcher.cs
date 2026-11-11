@@ -399,4 +399,24 @@ public class CInputDispatcher : CSingleton<CInputDispatcher>
             InputAxisActionMap.Add(action.ActionName, action);
         }
     }
+
+    public void ToggleAction(string actionName, bool enable)
+    {
+        CInputActionData inputAction = InputActionMap[actionName];
+
+        if (inputAction == null)
+        {
+            return;
+        }
+
+        if (enable)
+        {
+            inputAction.Reference.action.Enable();
+        }
+
+        else
+        {
+            inputAction.Reference.action.Disable();
+        }
+    }
 }
