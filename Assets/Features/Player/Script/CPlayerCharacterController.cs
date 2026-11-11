@@ -8,11 +8,15 @@ public class CPlayerCharacterController : CSingleton<CPlayerCharacterController>
 	[SerializeField] private CPlayerInteractionController _interactionController;
 	[SerializeField] private CPlayerHPHandler _hpHandler;
 	[SerializeField] private CPlayerStatusHandler _statusHandler;
+	[SerializeField] private CModifierHandler _modifierHandler;
+	[SerializeField] private CWeapon _weapon;
 	#endregion
 
 	#region 프로퍼티
 	public CPlayerInteractionController InteractionController => _interactionController;
 	public CPlayerHPHandler HPhandler => _hpHandler;
 	public CPlayerStatusHandler Status => _statusHandler;
+	public CModifierHandler ModifierHandler => _modifierHandler;
+	public CWeapon Weapon => _weapon;
 	#endregion
 }
