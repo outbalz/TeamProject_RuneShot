@@ -15,5 +15,18 @@ public class CSoundManager : CSingletonDontDstroyAtLoad<CSoundManager>
     public AudioMixerGroup Master => _master;
     public AudioMixerGroup BackGround => _backGround;
     public AudioMixerGroup SFX => _sfx; 
-    public AudioMixerGroup UI => _ui; 
+    public AudioMixerGroup UI => _ui;
+
+    Transform _cameraTr;
+     
+    private void Start()
+    {
+        _cameraTr = Camera.main.transform;
+    }
+
+    private void Update()
+    { 
+        transform.position = _cameraTr.position;
+    }
 }
+
