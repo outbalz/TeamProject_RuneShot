@@ -39,14 +39,12 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
         {
             if (IngredientCheck(_panels[i].RecipeData))
             {
-                //_panels[i].gameObject.SetActive(true);
                 _panels[i].SetPanelActive(true);
                 _panels[i].transform.SetAsFirstSibling();
             }
 
             else
             {
-                //_panels[i].gameObject.SetActive(false);
                 _panels[i].SetPanelActive(false);
                 _panels[i].transform.SetAsLastSibling();
             }
@@ -119,7 +117,7 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
                     int slotAmount = Mathf.Min(invnetory[j].Amount, amount);
                     amount -= slotAmount;
 
-                    CInventoryManager.RemoveFromInventory(j, slotAmount);
+                    CInventoryManager.Instance.RemoveFromInventory(j, slotAmount);
 
                     if (amount <= 0)
                     {
@@ -130,7 +128,7 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
 
         }
 
-        CInventoryManager.AddToInventory(recipe.Result, recipe.Amount);
+        CInventoryManager.Instance.AddToInventory(recipe.Result, recipe.Amount);
     }
 
     public void UpdatePanelIfActive()
@@ -139,5 +137,11 @@ public class CEnchantCraftingManager : CSingleton<CEnchantCraftingManager>
         {
             UpdatePanel();
         }
+    }
+
+    public void ToggleUI()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+        UpdatePanelIfActive();
     }
 }
