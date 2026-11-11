@@ -24,12 +24,17 @@ public class CItemDataSO : CGameDataSO
 	[SerializeField] private EItemtype _itemType;
 	[SerializeReference, SubclassSelector] private CItemEffect[] _effect;
 	[SerializeReference, SubclassSelector] private CCondition[] _condition;
+
+	[Space]
+	[TextArea]
+	[SerializeField] private string _description;
 	#endregion
 
 	#region 프로퍼티
 	public Sprite ItemSprite => _itemSprite;
 	public int MaxStack => _maxStack;
 	public EItemtype ItemType => _itemType;
+	public string Description => _description;
 	#endregion
 
 	public bool OnUse()

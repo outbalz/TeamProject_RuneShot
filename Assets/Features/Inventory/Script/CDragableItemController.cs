@@ -112,11 +112,14 @@ public class CDragableItemController : MonoBehaviour, IDragHandler, IBeginDragHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //TODO Tolltip On
+        if (_itemData != null)
+        {
+            CTooltipController.ShowTooltip(_itemData.Name, _itemData.Description);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //TODO Tolltip Off
+        CTooltipController.HideTooltip();
     }
 }

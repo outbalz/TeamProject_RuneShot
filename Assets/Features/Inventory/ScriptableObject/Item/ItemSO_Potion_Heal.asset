@@ -22,6 +22,8 @@ MonoBehaviour:
   - rid: 5559903838880399365
   _condition:
   - rid: 5559903838880399364
+  _description: "\uC5F0\uAE08\uC2AC\uB85C \uC815\uC81C\uD55C \uCE58\uC720\uD3EC\uC158\n\uC989\uC2DC
+    \uCCB4\uB825 10\uD68C\uBCF5\n30\uCD08\uC5D0 \uAC78\uCC98 \uCCB4\uB825 30\uD68C\uBCF5"
   references:
     version: 2
     RefIds:
