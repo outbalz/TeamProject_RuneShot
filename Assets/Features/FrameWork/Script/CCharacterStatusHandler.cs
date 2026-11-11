@@ -6,18 +6,54 @@ public abstract class CCharacterStatusHandler<T> : MonoBehaviour where T : CChar
 {
     #region 인스팩터
     [SerializeField] protected T _dataSO;
+    [SerializeField] protected CModifierHandler _modifierHandler;
     #endregion
 
     #region 프로퍼티
-    public virtual float MaxHP => _dataSO.MaxHP;
-    public virtual float HealRate => _dataSO.HealRate;
-    public virtual float MovementSpeed => _dataSO.MovementSpeed;
-    public virtual float WeaponSpread => _dataSO.WeaponSpread;
-    public virtual float WeaponSpreadHeapfire => _dataSO.WeaponSpreadHeapfire;
-    public virtual float WeaponSpreadAimed => _dataSO.WeaponSpreadAimed;
-    public virtual float WeaponFireInterval => _dataSO.WeaponFireInterval;
-    public virtual float WeaponDamage => _dataSO.WeaponDamage;
-    public virtual float ReloadSpeed => _dataSO.ReloadSpeed;
+    public virtual float MaxHP
+    {
+        get { return GetStatusValue(_dataSO.MaxHP, "MaxHP"); }
+    }
+
+    public virtual float HealRate
+    {
+        get { return GetStatusValue(_dataSO.HealRate, "HealRate"); }
+    }
+
+    public virtual float MovementSpeed
+    {
+        get { return GetStatusValue(_dataSO.MovementSpeed, "MovementSpeed"); }
+    }
+
+    public virtual float WeaponSpread
+    {
+        get { return GetStatusValue(_dataSO.WeaponSpread, "WeaponSpread"); }
+    }
+
+    public virtual float WeaponSpreadHeapfire
+    {
+        get { return GetStatusValue(_dataSO.WeaponSpreadHeapfire, "WeaponSpreadHeapfire"); }
+    }
+
+    public virtual float WeaponSpreadAimed
+    {
+        get { return GetStatusValue(_dataSO.WeaponSpreadAimed, "WeaponSpreadAimed"); }
+    }
+
+    public virtual float WeaponFireInterval
+    {
+        get { return GetStatusValue(_dataSO.WeaponFireInterval, "WeaponFireInterval"); }
+    }
+
+    public virtual float WeaponDamage
+    {
+        get { return GetStatusValue(_dataSO.WeaponDamage, "WeaponDamage"); }
+    }
+
+    public virtual float ReloadSpeed
+    {
+        get { return GetStatusValue(_dataSO.ReloadSpeed, "ReloadSpeed"); }
+    }
     #endregion
 
     protected virtual void Awake()
@@ -28,6 +64,14 @@ public abstract class CCharacterStatusHandler<T> : MonoBehaviour where T : CChar
             enabled = false;
             return;
         }
+    }
+
+    protected virtual float GetStatusValue(float baseVal, string modifierName)
+    {
+        float result = baseVal;
+        result = _modifierHandler.GetModifiedValue(modifierName, baseVal);
+
+        return result;
     }
 
 }
