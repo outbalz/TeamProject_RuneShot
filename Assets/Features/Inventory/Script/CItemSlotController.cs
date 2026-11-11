@@ -11,17 +11,20 @@ public class CItemSlotController : MonoBehaviour, IDropHandler
     #endregion
 
     #region 내부변수
-    [SerializeField] private int _slotIndex;
+    private int _slotIndex;
+    private IitemContainer _itemContainer;
     #endregion
 
     #region 프로퍼티
     public int SlotIndex => _slotIndex;
     public EItemtype SlotType => _slotType;
+    public IitemContainer ItemContainer => _itemContainer;
     #endregion
 
-    public void InitializeSlot(int index, CItemDataSO item = null)
+    public void InitializeSlot(int index, IitemContainer container, CItemDataSO item = null)
     {
         _slotIndex = index;
+        _itemContainer = container;
         UpdateSlot(item);
     }
 
