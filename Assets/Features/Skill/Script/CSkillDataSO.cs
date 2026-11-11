@@ -11,7 +11,7 @@ public class CSkillDataSO : CGameDataSO
 
     public virtual void OnSkiilGet()
     {
-        CModifierHandler modifierHandler = CModifierHandler.Instance;
+        CModifierHandler modifierHandler = CPlayerCharacterController.Instance.ModifierHandler;
 
         for (int i = 0; i < _modifiers.Count; i++)
         {
@@ -21,7 +21,7 @@ public class CSkillDataSO : CGameDataSO
 
     public virtual void OnSkiilLost()
     {
-        CModifierHandler modifierHandler = CModifierHandler.Instance;
+        CModifierHandler modifierHandler = CPlayerCharacterController.Instance.ModifierHandler;
 
         for (int i = 0; i < _modifiers.Count; i++)
         {

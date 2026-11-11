@@ -35,7 +35,7 @@ public class CLootTableElement
 
             for (int i = 0; i < _modifiers.Count; i++)
             {
-                modifier = CModifierHandler.Instance.GetModifiedValue(_modifiers[i], modifier);
+                modifier = CPlayerCharacterController.Instance.ModifierHandler.GetModifiedValue(_modifiers[i], modifier);
             }
 
             modifier = modifier * _luckModifier;
