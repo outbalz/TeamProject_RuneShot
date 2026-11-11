@@ -26,23 +26,13 @@ public class CEnemyAttackBoss : CEnemyAttack
 
     private void Awake()
     {
-        if (_enemy == null)
+        if (_enemy == null || _aniAttack == null || _navMove == null)
         {
-            _enemy = GetComponent<CEnemy>();
+            Debug.Log("인스펙터 확인"); 
         }
-        if (_aniAttack == null)
-        {
-            _aniAttack = GetComponent<Animator>();
-        }
-        if(_navMove == null)
-        { 
-            _navMove = GetComponent<NavMeshAgent>();
-        }
-
+        
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
-        _damage = _enemy.Enemydata.WeaponDamage;
-
-
+        _damage = _enemy.Enemydata.WeaponDamage; 
     }
 
     public override void ActionUpdate(Transform PlayerTr)

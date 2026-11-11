@@ -20,15 +20,11 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 
     private void Awake()
     {
-        if (_enemy == null)
+        if (_enemy == null || _aniAttack == null)
         {
-            _enemy = GetComponent<CEnemy>();
+            Debug.Log("인스펙터 확인");
         }
-        if (_aniAttack == null)
-        {
-            _aniAttack = GetComponent<Animator>();
-        }
-
+          
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
         _damage = _enemy.Enemydata.WeaponDamage;
     }

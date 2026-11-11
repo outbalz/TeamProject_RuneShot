@@ -22,6 +22,11 @@ public class CEnemy : MonoBehaviour
 
     protected virtual void Awake()
     {
+        if(_detectObject == null || _enemydata == null)
+        {
+            Debug.Log("인스펙터 확인");
+        }
+
         Debug.Log("디텍트 오브젝트 생성");
         //Instantiate(_detectObject, transform.position + -transform.right/2 * _enemydata.DetectionDistance, transform.rotation,transform); 
         Instantiate(_detectObject,transform);
@@ -30,7 +35,7 @@ public class CEnemy : MonoBehaviour
     public bool Die()
     {
         _isAlive = false;
-          
+        
         return _isAlive;
     }
 }
