@@ -6,6 +6,7 @@ public class CPlayerWeaponInput : MonoBehaviour
     private CWeapon _weapon;
     private Transform _gunHolder;
     private CInputActionData _triggerInput;
+    private CInputActionData _reloadInput;
     private int _pendingShots;
     #endregion
 
@@ -15,6 +16,12 @@ public class CPlayerWeaponInput : MonoBehaviour
         {
             _triggerInput.OnPerformedAction -= InputTrigger;
             _triggerInput = null;
+        }
+
+        if (_reloadInput != null)
+        {
+            _reloadInput.OnPerformedAction -= InputReload;
+            _reloadInput = null;
         }
 
         _weapon = weapon;
@@ -33,9 +40,24 @@ public class CPlayerWeaponInput : MonoBehaviour
 
         _triggerInput = input;
 
+        if (dispatcher.InputActionMap.TryGetValue("ReloadWeapon", out CInputActionData reloadInput) &&
+            reloadInput.Reference != null && reloadInput.Reference.action != null)
+        {
+            _reloadInput = reloadInput;
+        }
+        else
+        {
+            Debug.LogWarning("ReloadWeapon 입력 참조가 비어있음");
+        }
+
         if (isActiveAndEnabled)
         {
             _triggerInput.OnPerformedAction += InputTrigger;
+        }
+
+        if (isActiveAndEnabled && _reloadInput != null)
+        {
+            _reloadInput.OnPerformedAction += InputReload;
         }
     }
 
@@ -44,6 +66,10 @@ public class CPlayerWeaponInput : MonoBehaviour
         if (_triggerInput != null)
         {
             _triggerInput.OnPerformedAction += InputTrigger;
+        }
+        if (_reloadInput != null)
+        {
+            _reloadInput.OnPerformedAction += InputReload;
         }
     }
 
@@ -54,7 +80,20 @@ public class CPlayerWeaponInput : MonoBehaviour
             _triggerInput.OnPerformedAction -= InputTrigger;
         }
 
+        if (_reloadInput != null)
+        {
+            _reloadInput.OnPerformedAction -= InputReload;
+        }
+
         _pendingShots = 0;
+    }
+
+    private void InputReload()
+    {
+        if (_weapon != null)
+        {
+            _weapon.TryReload();
+        }
     }
 
     public void ClearPendingShots()

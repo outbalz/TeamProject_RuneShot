@@ -18,3 +18,6 @@ MonoBehaviour:
   _trigger: {fileID: 11400000, guid: 29d9b18d28fe4ac7a1076cd830b2bfa1, type: 2}
   _reload: {fileID: 0}
   _fireInterval: 0.12
+  _magazineSize: 30
+  _reloadTime: 1.5
+  _ammoItem: {fileID: 11400000, guid: 72a8e526e3a142b992e5bb514e29b148, type: 2}

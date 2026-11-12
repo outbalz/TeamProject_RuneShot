@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CWeapon : MonoBehaviour
 {
@@ -16,15 +17,39 @@ public class CWeapon : MonoBehaviour
     private CPlayerWeaponInput _playerInput;
     private float _nextFireTime;
     private CPlayerStateController _playerState;
+    private CPlayerStatusHandler _playerStatus;
+    private readonly Dictionary<CWeaponDataSO, int> _magazines = new Dictionary<CWeaponDataSO, int>();
+    private IitemContainer _ammoSource;
+    private float _reloadEndTime;
     #endregion
 
     #region 프로퍼티
     public bool IsAutomatic => _data != null && _data.Trigger != null && _data.Trigger.IsAutomatic;
+    public bool IsReloading { get; private set; }
+
+    public int MagazineAmmo
+    {
+        get
+        {
+            if (_data == null)
+            {
+                return 0;
+            }
+
+            if (_magazines.TryGetValue(_data, out int amount))
+            {
+                return amount;
+            }
+
+            return _data.MagazineSize;
+        }
+    }
     #endregion
 
     private void Awake()
     {
         _playerState = GetComponentInParent<CPlayerStateController>();
+        _playerStatus = GetComponentInParent<CPlayerStatusHandler>();
     }
 
     private void Start()
@@ -65,6 +90,8 @@ public class CWeapon : MonoBehaviour
 
     private void OnDisable()
     {
+        IsReloading = false;
+
         if (_playerInput != null)
         {
             _playerInput.enabled = false;
@@ -92,6 +119,7 @@ public class CWeapon : MonoBehaviour
             return true;
         }
 
+        IsReloading = false;
         _data = data;
 
         if (_playerInput != null)
@@ -105,18 +133,127 @@ public class CWeapon : MonoBehaviour
     public bool TryFire(Vector2 direction)
     {
         if (!isActiveAndEnabled || HasInvalidReferences(_data) ||
-            direction == Vector2.zero || Time.time < _nextFireTime)
+            direction == Vector2.zero || IsReloading || MagazineAmmo <= 0 || Time.time < _nextFireTime)
         {
             return false;
         }
 
-        if (_playerState != null && _playerState.CurrentState == EPlayerState.Dead)
+        if (IsPlayerDead())
         {
             return false;
         }
 
+        _magazines[_data] = MagazineAmmo - 1;
         _nextFireTime = Time.time + _data.FireInterval;
         _data.Trigger.TriggerWeapon(_data.Projectile, _projectilePool, _muzzle.position, direction).Forget();
         return true;
+    }
+
+    private bool IsPlayerDead()
+    {
+        return _playerState != null && _playerState.CurrentState == EPlayerState.Dead;
+    }
+
+    public void SetAmmoSource(IitemContainer ammoSource)
+    {
+        IsReloading = false;
+        _ammoSource = ammoSource;
+    }
+
+    public bool TryReload()
+    {
+        if (!isActiveAndEnabled || HasInvalidReferences(_data) || IsPlayerDead() ||
+            IsReloading || MagazineAmmo >= _data.MagazineSize || _data.AmmoItem == null ||
+            _data.AmmoItem.ItemType != EItemtype.Ammunition ||
+            !HasAmmoSource() || !HasAmmo(_data.AmmoItem))
+        {
+            return false;
+        }
+
+        float reloadTime = _data.ReloadTime;
+        if (_playerStatus != null && _playerStatus.isActiveAndEnabled)
+        {
+            reloadTime *= _playerStatus.ReloadSpeed;
+        }
+
+        _reloadEndTime = Time.time + Mathf.Max(0.01f, reloadTime);
+        IsReloading = true;
+
+        if (_playerInput != null)
+        {
+            _playerInput.ClearPendingShots();
+        }
+
+        return true;
+    }
+
+    private void Update()
+    {
+        if (!IsReloading)
+        {
+            return;
+        }
+
+        if (IsPlayerDead() || HasInvalidReferences(_data) || !HasAmmoSource())
+        {
+            IsReloading = false;
+            return;
+        }
+
+        if (Time.time < _reloadEndTime)
+        {
+            return;
+        }
+
+        CWeaponDataSO data = _data;
+        int magazineAmmo = MagazineAmmo;
+        int neededAmmo = data.MagazineSize - magazineAmmo;
+        IsReloading = false;
+
+        int loadedAmmo = TakeAmmo(data.AmmoItem, neededAmmo);
+        _magazines[data] = magazineAmmo + loadedAmmo;
+    }
+
+    private bool HasAmmoSource()
+    {
+        return (UnityEngine.Object)_ammoSource != null;
+    }
+
+    private bool HasAmmo(CItemDataSO ammoItem)
+    {
+        IReadOnlyList<CItemSlotData> slots = _ammoSource.Inventory;
+        for (int i = 0; i < slots.Count; i++)
+        {
+            CItemSlotData slot = slots[i];
+            if (slot != null && slot.Item == ammoItem && slot.Amount > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int TakeAmmo(CItemDataSO ammoItem, int neededAmmo)
+    {
+        IReadOnlyList<CItemSlotData> slots = _ammoSource.Inventory;
+        int loadedAmmo = 0;
+        for (int i = 0; i < slots.Count && loadedAmmo < neededAmmo; i++)
+        {
+            CItemSlotData slot = slots[i];
+            if (slot == null || slot.Item != ammoItem || slot.Amount <= 0)
+            {
+                continue;
+            }
+
+            int before = slot.Amount;
+            int amount = Mathf.Min(before, neededAmmo - loadedAmmo);
+            _ammoSource.RemoveFromInventory(i, amount);
+            CItemSlotData remaining = slots[i];
+            int after = remaining != null && remaining.Item == ammoItem ? remaining.Amount : 0;
+            loadedAmmo += Mathf.Clamp(before - after, 0, amount);
+        }
+
+        return loadedAmmo;
     }
 }
