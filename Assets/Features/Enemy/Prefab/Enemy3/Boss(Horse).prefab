@@ -2042,7 +2042,6 @@ MonoBehaviour:
   _attack: {fileID: 4357491387489169099}
   _move: {fileID: 819483616670409676}
   _idle: {fileID: 8399781234963918219}
-  _death: {fileID: 0}
   _return: {fileID: 772073402868623363}
 --- !u!114 &8492027645726006587
 MonoBehaviour:
@@ -2070,7 +2069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5574fc869dab9fb4195f50d885aa2283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
+  _enemy: {fileID: 8492027645726006587}
 --- !u!114 &7616681815165483118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2111,9 +2110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90152654e2699741996429411ccda16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
-  _navMove: {fileID: 0}
-  _aniMove: {fileID: 0}
+  _enemy: {fileID: 8492027645726006587}
+  _navMove: {fileID: 2778142347458383008}
+  _aniMove: {fileID: 6950746572801166874}
 --- !u!114 &772073402868623363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2126,9 +2125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4019cce76ed524fbe2dd0f616898bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _navMove: {fileID: 0}
-  _aniReturn: {fileID: 0}
-  _col: {fileID: 0}
+  _navMove: {fileID: 2778142347458383008}
+  _aniReturn: {fileID: 6950746572801166874}
+  _col: {fileID: 6836065852060224987}
 --- !u!195 &2778142347458383008
 NavMeshAgent:
   m_ObjectHideFlags: 0
