@@ -26,18 +26,11 @@ public class CEnemyReturn : CEnemyActionBase
 
     private void Awake()
     {
-        if(_navMove == null)
+        if(_navMove == null || _aniReturn == null || _col == null)
         {
-            _navMove = GetComponent<NavMeshAgent>();
+            Debug.Log("인스펙터 확인");
         }
-        if( _aniReturn == null)
-        {
-            _aniReturn = GetComponent<Animator>();
-        }  
-        if(_col == null)
-        {
-            _col = GetComponent<BoxCollider2D>();
-        }
+         
         _setPosition = transform.position;
     }
      

@@ -17,7 +17,7 @@ public class CEnemyControllerArcher : CEnemyController
         base.Awake();
         if(_runaway == null)
         {
-            _runaway = GetComponent<CEnemyRunaway>();
+            Debug.Log("인스펙터 확인");
         }
     }
     protected override void Update()

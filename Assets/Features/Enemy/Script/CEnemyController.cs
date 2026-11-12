@@ -9,8 +9,7 @@ public class CEnemyController : MonoBehaviour
     [SerializeField] protected CEnemyFSM _enemyFSM;
     [SerializeField] protected CEnemyAttack _attack;
     [SerializeField] protected CEnemyMove _move;
-    [SerializeField] protected CEnemyIdle _idle;
-    [SerializeField] protected CEnemyDeath _death;
+    [SerializeField] protected CEnemyIdle _idle; 
     [SerializeField] protected CEnemyReturn _return;
     #endregion
 
@@ -21,42 +20,13 @@ public class CEnemyController : MonoBehaviour
 
    
     protected virtual void Awake()
-    {
-        #region Getcomponent
-        if (_enemyFSM == null)
+    { 
+        if (_enemyFSM == null || _enemy == null || _attack == null || _move == null || _idle == null || _return == null)
         {
-            _enemyFSM = GetComponent<CEnemyFSM>();
+            Debug.Log("인스펙터 확인");
         }
-        if(_enemy == null)
-        {
-            _enemy = GetComponent<CEnemy>();
-        }
-        
-        if( _attack == null)
-        {
-            _attack = GetComponent<CEnemyAttack>();
-        }
-        if(_move == null)
-        {
-            _move = GetComponent<CEnemyMove>();
-        }
-        if(_idle == null)
-        {
-            _idle = GetComponent<CEnemyIdle>();
-        }
-
-        if(_death == null)
-        {
-            _death = GetComponent<CEnemyDeath>();
-        }
-        if(_return == null)
-        {
-            _return = GetComponent<CEnemyReturn>();
-        }
-        #endregion
-
-        _setPosition = transform.position;
-
+           
+        _setPosition = transform.position; 
     }
     protected virtual void Update()
     {

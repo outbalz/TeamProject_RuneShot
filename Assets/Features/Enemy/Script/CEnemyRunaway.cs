@@ -20,20 +20,10 @@ public class CEnemyRunaway : CEnemyActionBase
      
     private void Awake()
     {
-        if (_aniRunaway == null)
+        if (_aniRunaway == null || _enemy == null || _navMove == null)
         {
-            _aniRunaway = GetComponent<Animator>();
-        }
-
-        if(_enemy == null)
-        {
-            _enemy = GetComponent<CEnemy>();
-        }
-        if(_navMove == null)
-        {
-            _navMove = GetComponent<NavMeshAgent>();
-        }
-
+            Debug.Log("인스펙터 확인");
+        } 
     }
     public override void ActionEnter(Transform PlayerTr)
     {
