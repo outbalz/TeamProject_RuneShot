@@ -19,11 +19,16 @@ public class CProjectile : MonoBehaviour
 
     public void Initialize(CProjectileDataSO data, CProjectilePool pool, Vector3 position, Vector2 direction)
     {
+        Initialize(data, pool, position, direction, data.Damage);
+    }
+
+    public void Initialize(CProjectileDataSO data, CProjectilePool pool, Vector3 position, Vector2 direction, float damage)
+    {
         _pool = pool;
         _data = data;
         _direction = direction.normalized;
         _speed = data.Speed;
-        _damage = data.Damage;
+        _damage = damage;
         _remainingLifeTime = data.LifeTime;
         _isReturned = false;
 

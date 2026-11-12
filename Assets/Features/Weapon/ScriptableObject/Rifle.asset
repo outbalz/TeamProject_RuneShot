@@ -11,13 +11,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac913c64111272c43a1b6eeb29a99978, type: 3}
   m_Name: Rifle
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   _id: rifle
   _name: Rifle
   _projectile: {fileID: 11400000, guid: 18ff2828bf544852adeb3feca4df0a39, type: 2}
   _trigger: {fileID: 11400000, guid: 29d9b18d28fe4ac7a1076cd830b2bfa1, type: 2}
   _reload: {fileID: 0}
   _fireInterval: 0.12
+  _spreadAngle: 10
   _magazineSize: 30
   _reloadTime: 1.5
   _ammoItem: {fileID: 11400000, guid: 72a8e526e3a142b992e5bb514e29b148, type: 2}

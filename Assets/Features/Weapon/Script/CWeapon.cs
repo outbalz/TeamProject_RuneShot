@@ -18,6 +18,7 @@ public class CWeapon : MonoBehaviour
     private float _nextFireTime;
     private CPlayerStateController _playerState;
     private CPlayerStatusHandler _playerStatus;
+    private CEnemyStatusHandler _enemyStatus;
     private readonly Dictionary<CWeaponDataSO, int> _magazines = new Dictionary<CWeaponDataSO, int>();
     private IitemContainer _ammoSource;
     private float _reloadEndTime;
@@ -50,6 +51,7 @@ public class CWeapon : MonoBehaviour
     {
         _playerState = GetComponentInParent<CPlayerStateController>();
         _playerStatus = GetComponentInParent<CPlayerStatusHandler>();
+        _enemyStatus = GetComponentInParent<CEnemyStatusHandler>();
     }
 
     private void Start()
@@ -143,9 +145,33 @@ public class CWeapon : MonoBehaviour
             return false;
         }
 
+        float damage = _data.Projectile.Damage;
+        float fireInterval = _data.FireInterval;
+        float spread = _data.SpreadAngle;
+
+        if (_enemyStatus != null && _enemyStatus.isActiveAndEnabled)
+        {
+            damage *= _enemyStatus.WeaponDamage;
+            fireInterval *= _enemyStatus.WeaponFireInterval;
+            spread *= _enemyStatus.WeaponSpread;
+        }
+        else if (_playerStatus != null && _playerStatus.isActiveAndEnabled)
+        {
+            damage *= _playerStatus.WeaponDamage;
+            fireInterval *= _playerStatus.WeaponFireInterval;
+            spread *= _playerStatus.WeaponSpread;
+        }
+
+        if (spread > 0.0f)
+        {
+            float halfSpread = spread * 0.5f;
+            float angle = Random.Range(-halfSpread, halfSpread);
+            direction = Quaternion.Euler(0.0f, 0.0f, angle) * direction;
+        }
+
         _magazines[_data] = MagazineAmmo - 1;
-        _nextFireTime = Time.time + _data.FireInterval;
-        _data.Trigger.TriggerWeapon(_data.Projectile, _projectilePool, _muzzle.position, direction).Forget();
+        _nextFireTime = Time.time + Mathf.Max(0.0f, fireInterval);
+        _data.Trigger.TriggerWeapon(_data.Projectile, _projectilePool, _muzzle.position, direction, damage).Forget();
         return true;
     }
 

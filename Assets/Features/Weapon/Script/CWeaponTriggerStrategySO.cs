@@ -17,5 +17,15 @@ public abstract class CWeaponTriggerStrategySO : CGameDataSO
         return false;
     }
 
-    public abstract UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction);
+    public UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction)
+    {
+        if (HasInvalidReferences(projectileData, pool, direction))
+        {
+            return UniTask.CompletedTask;
+        }
+
+        return TriggerWeapon(projectileData, pool, position, direction, projectileData.Damage);
+    }
+
+    public abstract UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction, float damage);
 }

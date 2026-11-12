@@ -14,7 +14,7 @@ public class CShotgunTriggerStrategySO : CWeaponTriggerStrategySO
     public float SpreadAngle => _spreadAngle;
     #endregion
 
-    public override UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction)
+    public override UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction, float damage)
     {
         if (HasInvalidReferences(projectileData, pool, direction))
         {
@@ -32,7 +32,7 @@ public class CShotgunTriggerStrategySO : CWeaponTriggerStrategySO
 
             Vector2 pelletDirection = Quaternion.Euler(0.0f, 0.0f, angle) * direction.normalized;
             CProjectile projectile = pool.GetFromPool();
-            projectile.Initialize(projectileData, pool, position, pelletDirection);
+            projectile.Initialize(projectileData, pool, position, pelletDirection, damage);
         }
 
         return UniTask.CompletedTask;
