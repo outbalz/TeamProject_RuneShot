@@ -163,17 +163,5 @@ public class CEnemyAttackBoss : CEnemyAttack
 
         return false;
     }
-
-    private void Flip(Transform PlayerTr)
-    {
-        if ((PlayerTr.position - transform.position).x <= 0)
-        {
-            transform.rotation = Quaternion.identity;
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 180f, 0);
-        }
-    }
-   
+     
 }
