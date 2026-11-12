@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CEnemyRunaway : MonoBehaviour, IEnemyControllInterface
+public class CEnemyRunaway : CEnemyActionBase
 {
     #region 인스펙터
     [SerializeField]
@@ -35,7 +35,7 @@ public class CEnemyRunaway : MonoBehaviour, IEnemyControllInterface
         }
 
     }
-    public void ActionEnter(Transform PlayerTr)
+    public override void ActionEnter(Transform PlayerTr)
     {
         if(PlayerTr == null)
         {
@@ -46,22 +46,22 @@ public class CEnemyRunaway : MonoBehaviour, IEnemyControllInterface
         _navMove.stoppingDistance = 0;
         Debug.Log("지금 호출되나?");
     }
-    public void ActionUpdate(Transform PlayerTr)
+    public override void ActionUpdate(Transform PlayerTr)
     {
         Vector3 dir = (transform.position - PlayerTr.position).normalized;
          
         _navMove.destination = transform.position + dir * _enemy.Enemydata.AttackRange;
 
-        Flip(PlayerTr);
+        ReverseFlip(PlayerTr);
     }
-    public void ActionExit()
+    public override void ActionExit()
     {
         _navMove.stoppingDistance = 2;
         _aniRunaway.SetInteger(_Runaway, 0);
          
     }
 
-    private void Flip(Transform PlayerTr)
+    private void ReverseFlip(Transform PlayerTr)
     {
         if ((PlayerTr.position - transform.position).x > 0)
         {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI; 
 
-public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
+public class CEnemyMove : CEnemyActionBase
 {
     #region 인스펙터
     [SerializeField] private CEnemy _enemy;
@@ -11,34 +11,25 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
 
     #region 내부변수 
     private string _move = "IMove";
-    #endregion
+    
     private float _time;
     private float _waitTime = 3f;
-    private Vector3 _setPosition; 
+    private Vector3 _setPosition;  
+    private Vector3 _prePlayerPosision;
+    #endregion
 
-    private Vector3 _prePlayerPosision; 
-
-     
     private void Awake()
     {
-        if( _enemy == null )
+        if( _enemy == null || _navMove == null || _aniMove == null)
         {
-            _enemy = GetComponent<CEnemy>();
+            Debug.Log("인스펙터 확인");
         }
-        if( _navMove == null )
-        {
-            _navMove = GetComponent<NavMeshAgent>();
-        }
-        if(_aniMove == null )
-        {
-            _aniMove = GetComponent<Animator>();
-        }  
-         
+          
         _navMove.speed = _enemy.Enemydata.MovementSpeed;
         _setPosition = transform.position;
     }
     
-    public void ActionEnter(Transform PlayerTr)
+    public override void ActionEnter(Transform PlayerTr)
     {
         Debug.Log("Enter Move");
 
@@ -46,7 +37,7 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
 
         _aniMove.SetInteger(_move, 1);
     }
-    public void ActionUpdate(Transform PlayerTr)
+    public override void ActionUpdate(Transform PlayerTr)
     { 
         if (PlayerTr == null)
         {
@@ -95,7 +86,7 @@ public class CEnemyMove : MonoBehaviour,IEnemyControllInterface
         Flip(); 
     }
   
-    public void ActionExit()
+    public override void ActionExit()
     {
         _aniMove.SetInteger(_move, 0);
         _aniMove.speed = 1f;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CEnemyDeath : MonoBehaviour, IEnemyControllInterface
+public class CEnemyDeath : CEnemyActionBase
 {
     #region ÀÎ½ºÆåÅÍ
     [SerializeField] Animator _aniDeath;
@@ -18,11 +18,11 @@ public class CEnemyDeath : MonoBehaviour, IEnemyControllInterface
         }
     }
 
-    public void ActionEnter(Transform PlayerTr)
+    public override void ActionEnter(Transform PlayerTr)
     {
         _aniDeath.SetBool(_death,true);
     }
-    public void ActionUpdate(Transform PlayerTr)
+    public override void ActionUpdate(Transform PlayerTr)
     {
         if(_aniDeath.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
         {
@@ -30,7 +30,7 @@ public class CEnemyDeath : MonoBehaviour, IEnemyControllInterface
         }
         Debug.Log("Death update");
     }
-    public void ActionExit()
+    public override void ActionExit()
     {
         Destroy(this.gameObject);
     }

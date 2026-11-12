@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
+public class CEnemyReturn : CEnemyActionBase
 {
     #region ¿ŒΩ∫∆Â≈Õ
     [SerializeField] private NavMeshAgent _navMove;
@@ -51,7 +51,7 @@ public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
         } 
     }
      
-    public void ActionEnter(Transform PlayerTr)
+    public override void ActionEnter(Transform PlayerTr)
     {   
         if(_tokenSource == null)
         {
@@ -66,11 +66,8 @@ public class CEnemyReturn : MonoBehaviour, IEnemyControllInterface
 
         ReturnPosition(_tokenSource).Forget();
     }
-    public void ActionUpdate(Transform PlayerTr)
-    {
-
-    }
-    public void ActionExit()
+ 
+    public override void ActionExit()
     { 
         if (_tokenSource != null)
         {
