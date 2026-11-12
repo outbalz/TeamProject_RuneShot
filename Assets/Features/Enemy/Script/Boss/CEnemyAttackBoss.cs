@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using static Unity.VisualScripting.Member;
+using UnityEngine.AI; 
 
 public class CEnemyAttackBoss : CEnemyAttack
 {
@@ -68,10 +67,9 @@ public class CEnemyAttackBoss : CEnemyAttack
         {
             ChangeAlpha(false);
             _aniAttack.SetTrigger(_attackRange);
-        }
-
+        } 
         else 
-        {
+        { 
             _source = new CancellationTokenSource();
             ChargeAttack(PlayerTr,_source).Forget();
         }
@@ -79,21 +77,39 @@ public class CEnemyAttackBoss : CEnemyAttack
         _time = 0;
 
     }
-     
+    public override void ActionExit()
+    {
+        base.ActionExit();
+
+        TokenCancel();
+        IsCharging(false);
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (_isCharging)
-        {
-
+        { 
             if (collision.collider.tag == "Player")
             {
                 _playerHP.OnHit(_damage);
                 IsCharging(false);
+                TokenCancel();
             }
         }
-    } 
+    }
+    private void OnDestroy()
+    {
+        TokenCancel();
+    }
+    private void TokenCancel()
+    {
+        if (_source != null)
+        {
+            _source.Cancel();
+            _source.Dispose();
+            _source = null;
+        }
 
-
+    }
     private void ChangeAlpha(bool isMeleeAttack)
     {
         Color colorMelee = _meleeAttack.color;
@@ -124,7 +140,7 @@ public class CEnemyAttackBoss : CEnemyAttack
             _navMove.SetDestination(PlayerTr.position);
         }
 
-        await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, cancellationToken: destroyCancellationToken,source.IsCancellationRequested);
+        await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, source.Token);
 
         IsCharging(false);
     }
@@ -135,12 +151,14 @@ public class CEnemyAttackBoss : CEnemyAttack
 
         if (_isCharging)
         {
+            _navMove.autoBraking = false;
             _navMove.speed = _chargeAttackSpeed;
             _navMove.stoppingDistance = 0;
             _aniAttack.SetInteger(_attackCharge, 1);
         }
         else
         {
+            _navMove.autoBraking = true;
             _navMove.speed = _enemy.Enemydata.MovementSpeed;
             _navMove.stoppingDistance = _enemy.Enemydata.AttackRange;
             _aniAttack.SetInteger(_attackCharge, 0);
@@ -148,19 +166,11 @@ public class CEnemyAttackBoss : CEnemyAttack
 
     } 
     private bool ArriveDestination(Transform PlayerTr)
-    {
-        Debug.Log("»£√‚¡ﬂ?");
-
-        if (_navMove.pathStatus == NavMeshPathStatus.PathInvalid || _navMove.pathStatus == NavMeshPathStatus.PathPartial)
-        {
-            _navMove.SetDestination(_navMove.pathEndPosition);
-        }
-
-        if ((_navMove.destination - transform.position).magnitude < 1f)
-        {
+    { 
+        if ((_navMove.destination - transform.position).sqrMagnitude < 0.1f)
+        { 
             return true;
-        }
-
+        } 
         return false;
     }
      
