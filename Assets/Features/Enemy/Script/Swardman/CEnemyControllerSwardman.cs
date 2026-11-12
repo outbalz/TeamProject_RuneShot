@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class CEnemyControllerSwardman : CEnemyController
 {
-   
-
-    protected override void Awake()
-    {
-        base.Awake();  
-    }
+    
     protected override void Update()
     { 
         if (!_enemy.IsAlive)

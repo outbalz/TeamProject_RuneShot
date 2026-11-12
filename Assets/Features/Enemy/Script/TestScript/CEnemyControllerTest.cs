@@ -11,8 +11,7 @@ public class CEnemyControllerTest : MonoBehaviour
     [SerializeField] protected CEnemyFSM _enemyFSM;
     [SerializeField] protected CEnemyAttack _attack;
     [SerializeField] protected CEnemyMove _move;
-    [SerializeField] protected CEnemyIdle _idle;
-    [SerializeField] protected CEnemyDeath _death;
+    [SerializeField] protected CEnemyIdle _idle; 
     [SerializeField] protected CEnemyReturn _return;
     #endregion
 
@@ -53,11 +52,7 @@ public class CEnemyControllerTest : MonoBehaviour
         {
             _idle = GetComponent<CEnemyIdle>();
         }
-
-        if (_death == null)
-        {
-            _death = GetComponent<CEnemyDeath>();
-        }
+         
         if (_return == null)
         {
             _return = GetComponent<CEnemyReturn>();
