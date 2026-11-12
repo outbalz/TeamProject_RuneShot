@@ -78,7 +78,7 @@ public class CEnemyAttackState : CEnemyBaseState
 
     }
 
-    public void ActionExit()
+    public override void ActionExit()
     {
         Debug.Log("Exit Attack");
         _time = 0;
