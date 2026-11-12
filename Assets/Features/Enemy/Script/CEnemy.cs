@@ -27,9 +27,8 @@ public class CEnemy : MonoBehaviour
             Debug.Log("인스펙터 확인");
         }
 
-        Debug.Log("디텍트 오브젝트 생성");
-        //Instantiate(_detectObject, transform.position + -transform.right/2 * _enemydata.DetectionDistance, transform.rotation,transform); 
-        Instantiate(_detectObject,transform);
+        //Debug.Log("디텍트 오브젝트 생성"); 
+        //Instantiate(_detectObject,transform);
     }
   
     public bool Die()

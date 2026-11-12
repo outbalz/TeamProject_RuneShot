@@ -24,8 +24,8 @@ public class CEnemyDetect : MonoBehaviour
         {
             Debug.Log("인스펙터 확인");
         }
-         
-        _MonsterRangelayer = 1 << LayerMask.NameToLayer(_playerLayer) | 1 << LayerMask.NameToLayer(_wallLayer);
+          
+       _MonsterRangelayer = 1 << LayerMask.NameToLayer(_playerLayer) | 1 << LayerMask.NameToLayer(_wallLayer);
         _MonsterRangelayerCollider.radius = _parentEnemy.Enemydata.DetectionDistance;
     }
      
