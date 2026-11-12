@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainTile.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Features/Map/Scenes/MapScene.unity
+    guid: 74b262296a40b244c95a84dde039d3c6
+  - enabled: 1
+    path: Assets/Features/Map/Scenes/BossRoomScene.unity
+    guid: 78a3b68595c534b4e8de12c0d5bf33b1
   m_configObjects: {}
