@@ -7,8 +7,8 @@ public class CEnemyFSM : MonoBehaviour
     #endregion
 
     #region 내부변수
-    private IEnemyControllInterface _currentControll;
-    private IEnemyControllInterface _preControll;
+    private CEnemyActionBase _currentControll;
+    private CEnemyActionBase _preControll;
     #endregion
      
     private void Awake()
@@ -24,7 +24,7 @@ public class CEnemyFSM : MonoBehaviour
         _currentControll.ActionUpdate(_enemy.PlayerTr);
     }
 
-    public void SetControll(IEnemyControllInterface controll)
+    public void SetControll(CEnemyActionBase controll)
     { 
         if (_currentControll == controll)
         {

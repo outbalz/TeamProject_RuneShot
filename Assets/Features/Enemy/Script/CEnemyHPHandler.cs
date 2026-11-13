@@ -18,19 +18,11 @@ public class CEnemyHPHandler : CHPHandler<CEnemyStatusDataSO>
 
     private void Awake()
     {
-        if(_enemy == null)
+        if(_enemy == null || _aniHP == null || _status == null)
         {
-            _enemy = GetComponent<CEnemy>();
+            Debug.Log("인스펙터 확인");
         }
-        if(_aniHP == null)
-        {
-            _aniHP = GetComponent<Animator>();
-        }
-        if(_status == null)
-        {
-            _status = GetComponent<CEnemyStatusHandler>();
-        }
-
+         
         HP = MaxHP;
 
         OnDeath += DropItem;

@@ -1,9 +1,10 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.AI; 
 
 public class CEnemyAttackBoss : CEnemyAttack
 {
@@ -19,27 +20,18 @@ public class CEnemyAttackBoss : CEnemyAttack
     private string _attackCharge = "IMove";
     private bool _isCharging;
     private float _chargeAttackSpeed = 10f;
+    private CancellationTokenSource _source;
     #endregion
 
-    private void Awake()
+    private new void Awake()
     {
-        if (_enemy == null)
+        if (_enemy == null || _aniAttack == null || _navMove == null)
         {
-            _enemy = GetComponent<CEnemy>();
+            Debug.Log("인스펙터 확인"); 
         }
-        if (_aniAttack == null)
-        {
-            _aniAttack = GetComponent<Animator>();
-        }
-        if(_navMove == null)
-        { 
-            _navMove = GetComponent<NavMeshAgent>();
-        }
-
+        
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
-        _damage = _enemy.Enemydata.WeaponDamage;
-
-
+        _damage = _enemy.Enemydata.WeaponDamage; 
     }
 
     public override void ActionUpdate(Transform PlayerTr)
@@ -75,30 +67,47 @@ public class CEnemyAttackBoss : CEnemyAttack
         {
             ChangeAlpha(false);
             _aniAttack.SetTrigger(_attackRange);
-        }
-        else
-        {  
-            ChargeAttack(PlayerTr).Forget();
+        } 
+        else 
+        { 
+            _source = new CancellationTokenSource();
+            ChargeAttack(PlayerTr,_source).Forget();
         }
          
         _time = 0;
 
     }
-     
+    public override void ActionExit()
+    {
+        base.ActionExit();
+
+        TokenCancel(); 
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (_isCharging)
-        {
-
+        { 
             if (collision.collider.tag == "Player")
             {
-                _playerHP.OnHit(_damage);
-                IsCharging(false);
+                _playerHP.OnHit(_damage); 
+                TokenCancel();
             }
         }
-    } 
+    }
+    private void OnDestroy()
+    {
+        TokenCancel();
+    }
+    private void TokenCancel()
+    {
+        if (_source != null)
+        {
+            _source.Cancel();
+            _source.Dispose();
+            _source = null;
+        }
 
-
+    }
     private void ChangeAlpha(bool isMeleeAttack)
     {
         Color colorMelee = _meleeAttack.color;
@@ -119,7 +128,7 @@ public class CEnemyAttackBoss : CEnemyAttack
         _rangeAttack.color = colorRange;
     }
 
-    private async UniTask ChargeAttack(Transform PlayerTr)
+    private async UniTask ChargeAttack(Transform PlayerTr, CancellationTokenSource source)
     {
 
         IsCharging(true);
@@ -129,9 +138,15 @@ public class CEnemyAttackBoss : CEnemyAttack
             _navMove.SetDestination(PlayerTr.position);
         }
 
-        await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, cancellationToken: destroyCancellationToken);
-
-        IsCharging(false);
+        try
+        {
+            await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, source.Token);
+        }
+        finally
+        {
+            IsCharging(false);
+        }
+          
     }
 
     private void IsCharging(bool ischarging)
@@ -140,12 +155,14 @@ public class CEnemyAttackBoss : CEnemyAttack
 
         if (_isCharging)
         {
+            _navMove.autoBraking = false;
             _navMove.speed = _chargeAttackSpeed;
             _navMove.stoppingDistance = 0;
             _aniAttack.SetInteger(_attackCharge, 1);
         }
         else
         {
+            _navMove.autoBraking = true;
             _navMove.speed = _enemy.Enemydata.MovementSpeed;
             _navMove.stoppingDistance = _enemy.Enemydata.AttackRange;
             _aniAttack.SetInteger(_attackCharge, 0);
@@ -153,39 +170,12 @@ public class CEnemyAttackBoss : CEnemyAttack
 
     } 
     private bool ArriveDestination(Transform PlayerTr)
-    {
-        Debug.Log("호출중?");
-
-        if (_navMove.pathStatus == NavMeshPathStatus.PathInvalid || _navMove.pathStatus == NavMeshPathStatus.PathPartial)
-        {
-            _navMove.SetDestination(_navMove.pathEndPosition);
-        }
-
-        if ((_navMove.destination - transform.position).magnitude < 1f)
-        {
+    { 
+        if ((_navMove.destination - transform.position).sqrMagnitude < 0.1f)
+        { 
             return true;
-        }
-
+        } 
         return false;
     }
-
-    private void Flip(Transform PlayerTr)
-    {
-        if ((PlayerTr.position - transform.position).x <= 0)
-        {
-            transform.rotation = Quaternion.identity;
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 180f, 0);
-        }
-    }
-    private void Rotation(Transform PlayerTr)
-    {
-        Quaternion rot = Quaternion.Euler(90f, 0, 0);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(PlayerTr.position - transform.position) * rot, 0.2f);
-
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
-    }
+     
 }

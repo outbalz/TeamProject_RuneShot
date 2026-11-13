@@ -6,7 +6,7 @@ public class CEnemy : MonoBehaviour
     [SerializeField]
     private CEnemyDetect _detectObject;
     [SerializeField]
-    private CEnemyStatusDataSO _enemydata;
+    private CEnemyStatusHandler _enemydata;
     #endregion
 
     #region 내부변수
@@ -15,22 +15,26 @@ public class CEnemy : MonoBehaviour
     #endregion
 
     #region 프로퍼티
-    public CEnemyStatusDataSO Enemydata => _enemydata;
+    public CEnemyStatusHandler Enemydata => _enemydata;
     public Transform PlayerTr { get { return _playerTr; } set { _playerTr = value; } }
     public bool IsAlive => _isAlive;
     #endregion
 
     protected virtual void Awake()
     {
-        Debug.Log("디텍트 오브젝트 생성");
-        //Instantiate(_detectObject, transform.position + -transform.right/2 * _enemydata.DetectionDistance, transform.rotation,transform); 
-        Instantiate(_detectObject,transform);
+        if(_detectObject == null || _enemydata == null)
+        {
+            Debug.Log("인스펙터 확인");
+        }
+
+        //Debug.Log("디텍트 오브젝트 생성"); 
+        //Instantiate(_detectObject,transform);
     }
   
     public bool Die()
     {
         _isAlive = false;
-          
+        
         return _isAlive;
     }
 }

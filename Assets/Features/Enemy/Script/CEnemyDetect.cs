@@ -20,17 +20,12 @@ public class CEnemyDetect : MonoBehaviour
 
     private void Awake()
     {
-        if(_MonsterRangelayerCollider == null)
+        if(_MonsterRangelayerCollider == null || _parentEnemy == null)
         {
-            _MonsterRangelayerCollider = GetComponent<CircleCollider2D>();
+            Debug.Log("인스펙터 확인");
         }
-
-        if (_parentEnemy == null)
-        {
-            _parentEnemy = transform.parent.GetComponent<CEnemy>();
-        }
-
-        _MonsterRangelayer = 1 << LayerMask.NameToLayer(_playerLayer) | 1 << LayerMask.NameToLayer(_wallLayer);
+          
+       _MonsterRangelayer = 1 << LayerMask.NameToLayer(_playerLayer) | 1 << LayerMask.NameToLayer(_wallLayer);
         _MonsterRangelayerCollider.radius = _parentEnemy.Enemydata.DetectionDistance;
     }
      

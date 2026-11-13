@@ -83,3 +83,5 @@ MonoBehaviour:
   _MonsterRangelayer:
     serializedVersion: 2
     m_Bits: 72
+  _MonsterRangelayerCollider: {fileID: 939949283706052316}
+  _parentEnemy: {fileID: 0}

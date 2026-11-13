@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CEnemyIdle : MonoBehaviour, IEnemyControllInterface
+public class CEnemyIdle : CEnemyActionBase
 {
     #region ¿ŒΩ∫∆Â≈Õ
     [SerializeField] private Animator _aniIdle;
@@ -17,18 +17,14 @@ public class CEnemyIdle : MonoBehaviour, IEnemyControllInterface
             _aniIdle = GetComponent<Animator>();
         } 
     }
-    public void ActionEnter(Transform PlayerTr)
+    public override void ActionEnter(Transform PlayerTr)
     {
         Debug.Log("Enter Idle");
          
         _aniIdle.SetInteger(_move, 0);
     }
-    public void ActionUpdate(Transform PlayerTr)
-    { 
-
-    }
-
-    public void ActionExit()
+    
+    public override void ActionExit()
     {
         Debug.Log("Exit Idle"); 
     }

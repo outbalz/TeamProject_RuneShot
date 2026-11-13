@@ -1,47 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine; 
+using Cysharp.Threading.Tasks; 
+using System.Threading; 
+using UnityEngine;
+using UnityEngine.AI; 
 
-public class CEnemyAttackArcher : MonoBehaviour, IEnemyControllInterface
+public class CEnemyAttackArcher : CEnemyAttack
 {
-    #region 인스펙터
-    [SerializeField] private CEnemy _enemy;
-    [SerializeField] private Animator _aniAttack;
-    #endregion
+     
+    [SerializeField] private NavMeshAgent _Agent;
+    [SerializeField] private float _runawayDistance = 2f;
+    private Bool _acting = new(); 
+    private CEnemyRunaway _runaway;
+    private CancellationTokenSource _source;
 
-    #region 내부변수
-    private float _attackInterval;
-    private float _time;
-    private string _attack = "TAttack";
-    private CPlayerHPHandler _playerHP;
-    private float _damage;
-    #endregion
-
-    private void Awake()
+    protected override void Awake()
     {
-        if( _enemy == null )
-        {
-            _enemy = GetComponent<CEnemy>();
-        }
-        if( _aniAttack == null )
-        {
-            _aniAttack = GetComponent<Animator>();
-        }
-
-        _attackInterval = _enemy.Enemydata.WeaponFireInterval;
-        _damage = _enemy.Enemydata.WeaponDamage;
+        base.Awake();
+        iniRunaway(); 
     }
      
-    public void ActionEnter(Transform PlayerTr)
-    {
-        Debug.Log("Enter Attack");
-        if(_playerHP == null )
-        {
-            _playerHP = PlayerTr.GetComponent<CPlayerHPHandler>();
-        }
-    }
-    public void ActionUpdate(Transform PlayerTr)
+    public override void ActionUpdate(Transform PlayerTr)
     {
 
         if (PlayerTr == null || _playerHP == null)
@@ -49,15 +26,13 @@ public class CEnemyAttackArcher : MonoBehaviour, IEnemyControllInterface
             return;
         }
 
-        if ((PlayerTr.position - transform.position).x <= 0)
+        if(_acting._isActing)
         {
-            transform.rotation = Quaternion.identity;
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 180f, 0);
+            return;
         }
          
+        Flip(PlayerTr);
+
          _time += Time.deltaTime;
 
         if( _time < _attackInterval )
@@ -65,24 +40,50 @@ public class CEnemyAttackArcher : MonoBehaviour, IEnemyControllInterface
             return;
         }
 
+        if((PlayerTr.position - transform.position).magnitude < _runawayDistance)
+        {
+            _source = new CancellationTokenSource();
+            _acting._isActing = true;
+            _runaway.Runaway(PlayerTr, _runawayDistance, _source).Forget();
+        }
+        
+
         _playerHP.OnHit(_damage);
 
         _aniAttack.SetTrigger(_attack);
         _time = 0;
-         
-    }
 
-    public void ActionExit()
+    }
+    public override void ActionExit()
     {
+        TokenCancel(); 
         Debug.Log("Exit Attack");
-        _time = 0; 
+        _time = 0;
     }
-    private void Rotation(Transform PlayerTr)
-    { 
-        Quaternion rot = Quaternion.Euler(90f,0 , 0);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(PlayerTr.position - transform.position) * rot, 0.2f);
-
-        transform.eulerAngles = new Vector3(0,0, transform.eulerAngles.z);
+    private void OnDestroy()
+    {
+        TokenCancel();
     }
+
+    private void TokenCancel()
+    {
+        if (_source != null)
+        {
+            _source.Cancel();
+            _source.Dispose();
+            _source = null;
+        }
+
+    }
+
+    void iniRunaway()
+    {
+        _runaway = new CEnemyRunaway(_aniAttack, _enemy, _Agent, transform, _acting);
+    }
+}
+
+public class Bool
+{
+    public bool _isActing;
 }

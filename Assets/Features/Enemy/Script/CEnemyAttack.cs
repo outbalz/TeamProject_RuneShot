@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
+public class CEnemyAttack : CEnemyActionBase
 {
     #region ¿ŒΩ∫∆Â≈Õ
     [SerializeField] protected CEnemy _enemy;
@@ -18,22 +18,18 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
     protected float _damage;
     #endregion
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        if (_enemy == null)
+        if (_enemy == null || _aniAttack == null)
         {
-            _enemy = GetComponent<CEnemy>();
+            Debug.Log("¿ŒΩ∫∆Â≈Õ »Æ¿Œ");
         }
-        if (_aniAttack == null)
-        {
-            _aniAttack = GetComponent<Animator>();
-        }
-
+          
         _attackInterval = _enemy.Enemydata.WeaponFireInterval;
         _damage = _enemy.Enemydata.WeaponDamage;
     }
 
-    public void ActionEnter(Transform PlayerTr)
+    public override void ActionEnter(Transform PlayerTr)
     {
         Debug.Log("Enter Attack");
         if (_playerHP == null)
@@ -41,7 +37,7 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
             _playerHP = PlayerTr.GetComponent<CPlayerHPHandler>();
         }
     }
-    public virtual void ActionUpdate(Transform PlayerTr)
+    public override void ActionUpdate(Transform PlayerTr)
     {
         if (PlayerTr == null || _playerHP == null)
         {
@@ -64,12 +60,12 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
 
     }
 
-    public void ActionExit()
+    public override void ActionExit()
     {
         Debug.Log("Exit Attack");
         _time = 0;
     }
-    private void Flip(Transform PlayerTr)
+    protected void Flip(Transform PlayerTr)
     {
         if ((PlayerTr.position - transform.position).x <= 0)
         {
@@ -80,12 +76,5 @@ public class CEnemyAttack : MonoBehaviour, IEnemyControllInterface
             transform.rotation = Quaternion.Euler(0, 180f, 0);
         }
     }
-    private void Rotation(Transform PlayerTr)
-    {
-        Quaternion rot = Quaternion.Euler(90f, 0, 0);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(PlayerTr.position - transform.position) * rot, 0.2f);
-
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
-    }
+     
 }
