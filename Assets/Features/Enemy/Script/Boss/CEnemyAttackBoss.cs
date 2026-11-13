@@ -23,7 +23,7 @@ public class CEnemyAttackBoss : CEnemyAttack
     private CancellationTokenSource _source;
     #endregion
 
-    private void Awake()
+    private new void Awake()
     {
         if (_enemy == null || _aniAttack == null || _navMove == null)
         {
@@ -81,8 +81,7 @@ public class CEnemyAttackBoss : CEnemyAttack
     {
         base.ActionExit();
 
-        TokenCancel();
-        IsCharging(false);
+        TokenCancel(); 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -90,8 +89,7 @@ public class CEnemyAttackBoss : CEnemyAttack
         { 
             if (collision.collider.tag == "Player")
             {
-                _playerHP.OnHit(_damage);
-                IsCharging(false);
+                _playerHP.OnHit(_damage); 
                 TokenCancel();
             }
         }
@@ -140,9 +138,15 @@ public class CEnemyAttackBoss : CEnemyAttack
             _navMove.SetDestination(PlayerTr.position);
         }
 
-        await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, source.Token);
-
-        IsCharging(false);
+        try
+        {
+            await UniTask.WaitUntil(() => ArriveDestination(PlayerTr), PlayerLoopTiming.Update, source.Token);
+        }
+        finally
+        {
+            IsCharging(false);
+        }
+          
     }
 
     private void IsCharging(bool ischarging)
