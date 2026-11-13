@@ -1955,7 +1955,6 @@ GameObject:
   - component: {fileID: 4499602340503353491}
   - component: {fileID: 6950746572801166874}
   - component: {fileID: 4357491387489169099}
-  - component: {fileID: 2421437862406488896}
   - component: {fileID: 8492027645726006587}
   - component: {fileID: 8035123451245004838}
   - component: {fileID: 7616681815165483118}
@@ -1966,6 +1965,7 @@ GameObject:
   - component: {fileID: 6202774795568256737}
   - component: {fileID: 6836065852060224987}
   - component: {fileID: 1633414142874394920}
+  - component: {fileID: 1529194602899979945}
   m_Layer: 0
   m_Name: HorseRoot
   m_TagString: Untagged
@@ -2041,24 +2041,6 @@ MonoBehaviour:
   _navMove: {fileID: 2778142347458383008}
   _meleeAttack: {fileID: 5264859269640265551}
   _rangeAttack: {fileID: 2892317310372394637}
---- !u!114 &2421437862406488896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2724847480255947739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad4f7bbe0f6f68b44b23d458f0ef3959, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemy: {fileID: 8492027645726006587}
-  _enemyFSM: {fileID: 8035123451245004838}
-  _attack: {fileID: 4357491387489169099}
-  _move: {fileID: 819483616670409676}
-  _idle: {fileID: 8399781234963918219}
-  _return: {fileID: 772073402868623363}
 --- !u!114 &8492027645726006587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2237,6 +2219,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dataSO: {fileID: 11400000, guid: 0c427abc95da759479f38f314fd552b9, type: 2}
   _modifierHandler: {fileID: 0}
+--- !u!114 &1529194602899979945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2724847480255947739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e3b8a5f13000245a985da95e41e29a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 8492027645726006587}
+  _enemyFSM: {fileID: 8035123451245004838}
+  _attack: {fileID: 4357491387489169099}
+  _move: {fileID: 819483616670409676}
+  _idle: {fileID: 8399781234963918219}
+  _return: {fileID: 772073402868623363}
 --- !u!1 &2772452684905689719
 GameObject:
   m_ObjectHideFlags: 0

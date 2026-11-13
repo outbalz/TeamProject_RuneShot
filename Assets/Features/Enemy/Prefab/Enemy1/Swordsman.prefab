@@ -1593,9 +1593,9 @@ GameObject:
   - component: {fileID: 4023471168227441603}
   - component: {fileID: 4042492839850327510}
   - component: {fileID: 6371195155086054929}
-  - component: {fileID: 1545186000744993098}
   - component: {fileID: 7730510040813789145}
   - component: {fileID: 802286809473166219}
+  - component: {fileID: 1269642409722986836}
   m_Layer: 0
   m_Name: UnitRoot
   m_TagString: Untagged
@@ -1817,24 +1817,6 @@ MonoBehaviour:
   _navMove: {fileID: 8796105317512110678}
   _aniReturn: {fileID: 3566337923104379051}
   _col: {fileID: 4023471168227441603}
---- !u!114 &1545186000744993098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3755275131119344471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c7c6ce5dbef9a744b65dd142106e89f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemy: {fileID: 4042492839850327510}
-  _enemyFSM: {fileID: 1065920800225360951}
-  _attack: {fileID: 7177021939956913277}
-  _move: {fileID: 3183994161054993109}
-  _idle: {fileID: 7869474756702734813}
-  _return: {fileID: 6371195155086054929}
 --- !u!114 &7730510040813789145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1864,6 +1846,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dataSO: {fileID: 11400000, guid: c792929893881934aa503cbe08628173, type: 2}
   _modifierHandler: {fileID: 0}
+--- !u!114 &1269642409722986836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3755275131119344471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e3b8a5f13000245a985da95e41e29a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 4042492839850327510}
+  _enemyFSM: {fileID: 1065920800225360951}
+  _attack: {fileID: 7177021939956913277}
+  _move: {fileID: 3183994161054993109}
+  _idle: {fileID: 7869474756702734813}
+  _return: {fileID: 6371195155086054929}
 --- !u!1 &3974456026828644878
 GameObject:
   m_ObjectHideFlags: 0
