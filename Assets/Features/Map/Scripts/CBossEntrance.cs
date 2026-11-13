@@ -2,8 +2,6 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-// e 키로 이동
-
 public class CBossEntrance : MonoBehaviour
 {
     [Header("씬 설정")]
@@ -14,18 +12,41 @@ public class CBossEntrance : MonoBehaviour
 
     private void Update()
     {
+        CheckInput();
+    }
+
+    private void CheckInput()
+    {
         if (!_isPlayerNear || _isLoading)
         {
             return;
         }
 
-        if (Keyboard.current != null &&
-            Keyboard.current.eKey.wasPressedThisFrame)
+        if (Keyboard.current == null)
         {
-            _isLoading = true;
-
-            SceneManager.LoadScene(_bossSceneName);
+            return;
         }
+
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            EnterBossRoom();
+        }
+    }
+
+    private void EnterBossRoom()
+    {
+        if (string.IsNullOrEmpty(_bossSceneName))
+        {
+            return;
+        }
+
+        if (!Application.CanStreamedLevelBeLoaded(_bossSceneName))
+        {
+            return;
+        }
+
+        _isLoading = true;
+        SceneManager.LoadScene(_bossSceneName);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -33,8 +54,6 @@ public class CBossEntrance : MonoBehaviour
         if (other.transform.root.CompareTag("Player"))
         {
             _isPlayerNear = true;
-
-            Debug.Log("E키를 눌러 보스방에 입장하세요.");
         }
     }
 

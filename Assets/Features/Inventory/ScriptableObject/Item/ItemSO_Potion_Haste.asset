@@ -16,9 +16,48 @@ MonoBehaviour:
   _name: "\uC2E0\uC18D \uD3EC\uC158"
   _itemSprite: {fileID: 21300000, guid: d0e0fbec306a54f2ab94843eac621f48, type: 3}
   _maxStack: 5
-  _itemType: 0
-  _effect: []
+  _itemType: 2
+  _effect:
+  - rid: 5559904044942098436
+  - rid: 5559904044942098444
   _condition: []
+  _description: 
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5559904044942098436
+      type: {class: CItemEffectAddStatusEffectToPlayerModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _statusEffect:
+          rid: 5559904044942098437
+    - rid: 5559904044942098437
+      type: {class: CStatusEffectApplyModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _effectName: MovementSpeedHaste
+        _stackType: 3
+        _duration: 30
+        _modifier:
+          rid: 5559904044942098449
+    - rid: 5559904044942098444
+      type: {class: CItemEffectAddStatusEffectToPlayerModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _statusEffect:
+          rid: 5559904044942098445
+    - rid: 5559904044942098445
+      type: {class: CStatusEffectApplyModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _effectName: RelaodSpeedHaste
+        _stackType: 3
+        _duration: 30
+        _modifier:
+          rid: 5559904044942098450
+    - rid: 5559904044942098449
+      type: {class: CAddModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _modifier: 0.5
+        _modifierName: MovementSpeed_Addtive
+    - rid: 5559904044942098450
+      type: {class: CAddModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _modifier: 0.5
+        _modifierName: ReloadSpeed_Addtive
