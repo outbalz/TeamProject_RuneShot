@@ -18,7 +18,7 @@ public class CEnemyAttack : CEnemyActionBase
     protected float _damage;
     #endregion
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (_enemy == null || _aniAttack == null)
         {
