@@ -10,6 +10,8 @@ public class CProjectile : MonoBehaviour
     #region 내부 변수
     private CProjectilePool _pool;
     private CProjectileDataSO _data;
+    private Transform _shooter;
+    private bool _isEnemyShot;
     private Vector2 _direction;
     private float _speed;
     private float _damage;
@@ -19,11 +21,18 @@ public class CProjectile : MonoBehaviour
 
     public void Initialize(CProjectileDataSO data, CProjectilePool pool, Vector3 position, Vector2 direction)
     {
-        Initialize(data, pool, position, direction, data.Damage);
+        Initialize(data, pool, position, direction, data.Damage, null);
     }
 
     public void Initialize(CProjectileDataSO data, CProjectilePool pool, Vector3 position, Vector2 direction, float damage)
     {
+        Initialize(data, pool, position, direction, damage, null);
+    }
+
+    public void Initialize(CProjectileDataSO data, CProjectilePool pool, Vector3 position, Vector2 direction, float damage, Transform shooter)
+    {
+        _shooter = shooter;
+        _isEnemyShot = shooter != null && shooter.GetComponentInParent<CEnemyStatusHandler>() != null;
         _pool = pool;
         _data = data;
         _direction = direction.normalized;
@@ -69,21 +78,44 @@ public class CProjectile : MonoBehaviour
         {
             Collider2D collider = hits[i].collider;
 
-            if (collider.isTrigger || collider.GetComponentInParent<CPlayerStateController>() != null)
+            if (collider.isTrigger || (_shooter != null && collider.transform.IsChildOf(_shooter)))
             {
                 continue;
             }
 
             CEnemyHPHandler enemyHP = collider.GetComponentInParent<CEnemyHPHandler>();
+            CPlayerHPHandler playerHP = collider.GetComponentInParent<CPlayerHPHandler>();
+
+            if (_isEnemyShot)
+            {
+                if (enemyHP != null || collider.GetComponentInParent<CEnemyStatusHandler>() != null ||
+                    collider.GetComponentInParent<CEnemy>() != null)
+                {
+                    continue;
+                }
+            }
+            else if (playerHP != null || collider.GetComponentInParent<CPlayerStateController>() != null)
+            {
+                continue;
+            }
+
             CProjectileDataSO data = _data;
             float damage = _damage;
             transform.position = hits[i].centroid;
 
             ReturnToPool();
 
-            if (enemyHP != null)
+            if (playerHP != null)
+            {
+                playerHP.OnHit(damage).Forget();
+            }
+            else if (enemyHP != null)
             {
                 enemyHP.OnHit(damage).Forget();
+            }
+
+            if (playerHP != null || enemyHP != null)
+            {
                 data.OnHit().Forget();
             }
             else
@@ -106,6 +138,8 @@ public class CProjectile : MonoBehaviour
 
         _isReturned = true;
         _data = null;
+        _shooter = null;
+        _isEnemyShot = false;
         _remainingLifeTime = 0.0f;
         _speed = 0.0f;
         _damage = 0.0f;

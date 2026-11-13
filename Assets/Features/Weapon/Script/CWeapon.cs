@@ -171,7 +171,21 @@ public class CWeapon : MonoBehaviour
 
         _magazines[_data] = MagazineAmmo - 1;
         _nextFireTime = Time.time + Mathf.Max(0.0f, fireInterval);
-        _data.Trigger.TriggerWeapon(_data.Projectile, _projectilePool, _muzzle.position, direction, damage).Forget();
+        Transform shooter = transform;
+        if (_enemyStatus != null)
+        {
+            shooter = _enemyStatus.transform;
+        }
+        else if (_playerState != null)
+        {
+            shooter = _playerState.transform;
+        }
+        else if (_playerStatus != null)
+        {
+            shooter = _playerStatus.transform;
+        }
+
+        _data.Trigger.TriggerWeapon(_data.Projectile, _projectilePool, _muzzle.position, direction, damage, shooter).Forget();
         return true;
     }
 

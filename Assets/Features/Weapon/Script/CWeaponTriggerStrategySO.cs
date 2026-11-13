@@ -24,8 +24,13 @@ public abstract class CWeaponTriggerStrategySO : CGameDataSO
             return UniTask.CompletedTask;
         }
 
-        return TriggerWeapon(projectileData, pool, position, direction, projectileData.Damage);
+        return TriggerWeapon(projectileData, pool, position, direction, projectileData.Damage, null);
     }
 
-    public abstract UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction, float damage);
+    public UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction, float damage)
+    {
+        return TriggerWeapon(projectileData, pool, position, direction, damage, null);
+    }
+
+    public abstract UniTask TriggerWeapon(CProjectileDataSO projectileData, CProjectilePool pool, Vector3 position, Vector2 direction, float damage, Transform shooter);
 }
