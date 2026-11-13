@@ -15,16 +15,18 @@ public class CEnemyController : MonoBehaviour
 
     #region 내부변수 
     protected Vector3 _setPosition;
-    protected float distance = 0;
+    protected float _distance = 0;
+    protected float _attackRange;
     #endregion
-   
+    
     protected virtual void Awake()
     { 
         if (_enemyFSM == null || _enemy == null || _attack == null || _move == null || _idle == null || _return == null)
         {
             Debug.Log("인스펙터 확인");
         } 
-       _setPosition = transform.position; 
+       _setPosition = transform.position;
+        _attackRange = _enemy.Enemydata.AttackRange;
     }
     protected virtual void Update()
     {
@@ -32,30 +34,33 @@ public class CEnemyController : MonoBehaviour
         {
             return;
         }
+     
+        if(_enemy.PlayerTr == null)
+        {
+            if((_setPosition - transform.position).sqrMagnitude < 0.1f)
+            {
+                _enemyFSM.SetControll(_idle);
+            }
+            else
+            {
+                _enemyFSM.SetControll(_return);
+            }
+        }
+        else
+        {
+            _distance = (_enemy.PlayerTr.transform.position - transform.position).sqrMagnitude;
 
-        if (_enemy.PlayerTr != null)
-        {
-            distance = (_enemy.PlayerTr.transform.position - transform.position).magnitude;
+            if (_distance <= _attackRange* _attackRange)
+            {
+                _enemyFSM.SetControll(_attack);
+            }
+            else
+            {
+                _enemyFSM.SetControll(_move);
+            }
         }
 
-        if (_enemy.PlayerTr == null && (_setPosition - transform.position).sqrMagnitude < 0.1f)
-        {
-            _enemyFSM.SetControll(_idle);
-        }
-        else if (_enemy.PlayerTr == null)
-        {
-            _enemyFSM.SetControll(_return);
-        }
-        else if (_enemy.PlayerTr != null && distance <= _enemy.Enemydata.AttackRange)
-        {
-            _enemyFSM.SetControll(_attack);
-        }
-        else if (_enemy.PlayerTr != null)
-        {
-            _enemyFSM.SetControll(_move);
-        }
-
-        _enemyFSM.Action();
+            _enemyFSM.Action();
 
     }
 }
