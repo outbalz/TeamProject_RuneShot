@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class CItemSlotData
 {
@@ -297,4 +300,33 @@ public class CInventoryManager : CSingleton<CInventoryManager> , IitemContainer
         _inventorySlots[index].UpdateSlot(_inventory[index].Item);
         CEnchantCraftingManager.Instance.UpdatePanelIfActive();
     }
+
+	[ContextMenu("SortInventory")]
+	public void SortInventory()
+	{
+		List<CItemSlotData> inventoryWithItem = new List<CItemSlotData>();
+
+		for (int i = 0; i < _inventory.Count; i++)
+		{
+			if (_inventory[i] != null)
+			{
+				inventoryWithItem.Add(_inventory[i]);
+			}
+		}
+
+		CItemSlotData[] sortArr = inventoryWithItem.OrderBy(x => x.Item.Name).ToArray();
+
+		for (int i = 0; i < _inventory.Count; i++)
+		{
+			if (_inventory[i] != null)
+			{
+				RemoveFromInventory(i);
+			}
+        }
+
+		for (int i = 0; i < sortArr.Length; i++)
+		{
+			AddToInventory(sortArr[i].Item, sortArr[i].Amount);
+		}
+	}
 }

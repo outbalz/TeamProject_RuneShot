@@ -18,19 +18,29 @@ MonoBehaviour:
   _maxStack: 10
   _itemType: 2
   _effect:
-  - rid: 5559903884550864898
+  - rid: 5559904044942098432
   _condition:
   - rid: 5559903884550864899
+  _description: "\uC5F0\uAE08\uC220\uC758 \uAE30\uCD08\uC7AC\uB8CC\n\uAE09\uD560\uB54C\uB294
+    \uADF8\uB0E5 \uC539\uC5B4\uBA39\uC5B4\uB3C4 \uC57D\uAC04\uC758 \uD68C\uBCF5\uD6A8\uB2A5\uC774\uC788\uB2E4.\n30\uCD08\uC5D0
+    \uAC78\uCC98 \uCCB4\uB825 10\uD68C\uBCF5"
   references:
     version: 2
     RefIds:
-    - rid: 5559903884550864898
-      type: {class: CItemEffectHealOverTime, ns: , asm: Assembly-CSharp}
-      data:
-        _healAmount: 10
-        _duration: 30
     - rid: 5559903884550864899
       type: {class: CPlayerHPLesserCondition, ns: , asm: Assembly-CSharp}
       data:
         _percentage: 1
         _allowEqual: 0
+    - rid: 5559904044942098432
+      type: {class: CItemEffectAddStatusEffectToPlayerModifier, ns: , asm: Assembly-CSharp}
+      data:
+        _statusEffect:
+          rid: 5559904044942098433
+    - rid: 5559904044942098433
+      type: {class: CStatusEffectHeal, ns: , asm: Assembly-CSharp}
+      data:
+        _effectName: HealOverTimeManaHerb
+        _stackType: 3
+        _duration: 30
+        _healAmount: 0.3

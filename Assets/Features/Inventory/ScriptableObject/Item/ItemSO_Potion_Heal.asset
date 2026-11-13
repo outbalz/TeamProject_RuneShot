@@ -19,9 +19,11 @@ MonoBehaviour:
   _itemType: 2
   _effect:
   - rid: 5559903838880399360
-  - rid: 5559903838880399365
+  - rid: 5559904044942098434
   _condition:
   - rid: 5559903838880399364
+  _description: "\uC5F0\uAE08\uC2AC\uB85C \uC815\uC81C\uD55C \uCE58\uC720\uD3EC\uC158\n\uC989\uC2DC
+    \uCCB4\uB825 10\uD68C\uBCF5\n30\uCD08\uC5D0 \uAC78\uCC98 \uCCB4\uB825 30\uD68C\uBCF5"
   references:
     version: 2
     RefIds:
@@ -34,8 +36,15 @@ MonoBehaviour:
       data:
         _percentage: 1
         _allowEqual: 0
-    - rid: 5559903838880399365
-      type: {class: CItemEffectHealOverTime, ns: , asm: Assembly-CSharp}
+    - rid: 5559904044942098434
+      type: {class: CItemEffectAddStatusEffectToPlayerModifier, ns: , asm: Assembly-CSharp}
       data:
-        _healAmount: 30
+        _statusEffect:
+          rid: 5559904044942098435
+    - rid: 5559904044942098435
+      type: {class: CStatusEffectHeal, ns: , asm: Assembly-CSharp}
+      data:
+        _effectName: HealOverTime
+        _stackType: 3
         _duration: 30
+        _healAmount: 1
