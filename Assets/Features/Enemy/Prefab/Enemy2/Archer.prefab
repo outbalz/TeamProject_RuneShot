@@ -2550,10 +2550,9 @@ GameObject:
   - component: {fileID: 8575988101240138462}
   - component: {fileID: 3746195650981821848}
   - component: {fileID: 8938729052563462195}
-  - component: {fileID: 4196034862855736269}
-  - component: {fileID: 1932836467865977098}
+  - component: {fileID: 1369241266294355448}
   - component: {fileID: 338432387877702798}
-  - component: {fileID: 6464885228561240344}
+  - component: {fileID: 5159009782605480784}
   - component: {fileID: 14740949661723486}
   - component: {fileID: 3096947156243238289}
   - component: {fileID: 7127168094105659718}
@@ -2653,7 +2652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemy: {fileID: 338432387877702798}
---- !u!114 &4196034862855736269
+--- !u!114 &1369241266294355448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2662,32 +2661,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4630076504840659355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1a4df65ba253e44a9033eb37d8da5a6, type: 3}
+  m_Script: {fileID: 11500000, guid: b9e3b8a5f13000245a985da95e41e29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _enemy: {fileID: 338432387877702798}
   _enemyFSM: {fileID: 8938729052563462195}
-  _attack: {fileID: 6464885228561240344}
+  _attack: {fileID: 5159009782605480784}
   _move: {fileID: 8575988101240138462}
   _idle: {fileID: 3746195650981821848}
   _return: {fileID: 7190153916286932410}
-  _runaway: {fileID: 1932836467865977098}
-  _runawayDistance: 2
---- !u!114 &1932836467865977098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4630076504840659355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8d63ab3d509cb46b57af04127eca35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _aniRunaway: {fileID: 4154194748888095997}
-  _enemy: {fileID: 338432387877702798}
-  _navMove: {fileID: 7127168094105659718}
 --- !u!114 &338432387877702798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2702,7 +2684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _detectObject: {fileID: -1032632159660435134, guid: fbca1830812baed42b1d86d3db6da985, type: 3}
   _enemydata: {fileID: 5977237214794189970}
---- !u!114 &6464885228561240344
+--- !u!114 &5159009782605480784
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2711,11 +2693,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4630076504840659355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56b1cf4170029b940b8c41c3f79eb633, type: 3}
+  m_Script: {fileID: 11500000, guid: 2317ece3b4d698c4cba92ce3a53a712c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _enemy: {fileID: 338432387877702798}
   _aniAttack: {fileID: 4154194748888095997}
+  _Agent: {fileID: 7127168094105659718}
+  _runawayDistance: 2
 --- !u!61 &14740949661723486
 BoxCollider2D:
   m_ObjectHideFlags: 0

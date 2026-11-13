@@ -5,7 +5,7 @@ using UnityEngine;
 public class CEnemyControllerArcher : CEnemyController
 {
     #region 인스펙터
-    [SerializeField] private CEnemyRunaway _runaway;
+    //[SerializeField] private CEnemyRunaway _runaway;
     #endregion
 
     #region 내부변수
@@ -15,10 +15,10 @@ public class CEnemyControllerArcher : CEnemyController
     protected override void Awake()
     {
         base.Awake();
-        if(_runaway == null)
-        {
-            Debug.Log("인스펙터 확인");
-        }
+       //if(_runaway == null)
+       //{
+       //    Debug.Log("인스펙터 확인");
+       //}
     }
     protected override void Update()
     {
@@ -31,7 +31,7 @@ public class CEnemyControllerArcher : CEnemyController
            
         if (_enemy.PlayerTr != null && distance <= _runawayDistance)
         {
-            _enemyFSM.SetControll(_runaway);
+            //_enemyFSM.SetControll(_runaway);
         }
         else if (_enemy.PlayerTr != null && distance <= _enemy.Enemydata.AttackRange)
         {
