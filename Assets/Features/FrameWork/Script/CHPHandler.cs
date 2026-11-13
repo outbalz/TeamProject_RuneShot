@@ -4,7 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CHPHandler<T> : MonoBehaviour where T : CCharacterStatusDataSO
+public interface IHPHandler
+{
+    float HP { get; set; }
+    float MaxHP { get; }
+    event Action OnHitEvent;
+    event Action OnDeath;
+    UniTask OnHit(float damage);
+    UniTask OnHeal(float amount);
+}
+
+public abstract class CHPHandler<T> : MonoBehaviour, IHPHandler where T : CCharacterStatusDataSO
 {
     #region 인스팩터
     [SerializeField] protected CCharacterStatusHandler<T> _status;
