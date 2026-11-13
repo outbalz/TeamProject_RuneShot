@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 7861532054912300002}
   - component: {fileID: 5590854337626778128}
   - component: {fileID: 8726151632135363044}
+  - component: {fileID: 7151610741517514031}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -297,6 +298,7 @@ MonoBehaviour:
   _interactionController: {fileID: 2426145308757645254}
   _hpHandler: {fileID: 1717773717688115804}
   _statusHandler: {fileID: 7861532054912300001}
+  _statusEffectHandler: {fileID: 7151610741517514031}
   _modifierHandler: {fileID: 8726151632135363044}
   _weapon: {fileID: 7861532054912300010}
 --- !u!95 &70578492069737218
@@ -403,6 +405,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ae977458e927924ba753446903f3290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7151610741517514031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912541226460858926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debba0f52f2f2e74c86a860e89b75c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5336489116042887091
