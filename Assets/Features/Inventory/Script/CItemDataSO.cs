@@ -137,3 +137,35 @@ public class CItemEffectEquipWeapon : CItemEffect
         return UniTask.CompletedTask;
 	}
 }
+
+[Serializable]
+public class CItemEffectAddStatusEffectToPlayerHP : CItemEffect
+{
+	#region 인스팩터
+	[SerializeReference, SubclassSelector] private CStatusEffect _statusEffect;
+	#endregion
+	public override UniTask OnUse()
+	{
+		CStatusEffectHandler statusEffectHandler = CPlayerCharacterController.Instance.StatusEffectHandler;
+
+		statusEffectHandler.ApplyStatusEffect(_statusEffect, CPlayerCharacterController.Instance.HPhandler);
+
+        return UniTask.CompletedTask;
+    }
+}
+
+[Serializable]
+public class CItemEffectAddStatusEffectToPlayerModifier : CItemEffect
+{
+	#region 인스팩터
+	[SerializeReference, SubclassSelector] private CStatusEffect _statusEffect;
+	#endregion
+	public override UniTask OnUse()
+    {
+        CStatusEffectHandler statusEffectHandler = CPlayerCharacterController.Instance.StatusEffectHandler;
+
+        statusEffectHandler.ApplyStatusEffect(_statusEffect, CPlayerCharacterController.Instance.ModifierHandler);
+
+        return UniTask.CompletedTask;
+    }
+}

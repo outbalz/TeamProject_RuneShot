@@ -68,6 +68,8 @@ public abstract class CStatusEffect
 [System.Serializable]
 public class CStatusEffectHeal : CStatusEffect
 {
+    [SerializeField] private float _healAmount;
+
     public override async UniTask Effect<T>(T target, CancellationToken ct)
     {
         if(target is not IHPHandler hp)
@@ -83,7 +85,7 @@ public class CStatusEffectHeal : CStatusEffect
                 break;
             }
 
-            hp.OnHeal(1f).Forget();
+            hp.OnHeal(_healAmount).Forget();
 
             _durationTimer -= Time.deltaTime;
 

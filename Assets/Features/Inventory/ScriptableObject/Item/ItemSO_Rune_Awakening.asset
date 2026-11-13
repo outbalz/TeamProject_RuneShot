@@ -20,6 +20,7 @@ MonoBehaviour:
   _effect: []
   _condition:
   - rid: 5559903884550864897
+  _description: 
   references:
     version: 2
     RefIds:
