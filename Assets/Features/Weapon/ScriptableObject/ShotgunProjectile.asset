@@ -17,3 +17,4 @@ MonoBehaviour:
   _prefab: {fileID: 11400, guid: 84c54f19a6ee4c20bdb15640bdd7f4e4, type: 3}
   _speed: 9
   _lifeTime: 0.8
+  _damage: 4
