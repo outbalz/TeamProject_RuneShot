@@ -5,21 +5,20 @@ using UnityEngine;
 public class CEnemyController : MonoBehaviour
 {
     #region 인스펙터 
-    [SerializeField] protected CEnemy _enemy;
-    [SerializeField] protected CEnemyFSM _enemyFSM;
-    [SerializeField] protected CEnemyAttack _attack;
-    [SerializeField] protected CEnemyMove _move;
-    [SerializeField] protected CEnemyIdle _idle; 
-    [SerializeField] protected CEnemyReturn _return; 
+    [SerializeField] private CEnemy _enemy;
+    [SerializeField] private CEnemyFSM _enemyFSM;
+    [SerializeField] private CEnemyAttack _attack;
+    [SerializeField] private CEnemyMove _move;
+    [SerializeField] private CEnemyIdle _idle; 
+    [SerializeField] private CEnemyReturn _return;
     #endregion
 
     #region 내부변수 
-    protected Vector3 _setPosition;
-    protected float _distance = 0;
-    protected float _attackRange;
+    private Vector3 _setPosition;
+    private float _attackRange;
     #endregion
     
-    protected virtual void Awake()
+    private void Awake()
     { 
         if (_enemyFSM == null || _enemy == null || _attack == null || _move == null || _idle == null || _return == null)
         {
@@ -28,7 +27,7 @@ public class CEnemyController : MonoBehaviour
        _setPosition = transform.position;
         _attackRange = _enemy.Enemydata.AttackRange;
     }
-    protected virtual void Update()
+    private void Update()
     {
         if (!_enemy.IsAlive)
         {
@@ -37,7 +36,9 @@ public class CEnemyController : MonoBehaviour
      
         if(_enemy.PlayerTr == null)
         {
-            if((_setPosition - transform.position).sqrMagnitude < 0.1f)
+            float distance = (_setPosition - transform.position).sqrMagnitude;
+
+            if (distance < 0.1f)
             {
                 _enemyFSM.SetControll(_idle);
             }
@@ -48,9 +49,9 @@ public class CEnemyController : MonoBehaviour
         }
         else
         {
-            _distance = (_enemy.PlayerTr.transform.position - transform.position).sqrMagnitude;
+            float distance = (_enemy.PlayerTr.transform.position - transform.position).sqrMagnitude;
 
-            if (_distance <= _attackRange* _attackRange)
+            if (distance <= _attackRange* _attackRange)
             {
                 _enemyFSM.SetControll(_attack);
             }
