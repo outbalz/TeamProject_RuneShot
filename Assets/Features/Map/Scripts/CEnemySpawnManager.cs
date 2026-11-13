@@ -71,19 +71,6 @@ public class CEnemySpawnManager : MonoBehaviour
             }
         }
 
-        if (_player == null)
-        {
-            _playerFindTimer += Time.deltaTime;
-
-            if (_playerFindTimer >= 1f)
-            {
-                _playerFindTimer = 0f;
-                FindPlayer();
-            }
-
-            return;
-        }
-
         int enemyCount = CountEnemy();
 
         if (enemyCount >= _maxEnemyCount)
